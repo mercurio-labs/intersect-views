@@ -1,0 +1,2585 @@
+{
+  "rules": {
+    "schemaVersion": 7,
+    "id": "harness.structure",
+    "label": "Structure",
+    "language": "urn:intersect:harness:1",
+    "form": "graph",
+    "layout": {
+      "strategy": "layered",
+      "direction": "RIGHT"
+    },
+    "symbols": [
+      {
+        "id": "box",
+        "match": "Box",
+        "emit": "node",
+        "notation": "box",
+        "title": "boxTitle",
+        "subtitle": "boxKind",
+        "styleClass": "boxStyle",
+        "compartments": [
+          {
+            "label": "fields",
+            "rows": "boxFields",
+            "rowLabel": "fieldLabel",
+            "id": "compartment-1"
+          }
+        ],
+        "ports": {
+          "select": "boxPins",
+          "rule": "pin"
+        },
+        "children": {
+          "select": "boxParts"
+        },
+        "expand": [
+          {
+            "id": "linked",
+            "label": "Linked boxes",
+            "select": "linkedBoxes"
+          }
+        ],
+        "create": [
+          {
+            "tool": "box",
+            "command": "harness.createBox",
+            "accepts": "canCreate"
+          }
+        ]
+      },
+      {
+        "id": "pin",
+        "match": "Pin",
+        "emit": "port",
+        "label": "pinLabel",
+        "side": "pinSide",
+        "compartments": [],
+        "expand": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "link",
+        "kind": "element",
+        "per": "box",
+        "select": "boxLinks",
+        "notation": "link",
+        "label": "linkLabel",
+        "sourcePath": "linkSourcePath",
+        "targetPath": "linkTargetPath",
+        "anchor": "owner",
+        "connect": {
+          "command": "harness.createLink",
+          "sourceAccepts": "canStartLink",
+          "targetAccepts": "canEndLink"
+        }
+      },
+      {
+        "id": "kind",
+        "kind": "reference",
+        "per": "box",
+        "targets": "boxKindRef",
+        "notation": "typing",
+        "label": {
+          "text": "kind"
+        },
+        "anchor": "root"
+      }
+    ],
+    "projection": {
+      "kind": "nested"
+    }
+  },
+  "accepted": [
+    {
+      "name": "registry",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "default",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "inherited",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "inherited",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          }
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "unmanaged",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unmanaged",
+        "selection": null,
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "unsupported",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unsupported",
+        "selection": null,
+        "diagnostics": [
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "name": "registry schemaVersion2",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 2,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "registry extraTrue",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ],
+        "extra": true
+      }
+    },
+    {
+      "name": "registry registrations[]",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": []
+      }
+    },
+    {
+      "name": "registry registrations[{'id': 'fix",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "registration id",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "unqualified",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "registration ruleSetId",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "unknown",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "registration projectionPolicy",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "fixture.compartments",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "containmentTree",
+              "edgeRole": "child",
+              "edgeNotation": "line"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "resolution schemaVersion2",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 2,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "resolution extraTrue",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": [],
+        "extra": true
+      }
+    },
+    {
+      "name": "resolution selectionNone",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": null,
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "resolution statusunsupporte",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unsupported",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "resolution revision-1",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": -1,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "resolution statusunknown",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unknown",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "resolution diagnostics[{'code': ",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": [
+          {
+            "code": "bad",
+            "message": "x",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "selection origin",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "explicit",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "selection packageFingerprint",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "BAD",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "selection projectionPolicy",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "unknown"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "selection canonicalRendering",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": false
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "required nullable target",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "fixture.compartments",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          }
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "diagnostic count",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unsupported",
+        "selection": null,
+        "diagnostics": [
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          },
+          {
+            "code": "unknown.rendering",
+            "message": "Unsupported request",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "message bytes",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unsupported",
+        "selection": null,
+        "diagnostics": [
+          {
+            "code": "unknown.rendering",
+            "message": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "unicode message bytes",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "unsupported",
+        "selection": null,
+        "diagnostics": [
+          {
+            "code": "unknown.rendering",
+            "message": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+            "binding": {
+              "key": "semantic:view",
+              "elementId": "snapshot:1",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 0,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "registry count",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "example.r0",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r1",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r2",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r3",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r4",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r5",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r6",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r7",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r8",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r9",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r10",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r11",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r12",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r13",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r14",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r15",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r16",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r17",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r18",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r19",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r20",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r21",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r22",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r23",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r24",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r25",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r26",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r27",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r28",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r29",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r30",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r31",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r32",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r33",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r34",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r35",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r36",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r37",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r38",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r39",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r40",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r41",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r42",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r43",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r44",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r45",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r46",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r47",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r48",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r49",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r50",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r51",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r52",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r53",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r54",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r55",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r56",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r57",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r58",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r59",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r60",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r61",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r62",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r63",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r64",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r65",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r66",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r67",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r68",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r69",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r70",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r71",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r72",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r73",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r74",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r75",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r76",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r77",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r78",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r79",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r80",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r81",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r82",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r83",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r84",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r85",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r86",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r87",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r88",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r89",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r90",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r91",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r92",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r93",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r94",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r95",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r96",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r97",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r98",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r99",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r100",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r101",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r102",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r103",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r104",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r105",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r106",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r107",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r108",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r109",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r110",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r111",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r112",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r113",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r114",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r115",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r116",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r117",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r118",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r119",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r120",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r121",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r122",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r123",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r124",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r125",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r126",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r127",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          },
+          {
+            "id": "example.r128",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty registration segment .",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": ".",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty registration segment one..two",
+      "kind": "registry",
+      "value": {
+        "schemaVersion": 1,
+        "id": "fixture.renderings",
+        "registrations": [
+          {
+            "id": "one..two",
+            "ruleSetId": "harness.structure",
+            "projectionPolicy": {
+              "kind": "nested"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "unqualified selection registration",
+      "kind": "resolution",
+      "value": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "viewKey": "model:view",
+        "status": "resolved",
+        "selection": {
+          "registrationId": "unqualified",
+          "ruleSetId": "harness.structure",
+          "packageFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "projectionPolicy": {
+            "kind": "nested"
+          },
+          "origin": "default",
+          "originBinding": {
+            "key": "semantic:view",
+            "elementId": "snapshot:1",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "canonicalRendering": null
+        },
+        "diagnostics": []
+      }
+    }
+  ]
+}

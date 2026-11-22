@@ -1,0 +1,13 @@
+rcore 1;
+package intersect.fmea version "1";
+metamodel "urn:intersect:fmea:1" prefix f {
+ abstract class Element { attr name:String [1,1]; }
+ class Analysis extends Element { ref items:Item [0,*] containment; }
+ class Item extends Element { attr function:String [1,1]; ref failures:FailureMode [0,*] containment; }
+ class FailureMode extends Element {
+  attr mode:String [1,1]; attr effect:String [1,1]; attr cause:String [1,1]; attr control:String [1,1];
+  attr severity:Int32 [1,1]; attr occurrence:Int32 [1,1]; attr detection:Int32 [1,1];
+  ref actions:Action [0,*] containment;
+ }
+ class Action extends Element { attr description:String [1,1]; attr owner:String [1,1]; attr status:String [1,1]; attr evidence:String [1,1]; }
+}

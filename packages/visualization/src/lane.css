@@ -1,0 +1,102 @@
+.lane-canvas {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  color: var(--diagram-text, #24334a);
+  font: 13px system-ui;
+}
+.lane-canvas header,
+.lane-tools {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+}
+.lane-canvas button,
+.lane-canvas select {
+  font: inherit;
+  padding: 5px 8px;
+}
+.lane-axis {
+  margin-left: auto;
+}
+.lane-status {
+  padding: 6px 12px;
+  margin: 0;
+  background: var(--diagram-heading, #eaf0f7);
+}
+.lane-viewport {
+  flex: 1;
+  min-height: 180px;
+  overflow: hidden;
+  --lane-band: #f3f6fa;
+}
+.lane-viewport svg {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+.lane-world text {
+  font: 13px system-ui;
+  fill: var(--diagram-text, #24334a);
+}
+.lane-header {
+  fill: var(--diagram-heading, #e5edf7);
+  stroke: #a8b6c8;
+}
+.lane-step-body {
+  stroke-width: 1.5;
+  cursor: grab;
+}
+.lane-step.selected .lane-step-body {
+  stroke: #2168c7;
+  stroke-width: 3;
+}
+.lane-world [data-lane-part].selected text {
+  fill: #1765bd;
+  font-weight: 600;
+}
+.lane-step.unordered .lane-step-body {
+  stroke-dasharray: 4 2;
+}
+.lane-precedence {
+  fill: none;
+  stroke: #6a7b93;
+  stroke-width: 1;
+  pointer-events: none;
+}
+.lane-span {
+  fill-opacity: 0.14;
+  stroke-width: 1;
+  pointer-events: none;
+}
+.lane-span-handle {
+  fill: #5a79a4;
+  cursor: ew-resize;
+}
+.lane-preview {
+  fill: #2168c7;
+  pointer-events: none;
+}
+.lane-form {
+  padding: 12px;
+  background: var(--diagram-heading, #eaf0f7);
+  border-top: 1px solid #a8b6c8;
+}
+.lane-form[hidden] {
+  display: none;
+}
+.lane-form label {
+  display: inline-flex;
+  gap: 6px;
+  margin: 8px 12px 8px 0;
+}
+.lane-form button {
+  margin-right: 8px;
+}
+.lane-canvas :focus-visible {
+  outline: 2px solid #2168c7;
+  outline-offset: 2px;
+}

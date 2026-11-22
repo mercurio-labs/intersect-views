@@ -1,0 +1,166 @@
+[
+  {
+    "name": "old scene v4",
+    "pointer": "/schemaVersion",
+    "value": 4
+  },
+  {
+    "name": "mixed graph nodes",
+    "pointer": "/nodes",
+    "value": []
+  },
+  {
+    "name": "unknown field",
+    "pointer": "/future",
+    "value": true
+  },
+  {
+    "name": "nonsemantic axis",
+    "pointer": "/axis/semantic",
+    "value": false
+  },
+  {
+    "name": "unknown direction",
+    "pointer": "/axis/direction",
+    "value": "LEFT"
+  },
+  {
+    "name": "duplicate lane ID",
+    "pointer": "/lanes/1/id",
+    "value": "symbol:f3ae0dc6dafea7d8d08e350a1a3309a115a9d204b2a0a858ac6a246b6d962531"
+  },
+  {
+    "name": "duplicate element key",
+    "pointer": "/lanes/1/binding/key",
+    "value": "e:operator"
+  },
+  {
+    "name": "incorrect container context",
+    "pointer": "/lanes/0/binding/context",
+    "value": []
+  },
+  {
+    "name": "missing step lane",
+    "pointer": "/steps/0/lane",
+    "value": "missing"
+  },
+  {
+    "name": "incorrect rank",
+    "pointer": "/steps/0/rank",
+    "value": 1
+  },
+  {
+    "name": "incorrect unordered marker",
+    "pointer": "/steps/0/unordered",
+    "value": true
+  },
+  {
+    "name": "missing predecessor",
+    "pointer": "/steps/1/predecessors",
+    "value": [
+      "missing"
+    ]
+  },
+  {
+    "name": "duplicate predecessor",
+    "pointer": "/steps/1/predecessors",
+    "value": [
+      "symbol:57b346ef27285f76d2112e71676b2526caeebb7154b55252ec4ad774de21ee70",
+      "symbol:57b346ef27285f76d2112e71676b2526caeebb7154b55252ec4ad774de21ee70"
+    ]
+  },
+  {
+    "name": "precedence cycle",
+    "pointer": "/steps/0/predecessors",
+    "value": [
+      "symbol:447ac8dd4b40ad63fa416ab822cff741570509defcaf4061a47b10700740c0c6"
+    ]
+  },
+  {
+    "name": "self predecessor",
+    "pointer": "/steps/0/predecessors",
+    "value": [
+      "symbol:57b346ef27285f76d2112e71676b2526caeebb7154b55252ec4ad774de21ee70"
+    ]
+  },
+  {
+    "name": "missing span end",
+    "pointer": "/spans/0/end",
+    "value": "missing"
+  },
+  {
+    "name": "backward span",
+    "pointer": "/spans/0/end",
+    "value": "symbol:57b346ef27285f76d2112e71676b2526caeebb7154b55252ec4ad774de21ee70"
+  },
+  {
+    "name": "span omits intermediate lane",
+    "pointer": "/spans/0/lanes",
+    "value": [
+      "symbol:f3ae0dc6dafea7d8d08e350a1a3309a115a9d204b2a0a858ac6a246b6d962531",
+      "symbol:c34fb94f08f13cdffdfcb5673705bb353dd3e7560eb8ba70098f8ed0bbf255f5"
+    ]
+  },
+  {
+    "name": "span omits own lane",
+    "pointer": "/spans/0/lanes",
+    "value": [
+      "symbol:0abc8c1140a6680795c92a1e36a5196ea83e03a3cfd72729aa590af1227f69aa"
+    ]
+  },
+  {
+    "name": "noncanonical span bands",
+    "pointer": "/spans/0/lanes",
+    "value": [
+      "symbol:0abc8c1140a6680795c92a1e36a5196ea83e03a3cfd72729aa590af1227f69aa",
+      "symbol:f3ae0dc6dafea7d8d08e350a1a3309a115a9d204b2a0a858ac6a246b6d962531"
+    ]
+  },
+  {
+    "name": "duplicate span band",
+    "pointer": "/spans/0/lanes",
+    "value": [
+      "symbol:f3ae0dc6dafea7d8d08e350a1a3309a115a9d204b2a0a858ac6a246b6d962531",
+      "symbol:f3ae0dc6dafea7d8d08e350a1a3309a115a9d204b2a0a858ac6a246b6d962531"
+    ]
+  },
+  {
+    "name": "duplicate label part ID",
+    "pointer": "/lanes/0/label/parts/1/id",
+    "value": "symbol:371f41d968ff043b2c14d90ce587ea8cac1a9543e3a6489ceb722868dafdcbc4"
+  },
+  {
+    "name": "unbound label edit",
+    "pointer": "/lanes/0/label/parts/0/editTool",
+    "value": "place-step"
+  },
+  {
+    "name": "multiline lane label",
+    "pointer": "/lanes/0/label/parts/0/text",
+    "value": "bad\nlabel"
+  },
+  {
+    "name": "incomplete order",
+    "pointer": "/order",
+    "value": [
+      "symbol:57b346ef27285f76d2112e71676b2526caeebb7154b55252ec4ad774de21ee70",
+      "symbol:fdd54b84ee9affe20a466541b3ac7e427aee29c86fe8ef025a218e1ce616fb07",
+      "symbol:d2200726ceeeb4be0c143298c4edca114123b42659ba4269844bbed85ba317b2"
+    ]
+  },
+  {
+    "name": "geometry is not semantic",
+    "pointer": "/steps/0/x",
+    "value": 10
+  },
+  {
+    "name": "label binding context mismatch",
+    "pointer": "/lanes/0/label/parts/1/binding/context",
+    "value": []
+  },
+  {
+    "name": "unregistered label action",
+    "pointer": "/lanes/0/label/parts/1/editTool",
+    "value": "missing"
+  }
+]

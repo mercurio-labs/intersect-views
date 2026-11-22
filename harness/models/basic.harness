@@ -1,0 +1,7 @@
+space Demo {
+  box Alpha -> Empty {
+    field first = 7;
+    field second = 9;
+  }
+  box Empty {}
+}

@@ -1,0 +1,206 @@
+[
+  {
+    "name": "unknown scene version",
+    "pointer": "/schemaVersion",
+    "value": 1
+  },
+  {
+    "name": "unknown field",
+    "pointer": "/futureModel",
+    "value": true
+  },
+  {
+    "name": "duplicate occurrence identity",
+    "pointer": "/nodes/1/id",
+    "value": "node:left"
+  },
+  {
+    "name": "duplicate port identity",
+    "pointer": "/nodes/1/ports/0/id",
+    "value": "port:left"
+  },
+  {
+    "name": "unbound edge endpoint",
+    "pointer": "/edges/0/target",
+    "value": "missing"
+  },
+  {
+    "name": "unknown layout direction",
+    "pointer": "/layout/direction",
+    "value": "AROUND"
+  },
+  {
+    "name": "unknown port side",
+    "pointer": "/nodes/0/ports/0/side",
+    "value": "MIDDLE"
+  },
+  {
+    "name": "unsafe JSON revision",
+    "pointer": "/revision",
+    "value": 9007199254740992
+  },
+  {
+    "name": "reversed source range",
+    "pointer": "/nodes/0/binding/range/start/line",
+    "value": 10
+  },
+  {
+    "name": "negative source coordinate",
+    "pointer": "/nodes/0/binding/range/start/character",
+    "value": -1
+  },
+  {
+    "name": "unknown binding field",
+    "pointer": "/nodes/0/binding/futureIdentity",
+    "value": true
+  },
+  {
+    "name": "unknown palette version",
+    "pointer": "/palette/schemaVersion",
+    "value": 2
+  },
+  {
+    "name": "duplicate palette identity",
+    "pointer": "/palette/groups/0/entries/0/id",
+    "value": "navigation"
+  },
+  {
+    "name": "unsupported gesture",
+    "pointer": "/palette/groups/0/entries/0/gesture",
+    "value": "execute-script"
+  },
+  {
+    "name": "empty source identity",
+    "pointer": "/edges/0/binding/uri",
+    "value": ""
+  },
+  {
+    "name": "unsupported form",
+    "pointer": "/form",
+    "value": "grid"
+  },
+  {
+    "name": "missing rule set identity",
+    "pointer": "/ruleSet",
+    "value": ""
+  },
+  {
+    "name": "unsupported layout strategy",
+    "pointer": "/layout/strategy",
+    "value": "force"
+  },
+  {
+    "name": "empty node rule",
+    "pointer": "/nodes/0/rule",
+    "value": ""
+  },
+  {
+    "name": "empty port rule",
+    "pointer": "/nodes/0/ports/0/rule",
+    "value": ""
+  },
+  {
+    "name": "empty edge rule",
+    "pointer": "/edges/0/rule",
+    "value": ""
+  },
+  {
+    "name": "invalid node style class",
+    "pointer": "/nodes/0/styleClass",
+    "value": false
+  },
+  {
+    "name": "invalid edge style class",
+    "pointer": "/edges/0/styleClass",
+    "value": false
+  },
+  {
+    "name": "invalid collapsed flag",
+    "pointer": "/nodes/0/collapsed",
+    "value": 1
+  },
+  {
+    "name": "empty expansion label",
+    "pointer": "/nodes/0/expand/0/label",
+    "value": ""
+  },
+  {
+    "name": "unknown expansion field",
+    "pointer": "/nodes/0/expand/0/select",
+    "value": "unsafe"
+  },
+  {
+    "name": "duplicate expand option",
+    "pointer": "/nodes/0/expand",
+    "value": [
+      {
+        "id": "x",
+        "label": "One"
+      },
+      {
+        "id": "x",
+        "label": "Two"
+      }
+    ]
+  },
+  {
+    "name": "missing /form",
+    "pointer": "/form",
+    "remove": true
+  },
+  {
+    "name": "missing /ruleSet",
+    "pointer": "/ruleSet",
+    "remove": true
+  },
+  {
+    "name": "missing /layout/strategy",
+    "pointer": "/layout/strategy",
+    "remove": true
+  },
+  {
+    "name": "missing /nodes/0/rule",
+    "pointer": "/nodes/0/rule",
+    "remove": true
+  },
+  {
+    "name": "missing /nodes/0/styleClass",
+    "pointer": "/nodes/0/styleClass",
+    "remove": true
+  },
+  {
+    "name": "missing /nodes/0/expand",
+    "pointer": "/nodes/0/expand",
+    "remove": true
+  },
+  {
+    "name": "missing /nodes/0/collapsed",
+    "pointer": "/nodes/0/collapsed",
+    "remove": true
+  },
+  {
+    "name": "missing /edges/0/rule",
+    "pointer": "/edges/0/rule",
+    "remove": true
+  },
+  {
+    "name": "missing /edges/0/styleClass",
+    "pointer": "/edges/0/styleClass",
+    "remove": true
+  },
+  {
+    "name": "missing /nodes/0/ports/0/rule",
+    "pointer": "/nodes/0/ports/0/rule",
+    "remove": true
+  },
+  {
+    "name": "missing row identity",
+    "pointer": "/nodes/0/compartments/0/rows/0/id",
+    "remove": true
+  },
+  {
+    "name": "duplicate row identity",
+    "pointer": "/nodes/0/compartments/0/rows/0/id",
+    "value": "node:left"
+  }
+]

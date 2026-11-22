@@ -1,0 +1,75 @@
+// Actual harness WASM, native source bindings and the real generic layout worker.
+import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+import {mkdir,writeFile} from "node:fs/promises";
+import {createServer} from "vite";
+import {chromium,expect} from "@playwright/test";
+const server=await createServer({server:{port:0,strictPort:false,hmr:false,watch:null}});
+const receipt={checks:[],errors:[]};let browser;
+await mkdir("target/m14/browser",{recursive:true});
+try {
+  await server.listen();browser=await chromium.launch({headless:true});
+  const page=await browser.newPage({viewport:{width:1800,height:1100}}),base=server.resolvedUrls.local[0];
+  page.on("pageerror",error=>receipt.errors.push(error.message));
+  receipt.wasmSha256=createHash("sha256").update(new Uint8Array(await fetch(`${base}harness.wasm`).then(r=>r.arrayBuffer()))).digest("hex");
+  await page.goto(`${base}harness/web/m12.html?example=classic`);
+  await page.waitForFunction(()=>/Accepted classic package|Candidate rejected/.test(document.querySelector("#status").textContent),{timeout:60000});
+  const status=await page.locator("#status").textContent();assert.match(status,/Accepted classic package/,status);
+  const ready=()=>page.evaluate(()=>window.m12.active.canvas.whenReady());await ready();
+  const snapshot=()=>page.evaluate(()=>({source:document.querySelector("#model").value,scene:window.m12.scene,layout:window.m12.active.canvas.graph.layout,presentation:window.m12.active.canvas.graph.presentation}));
+  const initial=await snapshot();assert.equal(initial.scene.scene.schemaVersion,7);assert.equal(initial.presentation.schemaVersion,4);
+  assert.equal(Object.keys(initial.layout.routing.paths).length,initial.scene.scene.edges.length);
+  receipt.checks.push("Actual WASM scene v7 and v4 presentation render complete worker routes with their source bindings");
+  const block=page.locator(".diagram-node").first().locator("[data-bound-label-block]").first(),id=await block.getAttribute("data-bound-label-block");
+  await block.locator(".label-hit").first().click();await expect(page.locator('[data-placement="label"]').first()).toBeEnabled();
+  await page.locator('[data-placement="label"]').first().click();await expect(page.locator("[data-placement-label]")).toHaveCount(1);
+  await page.locator(".diagram-viewport").first().press("ArrowRight");await ready();
+  const preview=await snapshot();assert.equal(preview.source,initial.source);assert.deepEqual(preview.presentation,initial.presentation);
+  await page.locator('[data-placement="accept"]').first().click();await ready();
+  const accepted=await snapshot(),saved=accepted.presentation.views[initial.scene.scene.view.key];assert.deepEqual(saved.labelPlacements[id],{kind:"owner",dx:1,dy:0});
+  assert.equal(accepted.source,initial.source);assert.deepEqual(accepted.scene,initial.scene);
+  receipt.checks.push("Whole bound label keyboard preview is detached; Accept saves one owner offset without changing model or scene bindings");
+  await page.locator('[data-placement="undo"]').first().click();await ready();assert.deepEqual((await snapshot()).presentation.views[initial.scene.scene.view.key].labelPlacements,{});
+  await page.locator('[data-placement="redo"]').first().click();await ready();assert.deepEqual((await snapshot()).presentation.views[initial.scene.scene.view.key].labelPlacements[id],{kind:"owner",dx:1,dy:0});
+  receipt.checks.push("Separate placement undo and redo preserve the original source bytes");
+  await page.locator("#save").click();await page.reload();
+  await page.waitForFunction(()=>/Accepted classic package|Candidate rejected/.test(document.querySelector("#status").textContent),{timeout:60000});
+  assert.match(await page.locator("#status").textContent(),/Accepted classic package/);await ready();
+  assert.deepEqual((await snapshot()).presentation.views[initial.scene.scene.view.key].labelPlacements[id],{kind:"owner",dx:1,dy:0});
+  receipt.checks.push("Saved movable whole-block label state survives actual host and page reload");
+  const beforeRoute=await snapshot(),edgeId=beforeRoute.scene.scene.edges[0].id;
+  const clickEdge=async()=>{
+    const at=await page.locator(`[data-edge="${edgeId}"] .edge-hit`).evaluate(path=>{
+      const p=path.getPointAtLength(path.getTotalLength()*.35).matrixTransform(path.getScreenCTM());return {x:p.x,y:p.y};
+    });await page.mouse.click(at.x,at.y);
+  };
+  await clickEdge();await expect(page.locator('[data-placement="route"]').first()).toBeEnabled();await page.locator('[data-placement="route"]').first().click();
+  await page.locator("[data-route-add]").first().click();await ready();
+  await page.locator(".diagram-viewport").first().press("ArrowDown");await ready();
+  assert.deepEqual((await snapshot()).presentation,beforeRoute.presentation);
+  await page.locator('[data-placement="accept"]').first().click();await ready();
+  let manual=await snapshot();const constraint=manual.presentation.views[initial.scene.scene.view.key].routeConstraints[edgeId];
+  assert.equal(constraint.frame,manual.layout.routing.paths[edgeId].frame);assert.equal(constraint.waypoints.length,1);assert.equal(manual.source,initial.source);
+  receipt.checks.push("Manual segment/vertex gesture uses the logical LCA frame, keyboard adjustment and detached Accept without source edits");
+  await clickEdge();await page.locator('[data-placement="route"]').first().click();
+  const beforeInsert=await snapshot(),path=beforeInsert.layout.routing.paths[edgeId],origin=beforeInsert.layout.routing.frames?.[constraint.frame];
+  const segmentHandle=page.locator("[data-route-add]").first(),segmentIndex=Number(await segmentHandle.getAttribute("data-route-add")),segment=path.segments[segmentIndex];
+  const routeOrigin=await page.evaluate(frame=>window.m12.active.canvas.graph.routeOrigin(frame),constraint.frame);
+  const inserted={x:(segment.from.x+segment.to.x)/2-routeOrigin.x,y:(segment.from.y+segment.to.y)/2-routeOrigin.y};
+  await segmentHandle.focus();await segmentHandle.press("Enter");await ready();
+  await page.locator('[data-placement="accept"]').first().click();await ready();
+  manual=await snapshot();const ordered=manual.presentation.views[initial.scene.scene.view.key].routeConstraints[edgeId].waypoints;
+  assert.deepEqual(ordered,[inserted,...constraint.waypoints]);assert.equal(manual.source,initial.source);
+  receipt.checks.push("Keyboard insertion before an existing manual waypoint retains route traversal order and saved source bytes");
+  await clickEdge();await page.locator('[data-placement="route"]').first().click();
+  const handle=await page.locator("[data-route-waypoint]").first().boundingBox();
+  const target=await page.locator(".diagram-node").first().locator(":scope > [data-graphic-part]").boundingBox();
+  await page.mouse.move(handle.x+handle.width/2,handle.y+handle.height/2);await page.mouse.down();await page.mouse.move(target.x+target.width/2,target.y+target.height/2);await page.mouse.up();
+  await expect(page.locator(".diagram-status").first()).toContainText("routing.constraint.obstructed");
+  assert.deepEqual((await snapshot()).presentation,manual.presentation);assert.equal((await snapshot()).source,initial.source);
+  await page.locator('[data-placement="cancel"]').first().click();await ready();assert.deepEqual((await snapshot()).presentation,manual.presentation);
+  receipt.checks.push("An obstructed hard waypoint reports failure, preserves saved constraint bytes and restores the accepted frame on Cancel");
+  await page.screenshot({path:"target/m14/browser/placement.png",fullPage:true});assert.deepEqual(receipt.errors,[]);
+  receipt.status="passed";
+}catch(error){receipt.status="failed";receipt.failure=String(error);throw error;}
+finally {await writeFile("target/m14/browser/receipt.json",JSON.stringify(receipt,null,2)+"\n");await browser?.close();await server.close();}

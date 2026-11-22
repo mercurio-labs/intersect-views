@@ -1,0 +1,1089 @@
+{
+  "language": "fixture",
+  "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+  "accepted": [
+    {
+      "name": "exact UTF-8 dependency closure with opaque resource ID",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      },
+      "fingerprint": "461d15e5e12db3c4a7180e44f9c00dc8b8d4ea45e6ab606bda2413c968fb7d6c"
+    }
+  ],
+  "rejected": [
+    {
+      "name": "resource bytes changed",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\r\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "dependency hash changed",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing dependency",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate manifest",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          },
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate resource",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          },
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing resource",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": []
+      }
+    },
+    {
+      "name": "unreferenced resource",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          },
+          {
+            "id": "unused",
+            "content": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "unreferenced manifest",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          },
+          {
+            "schemaVersion": 1,
+            "id": "unused",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong root",
+      "input": {
+        "root": "missing@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown capability",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6",
+              "execute.javascript"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate capability",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6",
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong language",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "other",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong language fingerprint",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "0000000000000000000000000000000000000000000000000000000000000000",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unsupported version",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 2,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown input field",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ],
+        "fetch": "https://example.test"
+      }
+    },
+    {
+      "name": "unknown manifest field",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": [],
+            "script": "alert(1)"
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ambiguous identity",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main@nested",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate dependency",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              },
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "non-string resource bytes",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "symbolLibrary",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown resource kind",
+      "input": {
+        "root": "main@1",
+        "manifests": [
+          {
+            "schemaVersion": 1,
+            "id": "main",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "rules.graph.v6"
+            ],
+            "dependencies": [
+              {
+                "id": "base",
+                "version": "1",
+                "sha256": "9c48bb88d0126bf6f0dd4a1c9d18f33f5c5e0f74e14530c5891e38688a1d693e"
+              }
+            ],
+            "resources": []
+          },
+          {
+            "schemaVersion": 1,
+            "id": "base",
+            "version": "1",
+            "language": "fixture",
+            "languageFingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+            "requires": [
+              "graphics.composition.v1"
+            ],
+            "dependencies": [],
+            "resources": [
+              {
+                "id": "__proto__",
+                "kind": "script",
+                "sha256": "7b49b9e063bd91a4f9252b413261f5557b9c570aa61516989499f64a62dbcdd6"
+              }
+            ]
+          }
+        ],
+        "resources": [
+          {
+            "id": "__proto__",
+            "content": "café\n"
+          }
+        ]
+      }
+    }
+  ]
+}

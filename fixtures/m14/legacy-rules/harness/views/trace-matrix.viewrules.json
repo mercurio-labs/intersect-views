@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 7,
+  "id": "harness.trace-matrix",
+  "label": "Traces",
+  "language": "urn:intersect:harness:1",
+  "form": "grid",
+  "grid": {
+    "kind": "matrix",
+    "rows": {
+      "query": {
+        "from": "Box",
+        "select": [
+          {
+            "name": "name",
+            "expression": {
+              "op": "field",
+              "path": "name"
+            }
+          }
+        ]
+      },
+      "label": "name"
+    },
+    "columns": {
+      "query": {
+        "from": "Box",
+        "select": [
+          {
+            "name": "name",
+            "expression": {
+              "op": "field",
+              "path": "name"
+            }
+          }
+        ]
+      },
+      "label": "name"
+    },
+    "cells": {
+      "related": "traceTargets",
+      "members": {
+        "select": "outgoingTraces",
+        "column": "traceTarget",
+        "label": "traceLabel"
+      },
+      "edit": {
+        "create": {
+          "tool": "trace-add",
+          "command": "harness.createTrace",
+          "rowAccepts": "canTraceRow",
+          "columnAccepts": "canTraceColumn"
+        },
+        "delete": {
+          "tool": "trace-remove",
+          "command": "harness.deleteTrace",
+          "accepts": "canDeleteTrace"
+        }
+      }
+    }
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

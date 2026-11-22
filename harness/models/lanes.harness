@@ -1,0 +1,10 @@
+// 🚀 Lane graph: source is the semantic authority.
+space Process {
+  lane Operator;
+  lane ControllerWithALongLabel;
+  lane Empty;
+  step Start in Operator;
+  step Activity in Operator after Start end Finish across ControllerWithALongLabel;
+  step Check in ControllerWithALongLabel after Start;
+  step Finish in Operator after Check;
+}

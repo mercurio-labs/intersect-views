@@ -1,0 +1,51 @@
+{
+  "sourceRepository": "https://github.com/mercurio-labs/intersect-model.git",
+  "sourceRevision": "4c782ecbf7961a8e017e6a61c93fa1636262beb3",
+  "sourcePath": "crates/intersect-views",
+  "baselineFiles": [
+    {
+      "path": "crates/intersect-views/Cargo.toml",
+      "sha256": "ff0b4f3227bee31967d474f2a6fedd3af4874086b9ec83a872ff505972c34e9a"
+    },
+    {
+      "path": "crates/intersect-views/PROVENANCE.json",
+      "sha256": "234164e96cc5152b0acb0cf077721385f499d315e9347acb8f211edba234f2fc"
+    },
+    {
+      "path": "crates/intersect-views/palette.schema.json",
+      "sha256": "594417efca9e32b26a021d2620b86533918e64a26367d13451d92b65bf902ea0"
+    },
+    {
+      "path": "crates/intersect-views/presentation.schema.json",
+      "sha256": "400617ef949142b94bc9a8f3991d21891c88978d3d53a2df874c200f609e42bc"
+    },
+    {
+      "path": "crates/intersect-views/src/lib.rs",
+      "sha256": "14a348a2205b75f45ce9706ec9dbe96aaf298b8df7b97dae9d3ea545a4e7d58f"
+    },
+    {
+      "path": "crates/intersect-views/tests/all.rs",
+      "sha256": "6c67ab45205f1e94b8f34c96d1d0bcb1cfbe8d849e300272fb8b39810cb29bf3"
+    },
+    {
+      "path": "crates/intersect-views/tests/contract/mod.rs",
+      "sha256": "5f31bac06c52c1516667726d0f2117a61fb9984c0305c284bd1bcb528469e1e3"
+    },
+    {
+      "path": "crates/intersect-views/tests/fixtures/scene-v1-rejections.json",
+      "sha256": "6f370cfe6b8010c1bed543cb72a7b6fe0ff0e595c7210a2de71b2d65b31b4002"
+    },
+    {
+      "path": "crates/intersect-views/tests/fixtures/scene-v1.json",
+      "sha256": "8b8c9d9c5ef5827cfcb95ab225313c0973931d01447ec1a4d27a29ab72bf71ea"
+    }
+  ],
+  "inheritedProvenance": {
+    "source_repository": "https://github.com/mercurio-labs/intersect-model-pre-dev",
+    "source_revision": "17554be4fa73bdf0fecda5bee5d01ed3f49e8830",
+    "source_path": "crates/intersect-views",
+    "scope": "Exact retained visualization wire contracts and tests; new public home in Model.",
+    "implementation_changes": false
+  },
+  "adaptation": "M1 scene v2 and strict shared document contracts; see docs/evidence/m1.md"
+}

@@ -1,0 +1,9 @@
+space Traces {
+  kind K {}
+  box Alpha : K { field zero = 0; }
+  box Beta {}
+  box Gamma {}
+  trace first from Alpha to Beta;
+  // Parallel relations keep their individual identities.
+  trace second from Alpha to Beta;
+}

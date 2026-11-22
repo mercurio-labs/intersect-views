@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:intersect:views:grid-targets",
+  "type": "object",
+  "properties": {
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "viewKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toolId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "row": {
+      "type": "string",
+      "minLength": 1
+    },
+    "column": {
+      "type": "string",
+      "minLength": 1
+    },
+    "member": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "revision",
+    "viewKey",
+    "toolId",
+    "row",
+    "column",
+    "member",
+    "enabled",
+    "reason"
+  ],
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "enabled": {
+        "const": false
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "reason": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {}
+}

@@ -1,0 +1,8 @@
+grammar org.intersect.Fmea with org.eclipse.xtext.common.Terminals
+import "urn:intersect:fmea:1" as f
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+Analysis returns f::Analysis: 'analysis' name=ID '{' (items+=Item)* '}';
+Item returns f::Item: 'item' name=ID 'function' function=STRING '{' (failures+=FailureMode)* '}';
+FailureMode returns f::FailureMode: 'failure' name=ID 'mode' mode=STRING 'effect' effect=STRING 'cause' cause=STRING 'control' control=STRING 'ratings' severity=INT occurrence=INT detection=INT '{' (actions+=Action)* '}';
+Action returns f::Action: 'action' name=ID 'description' description=STRING 'owner' owner=STRING 'status' status=Status 'evidence' evidence=STRING ';';
+Status returns ecore::EString: 'planned' | 'done';

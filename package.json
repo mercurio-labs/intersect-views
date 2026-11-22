@@ -1,0 +1,70 @@
+{
+  "name": "@intersect/visualization",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.15"
+  },
+  "exports": {
+    ".": "./packages/visualization/src/protocol.ts",
+    "./canvas": "./packages/visualization/src/canvas.ts",
+    "./canvas.css": "./packages/visualization/src/canvas.css",
+    "./palette.schema.json": "./crates/intersect-views/palette.schema.json",
+    "./presentation.schema.json": "./crates/intersect-views/presentation.schema.json",
+    "./session": "./packages/visualization/src/session.ts",
+    "./scope": "./packages/visualization/src/scope.ts",
+    "./notation.schema.json": "./crates/intersect-views/notation.schema.json",
+    "./grid": "./packages/visualization/src/grid.ts",
+    "./view-canvas": "./packages/visualization/src/view-canvas.ts",
+    "./grid.css": "./packages/visualization/src/grid.css",
+    "./worker-host": "./packages/visualization/src/worker-host.ts",
+    "./wasm-worker": "./packages/visualization/src/wasm-worker.ts",
+    "./graphics": "./packages/visualization/src/graphics-contract.ts",
+    "./graphics-layout": "./packages/visualization/src/graphics-layout.ts",
+    "./presentation-package": "./packages/visualization/src/presentation-package.ts",
+    "./graphics.schema.json": "./crates/intersect-views/graphics.schema.json",
+    "./presentation-package.schema.json": "./crates/intersect-views/presentation-package.schema.json",
+    "./graph-rule-set.schema.json": "./crates/intersect-views/graph-rule-set.schema.json",
+    "./lane": "./packages/visualization/src/lane.ts",
+    "./lane.css": "./packages/visualization/src/lane.css",
+    "./rendering": "./packages/visualization/src/rendering.ts",
+    "./rendering-registry.schema.json": "./crates/intersect-views/rendering-registry.schema.json",
+    "./rendering-resolution.schema.json": "./crates/intersect-views/rendering-resolution.schema.json",
+    "./routing.schema.json": "./crates/intersect-views/routing.schema.json",
+    "./presentation-state": "./packages/visualization/src/presentation-state.ts"
+  },
+  "files": [
+    "packages/visualization/src",
+    "crates/intersect-views/*.schema.json"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "check": "tsc --project packages/visualization/tsconfig.json --noEmit",
+    "test": "node --experimental-strip-types --test packages/visualization/tests/*.test.ts",
+    "test:canvas": "node tools/test_canvas.mjs",
+    "dev": "vite",
+    "build:harness": "node tools/build_harness.mjs",
+    "build:web": "vite build",
+    "test:harness": "node harness/web/browser.test.mjs",
+    "test:editing": "node harness/web/editing.test.mjs",
+    "test:grid": "node harness/web/grid.test.mjs",
+    "test:regions": "node harness/web/regions.test.mjs",
+    "test:m12": "node harness/web/m12.test.mjs",
+    "test:workbench": "node harness/web/workbench.test.mjs",
+    "build:fmea": "node tools/build_fmea.mjs",
+    "test:fmea": "node languages/fmea/web/browser.test.mjs",
+    "test:lanes": "node harness/web/lanes.test.mjs"
+  },
+  "dependencies": {
+    "elkjs": "0.12.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.15.0",
+    "typescript": "5.7.3",
+    "vite": "6.4.6"
+  }
+}

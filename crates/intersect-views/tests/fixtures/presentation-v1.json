@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "views": {
+    "structure-1": {
+      "positions": {
+        "port:left": {
+          "x": 0.0,
+          "y": 45.0,
+          "width": 12.0,
+          "height": 12.0
+        }
+      },
+      "viewport": {
+        "x": 5.0,
+        "y": 10.0,
+        "zoom": 0.7
+      }
+    }
+  }
+}

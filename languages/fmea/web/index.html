@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Intersect · FMEA</title>
+  </head>
+  <body>
+    <header>
+      <div><strong>Intersect</strong><span class="tag">FMEA</span></div>
+      <nav>
+        <a href="/harness/web/">Engine playground</a
+        ><button id="undo-source">Undo source</button
+        ><button id="redo-source">Redo source</button
+        ><button id="analyze">Analyze source</button
+        ><button id="save">Save project</button
+        ><button id="export">Export project</button
+        ><button id="reset">Reset example</button>
+      </nav>
+    </header>
+    <main>
+      <aside id="sources">
+        <div class="intro">
+          <h1>Failure mode analysis</h1>
+          <p>
+            Inspect the worksheet or graph. Select an RPN or action status and
+            press F2 to edit it. Ratings and completion evidence are validated
+            before publication.
+          </p>
+        </div>
+        <div id="status" role="status">Loading FMEA…</div>
+        <section>
+          <h2>Elements <span>Double click to add to this view</span></h2>
+          <div id="tree"></div>
+        </section>
+        <details open>
+          <summary>Model source · pump.fmea</summary>
+          <textarea
+            id="model"
+            aria-label="Model source"
+            spellcheck="false"
+          ></textarea>
+        </details>
+        <details>
+          <summary>Diagnostics</summary>
+          <pre id="diagnostics"></pre>
+        </details>
+      </aside>
+      <section id="workspace">
+        <div class="explore-bar">
+          <span id="scope-count"></span><button id="show-all">Show all</button
+          ><button id="undo-scope">Undo exploration</button
+          ><button id="clear-scope">Clear scope</button
+          ><span class="help"
+            >Select a label part · F2 edits · Enter reveals source</span
+          >
+        </div>
+        <div id="canvas"></div>
+      </section>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

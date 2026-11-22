@@ -1,0 +1,503 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:intersect:views:grid",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 7
+    },
+    "form": {
+      "const": "grid"
+    },
+    "ruleSet": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "view": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "key",
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "binding": {
+                "$ref": "#/$defs/binding"
+              }
+            },
+            "required": [
+              "label",
+              "binding"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "name",
+        "kind",
+        "binding",
+        "owners",
+        "details",
+        "problems"
+      ],
+      "additionalProperties": false
+    },
+    "palette": {
+      "$ref": "palette.schema.json"
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "grid": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "table"
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/axis"
+              },
+              "maxItems": 500
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 4096
+                  },
+                  "scalar": {
+                    "enum": [
+                      "string",
+                      "integer",
+                      "boolean",
+                      "reference"
+                    ]
+                  },
+                  "many": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "scalar",
+                  "many"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 30,
+              "minItems": 1
+            },
+            "cells": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/cell"
+              },
+              "maxItems": 5000
+            }
+          },
+          "required": [
+            "kind",
+            "rows",
+            "columns",
+            "cells"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "matrix"
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/axis"
+              },
+              "maxItems": 500
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/axis"
+              },
+              "maxItems": 128
+            },
+            "cells": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/cell"
+              },
+              "maxItems": 5000
+            }
+          },
+          "required": [
+            "kind",
+            "rows",
+            "columns",
+            "cells"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "form",
+    "ruleSet",
+    "revision",
+    "view",
+    "palette",
+    "problems",
+    "grid"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "elementId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 0
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "range": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "character": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "line",
+                "character"
+              ],
+              "additionalProperties": false
+            },
+            "end": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "character": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "line",
+                "character"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "key",
+        "elementId",
+        "context",
+        "uri",
+        "range",
+        "readOnly"
+      ],
+      "additionalProperties": false
+    },
+    "atom": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "string"
+            },
+            "value": {
+              "type": "string",
+              "maxLength": 65536
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integer"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^(0|-?[1-9][0-9]*)$"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "boolean"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "reference"
+            },
+            "label": {
+              "type": "string",
+              "maxLength": 4096
+            },
+            "binding": {
+              "$ref": "#/$defs/binding"
+            }
+          },
+          "required": [
+            "kind",
+            "label",
+            "binding"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "value": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/atom"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "list"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/atom"
+              },
+              "maxItems": 5000,
+              "minItems": 1
+            }
+          },
+          "required": [
+            "kind",
+            "items"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "axis": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "cell": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "row": {
+          "type": "string",
+          "minLength": 1
+        },
+        "column": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "enum": [
+            "query",
+            "relation",
+            "derived"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/value"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "maxLength": 4096
+              },
+              "binding": {
+                "$ref": "#/$defs/binding"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "binding"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 5000
+        }
+      },
+      "required": [
+        "id",
+        "row",
+        "column",
+        "origin",
+        "value",
+        "binding",
+        "members"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 8
+    },
+    "form": {
+      "const": "laneGraph"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "laneGraph": {
+      "type": "object",
+      "properties": {
+        "container": {
+          "type": "object",
+          "properties": {
+            "match": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lanes": {
+              "type": "string",
+              "minLength": 1
+            },
+            "steps": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "match",
+            "lanes",
+            "steps"
+          ],
+          "additionalProperties": false
+        },
+        "lane": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "label": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/slot"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "parts": {
+                      "type": "array",
+                      "maxItems": 32,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "subject": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "enum": [
+                                      "self",
+                                      "none"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "kind"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "const": "select"
+                                  },
+                                  "select": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "select"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          },
+                          "text": {
+                            "$ref": "#/$defs/slot"
+                          },
+                          "when": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "edit": {
+                            "type": "object",
+                            "properties": {
+                              "tool": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "command": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "accepts": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "tool",
+                              "command",
+                              "accepts"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "subject",
+                          "text"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "parts"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "label"
+          ],
+          "additionalProperties": false
+        },
+        "step": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "label": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/slot"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "parts": {
+                      "type": "array",
+                      "maxItems": 32,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "subject": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "enum": [
+                                      "self",
+                                      "none"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "kind"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "kind": {
+                                    "const": "select"
+                                  },
+                                  "select": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "kind",
+                                  "select"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          },
+                          "text": {
+                            "$ref": "#/$defs/slot"
+                          },
+                          "when": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "edit": {
+                            "type": "object",
+                            "properties": {
+                              "tool": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "command": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "accepts": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "tool",
+                              "command",
+                              "accepts"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "subject",
+                          "text"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "parts"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "lane": {
+              "type": "string",
+              "minLength": 1
+            },
+            "after": {
+              "type": "string",
+              "minLength": 1
+            },
+            "end": {
+              "type": "string",
+              "minLength": 1
+            },
+            "across": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "label",
+            "lane",
+            "after",
+            "end",
+            "across"
+          ],
+          "additionalProperties": false
+        },
+        "axis": {
+          "type": "object",
+          "properties": {
+            "direction": {
+              "enum": [
+                "horizontal",
+                "vertical"
+              ]
+            },
+            "semantic": {
+              "const": true
+            }
+          },
+          "required": [
+            "direction",
+            "semantic"
+          ],
+          "additionalProperties": false
+        },
+        "edit": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string",
+              "minLength": 1
+            },
+            "command": {
+              "type": "string",
+              "minLength": 1
+            },
+            "accepts": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "tool",
+            "command",
+            "accepts"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "container",
+        "lane",
+        "step",
+        "axis"
+      ],
+      "additionalProperties": false
+    },
+    "projection": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "nested"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "form",
+    "id",
+    "label",
+    "language",
+    "laneGraph",
+    "projection"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "slot": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "sourceText"
+          ],
+          "properties": {
+            "sourceText": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

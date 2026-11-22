@@ -1,0 +1,9 @@
+space Regions {
+  kind Shared {
+    group Left { box Sender { pin outPort : out; field level = 2; } }
+    group Right { box Receiver { pin inPort : in; } }
+    link across { from s (group Left part Sender pin outPort) to t (group Right part Receiver pin inPort) }
+  }
+  box Alpha : Shared {}
+  box Beta : Shared {}
+}

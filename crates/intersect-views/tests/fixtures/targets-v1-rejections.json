@@ -1,0 +1,41 @@
+[
+  {
+    "name": "unsafe target revision",
+    "pointer": "/revision",
+    "value": 9007199254740992
+  },
+  {
+    "name": "empty target view",
+    "pointer": "/viewKey",
+    "value": ""
+  },
+  {
+    "name": "duplicate targets",
+    "pointer": "/symbols",
+    "value": [
+      "symbol:a",
+      "symbol:a"
+    ]
+  },
+  {
+    "name": "empty source symbol",
+    "pointer": "/source",
+    "value": ""
+  },
+  {
+    "name": "missing source discriminator",
+    "pointer": "/source",
+    "remove": true
+  },
+  {
+    "name": "unknown target field",
+    "pointer": "/rules",
+    "value": []
+  },
+  {
+    "name": "target limit",
+    "pointer": "/symbols",
+    "repeat": 1501,
+    "value": "symbol:a"
+  }
+]

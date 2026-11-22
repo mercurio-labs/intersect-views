@@ -1,0 +1,55 @@
+rcore 1;
+package intersect.harness.views version "1";
+import model "urn:intersect:harness:1" as h;
+import package intersect.harness.navigation version "1" as nav;
+pub fn boxFields(self:h.Box)->Sequence<h.Field> = nav.boxFields(self);
+pub fn boxHasFields(self:h.Box)->Bool = size(nav.boxFields(self)) > 0;
+pub fn boxTitle(self:h.Box)->String = self.name;
+pub fn m12Documentation(self:h.Box)->String = "This text is evaluated from the accepted model for " + self.name + ".\nIts reusable composition keeps source bindings while documentation wraps to the available width.";
+pub fn boxKind(self:h.Box)->String = match self.kind { Some(kind) => kind.name, None => "" };
+pub fn boxStyle(self:h.Box)->String = if nav.boxFields(self).exists(|field| field.value >= 8) { "critical" } else { "" };
+pub fn boxPins(self:h.Box)->Sequence<h.Pin> = nav.boxPins(self);
+pub fn boxParts(self:h.Box)->Sequence<h.Box> = nav.boxParts(self);
+pub fn boxLinks(self:h.Box)->Sequence<h.Link> = nav.boxLinks(self);
+pub fn linkedBoxes(self:h.Box)->Sequence<h.Box> {
+  let peers:Sequence<h.Box> = match self.peer { Some(peer) => [peer], None => [] };
+  peers.concat(nav.boxLinks(self).flatMap(|link| nav.linkTargets(link)))
+}
+pub fn boxKindRef(self:h.Box)->Sequence<h.Kind> = match self.kind { Some(kind) => [kind], None => [] };
+pub fn fieldLabel(self:h.Field)->String = self.name;
+pub fn pinLabel(self:h.Pin)->String = self.name;
+pub fn pinSide(self:h.Pin)->String = if self.direction == "in" { "WEST" } else { "EAST" };
+pub fn linkLabel(self:h.Link)->String = self.name;
+pub fn linkSourcePath(self:h.Link)->Sequence<h.Element> = nav.endPath(self.source);
+pub fn linkTargetPath(self:h.Link)->Sequence<h.Element> = nav.endPath(self.target);
+pub fn canCreate(self:h.Box)->Bool = true;
+pub fn canStartLink(self:h.Element)->Bool = match asType::<h.Pin>(self) { Some(pin) => pin.direction == "out", None => match asType::<h.Box>(self) { Some(box) => true, None => false } };
+pub fn canEndLink(self:h.Element)->Bool = match asType::<h.Pin>(self) { Some(pin) => pin.direction == "in", None => match asType::<h.Box>(self) { Some(box) => true, None => false } };
+
+pub fn outgoingTraces(self:h.Box)->Sequence<h.Trace> = ancestors::<h.Space>(self).flatMap(|space| space.traces).filter(|trace| trace.source == self);
+pub fn traceTargets(self:h.Box)->Sequence<h.Box> = outgoingTraces(self).map(|trace| trace.target);
+pub fn traceTarget(self:h.Trace)->Sequence<h.Box> = [self.target];
+pub fn traceLabel(self:h.Trace)->String = self.name;
+pub fn canTraceRow(self:h.Box)->Bool = true;
+pub fn canTraceColumn(self:h.Box)->Bool = true;
+pub fn canDeleteTrace(self:h.Trace)->Bool = true;
+
+pub fn boxGroups(self:h.Box)->Sequence<h.Group> = nav.boxGroups(self);
+pub fn groupParts(self:h.Group)->Sequence<h.Box> = Sequence(self.parts);
+pub fn groupLabel(self:h.Group)->String = self.name;
+pub fn kindTitle(self:h.Kind)->String = " : " + self.name;
+pub fn fieldBand(self:h.Field)->String = if self.value < 8 { "low" } else { "high" };
+pub fn canSetFieldValue(self:h.Field)->Bool = true;
+pub fn sourceEnd(self:h.Link)->Sequence<h.End> = [self.source];
+pub fn targetEnd(self:h.Link)->Sequence<h.End> = [self.target];
+pub fn endLabel(self:h.End)->String = self.name;
+
+pub fn spaceLanes(self:h.Space)->Sequence<h.Lane> = Sequence(self.lanes);
+pub fn spaceSteps(self:h.Space)->Sequence<h.Step> = Sequence(self.steps);
+pub fn laneLabel(self:h.Lane)->String = self.name;
+pub fn stepLabel(self:h.Step)->String = self.name;
+pub fn stepLane(self:h.Step)->Sequence<h.Lane> = [self.lane];
+pub fn stepAfter(self:h.Step)->Sequence<h.Step> = Sequence(self.after);
+pub fn stepEnd(self:h.Step)->Sequence<h.Step> = match self.end {Some(e)=>[e],None=>[]};
+pub fn stepAcross(self:h.Step)->Sequence<h.Lane> = Sequence(self.across);
+pub fn canPlaceStep(self:h.Step)->Bool = true;

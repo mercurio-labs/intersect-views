@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "key": "symbols-1",
+  "name": "Reusable graphical symbols",
+  "ruleSet": "harness.symbols",
+  "scope": { "schemaVersion": 1, "ops": [] }
+}

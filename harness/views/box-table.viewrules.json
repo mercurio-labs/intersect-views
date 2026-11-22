@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 8,
+  "id": "harness.box-table",
+  "label": "Boxes",
+  "language": "urn:intersect:harness:1",
+  "form": "grid",
+  "grid": {
+    "kind": "table",
+    "query": {
+      "from": "Box",
+      "select": [
+        {
+          "name": "name",
+          "expression": {
+            "op": "field",
+            "path": "name"
+          }
+        },
+        {
+          "name": "kind",
+          "expression": {
+            "op": "field",
+            "path": "kind.name"
+          }
+        },
+        {
+          "name": "fields",
+          "expression": {
+            "op": "count",
+            "path": "fields"
+          }
+        }
+      ],
+      "order_by": [
+        {
+          "expression": {
+            "op": "field",
+            "path": "name"
+          },
+          "descending": false
+        }
+      ]
+    },
+    "rowLabel": "name",
+    "columns": [
+      {
+        "id": "kind",
+        "label": "Kind",
+        "value": "kind"
+      },
+      {
+        "id": "fields",
+        "label": "Own fields",
+        "value": "fields"
+      }
+    ]
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

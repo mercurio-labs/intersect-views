@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:intersect:palette:v1",
+  "title": "Intersect palette, version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "label", "groups"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "label": { "type": "string", "minLength": 1 },
+    "groups": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "entries"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "entries": {
+            "type": "array",
+            "maxItems": 256,
+            "items": { "$ref": "#/definitions/tool" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "icon", "gesture", "command"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "icon": {
+          "type": "string",
+          "description": "An icon token; unknown tokens use the generic glyph."
+        },
+        "gesture": { "enum": ["select", "place", "action"] },
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Language or presentation command ID. Unsupported commands are disabled."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Reserved command configuration; accepted interpretation is language-owned."
+        },
+        "inputs": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "default": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

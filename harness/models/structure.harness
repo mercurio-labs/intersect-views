@@ -1,0 +1,16 @@
+space Structure {
+  kind Shared {
+    pin boundary : out;
+    field inherited = 9;
+    box Nested { pin outbound : out; }
+    link inheritedWire { from s1 (part Nested pin outbound) to t1 (pin boundary) }
+  }
+  box Alpha : Shared {
+    pin incoming : in;
+    field local = 2;
+    box Local { pin outgoing : out; }
+    box Mirror { pin outgoing : in; }
+    link wire { from s2 (part Local pin outgoing) to t2 (part Mirror pin outgoing) }
+  }
+  box Beta : Shared {}
+}

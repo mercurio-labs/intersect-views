@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 7,
+  "id": "harness.derived-matrix",
+  "label": "Derived traces",
+  "language": "urn:intersect:harness:1",
+  "form": "grid",
+  "grid": {
+    "kind": "matrix",
+    "rows": {
+      "query": {
+        "from": "Box",
+        "select": [
+          {
+            "name": "name",
+            "expression": {
+              "op": "field",
+              "path": "name"
+            }
+          }
+        ]
+      },
+      "label": "name"
+    },
+    "columns": {
+      "query": {
+        "from": "Box",
+        "select": [
+          {
+            "name": "name",
+            "expression": {
+              "op": "field",
+              "path": "name"
+            }
+          }
+        ]
+      },
+      "label": "name"
+    },
+    "cells": {
+      "related": "traceTargets"
+    }
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

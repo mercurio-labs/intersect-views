@@ -1,0 +1,45 @@
+rcore 1;
+package intersect.harness.navigation version "1";
+import model "urn:intersect:harness:1" as h;
+pub fn boxParts(self:h.Box)->Sequence<h.Box> {
+  let inherited:Sequence<h.Box> = match self.kind { Some(kind) => Sequence(kind.parts), None => [] };
+  Sequence(self.parts).concat(inherited)
+}
+pub fn boxPins(self:h.Box)->Sequence<h.Pin> {
+  let inherited:Sequence<h.Pin> = match self.kind { Some(kind) => Sequence(kind.pins), None => [] };
+  Sequence(self.pins).concat(inherited)
+}
+pub fn boxFields(self:h.Box)->Sequence<h.Field> {
+  let inherited:Sequence<h.Field> = match self.kind { Some(kind) => Sequence(kind.fields), None => [] };
+  Sequence(self.fields).concat(inherited)
+}
+pub fn boxLinks(self:h.Box)->Sequence<h.Link> {
+  let inherited:Sequence<h.Link> = match self.kind { Some(kind) => Sequence(kind.links), None => [] };
+  Sequence(self.links).concat(inherited)
+}
+pub fn ownerParts(self:h.Element)->Sequence<h.Box> =
+  match asType::<h.Box>(self) { Some(box) => boxParts(box), None =>
+    match asType::<h.Kind>(self) { Some(kind) => Sequence(kind.parts), None => [] }
+  };
+pub fn ownerPins(self:h.Element)->Sequence<h.Pin> =
+  match asType::<h.Box>(self) { Some(box) => boxPins(box), None =>
+    match asType::<h.Kind>(self) { Some(kind) => Sequence(kind.pins), None => [] }
+  };
+pub fn endOwners(self:h.End)->Sequence<h.Element> =
+  match container::<h.Link>(self) { Some(link) =>
+    match container::<h.Element>(link) { Some(owner) => [owner], None => [] },
+    None => []
+  };
+pub fn endPath(self:h.End)->Sequence<h.Element> {
+  let parts:Sequence<h.Element> = match self.part { Some(part) => [part], None => [] };
+  let pins:Sequence<h.Element> = match self.pin { Some(pin) => [pin], None => [] };
+  let groups:Sequence<h.Element> = match self.group { Some(group) => [group], None => [] };
+  groups.concat(parts).concat(pins)
+}
+pub fn linkTargets(self:h.Link)->Sequence<h.Box> = match self.target.part { Some(part) => [part], None => [] };
+
+pub fn boxGroups(self:h.Box)->Sequence<h.Group> { let inherited:Sequence<h.Group> = match self.kind { Some(kind) => Sequence(kind.groups), None => [] }; Sequence(self.groups).concat(inherited) }
+pub fn ownerGroups(self:h.Element)->Sequence<h.Group> = match asType::<h.Box>(self) { Some(box) => boxGroups(box), None => match asType::<h.Kind>(self) { Some(kind) => Sequence(kind.groups), None => [] } };
+
+pub fn lexicalLanes(self:h.Step)->Sequence<h.Lane> = ancestors::<h.Space>(self).flatMap(|space| space.lanes);
+pub fn lexicalSteps(self:h.Step)->Sequence<h.Step> = ancestors::<h.Space>(self).flatMap(|space| space.steps);

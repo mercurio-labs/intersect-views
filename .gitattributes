@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+# Preserve exact diagnostic bytes referenced by SHA-256 receipts.
+docs/evidence/m14-read-boundary/*.log -text
+
+# Exact routing-progress receipts and diagnostic logs.
+docs/evidence/m14-routing-progress/*.log -text
+
+docs/evidence/m14-source-text/*.log -text
+
+docs/evidence/m14-route-review/*.log -text
+docs/evidence/m14-measured-behaviors/*.log -text
+
+docs/evidence/m14-label-frames/* -text
+docs/evidence/m14-client/* -text

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 7,
+  "id": "fmea.failures",
+  "label": "Failure worksheet",
+  "language": "urn:intersect:fmea:1",
+  "form": "grid",
+  "grid": {
+    "kind": "table",
+    "query": {
+      "from": "FailureMode",
+      "select": [
+        {
+          "name": "name",
+          "expression": {
+            "op": "field",
+            "path": "name"
+          }
+        },
+        {
+          "name": "mode",
+          "expression": {
+            "op": "field",
+            "path": "mode"
+          }
+        },
+        {
+          "name": "effect",
+          "expression": {
+            "op": "field",
+            "path": "effect"
+          }
+        },
+        {
+          "name": "cause",
+          "expression": {
+            "op": "field",
+            "path": "cause"
+          }
+        },
+        {
+          "name": "control",
+          "expression": {
+            "op": "field",
+            "path": "control"
+          }
+        },
+        {
+          "name": "severity",
+          "expression": {
+            "op": "field",
+            "path": "severity"
+          }
+        },
+        {
+          "name": "occurrence",
+          "expression": {
+            "op": "field",
+            "path": "occurrence"
+          }
+        },
+        {
+          "name": "detection",
+          "expression": {
+            "op": "field",
+            "path": "detection"
+          }
+        }
+      ],
+      "order_by": [
+        {
+          "expression": {
+            "op": "field",
+            "path": "name"
+          },
+          "descending": false
+        }
+      ]
+    },
+    "rowLabel": "name",
+    "columns": [
+      {
+        "id": "mode",
+        "label": "Mode",
+        "value": "mode"
+      },
+      {
+        "id": "effect",
+        "label": "Effect",
+        "value": "effect"
+      },
+      {
+        "id": "cause",
+        "label": "Cause",
+        "value": "cause"
+      },
+      {
+        "id": "control",
+        "label": "Control",
+        "value": "control"
+      },
+      {
+        "id": "severity",
+        "label": "Severity",
+        "value": "severity"
+      },
+      {
+        "id": "occurrence",
+        "label": "Occurrence",
+        "value": "occurrence"
+      },
+      {
+        "id": "detection",
+        "label": "Detection",
+        "value": "detection"
+      }
+    ]
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

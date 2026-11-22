@@ -1,0 +1,32 @@
+[
+  {
+    "name": "disabled without reason",
+    "pointer": "/enabled",
+    "value": false
+  },
+  {
+    "name": "self insertion",
+    "pointer": "/before",
+    "value": "symbol:fdd54b84ee9affe20a466541b3ac7e427aee29c86fe8ef025a218e1ce616fb07"
+  },
+  {
+    "name": "self end",
+    "pointer": "/end",
+    "value": "symbol:fdd54b84ee9affe20a466541b3ac7e427aee29c86fe8ef025a218e1ce616fb07"
+  },
+  {
+    "name": "unsafe revision",
+    "pointer": "/revision",
+    "value": 9007199254740992
+  },
+  {
+    "name": "unknown response scope",
+    "pointer": "/scope",
+    "value": {}
+  },
+  {
+    "name": "invalid nullable target",
+    "pointer": "/before",
+    "value": 42
+  }
+]

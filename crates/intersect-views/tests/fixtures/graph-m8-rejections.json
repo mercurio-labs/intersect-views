@@ -1,0 +1,1470 @@
+[
+  {
+    "name": "missing regions",
+    "pointer": "/nodes/0/regions",
+    "remove": true
+  },
+  {
+    "name": "missing nullable binding",
+    "pointer": "/nodes/0/title/parts/0/binding",
+    "remove": true
+  },
+  {
+    "name": "missing nullable editTool",
+    "pointer": "/nodes/0/title/parts/0/editTool",
+    "remove": true
+  },
+  {
+    "name": "literal edit",
+    "pointer": "/nodes/0/title/parts/1/editTool",
+    "value": "edit"
+  },
+  {
+    "name": "label newline",
+    "pointer": "/nodes/0/title/parts/0/text",
+    "value": "line\ntext"
+  },
+  {
+    "name": "label text overflow",
+    "pointer": "/nodes/0/title/parts/0/text",
+    "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+    "name": "duplicate part ID",
+    "pointer": "/nodes/0/regions/items/0/label/parts/0/id",
+    "value": "symbol:fixture-part-1"
+  },
+  {
+    "name": "wrong region direction",
+    "pointer": "/nodes/0/regions/direction",
+    "value": "diagonal"
+  },
+  {
+    "name": "label context differs",
+    "pointer": "/nodes/0/title/parts/0/binding/context",
+    "value": [
+      "wrong"
+    ]
+  },
+  {
+    "name": "region endpoint",
+    "pointer": "/edges/0/source",
+    "value": "symbol:group"
+  },
+  {
+    "name": "part endpoint",
+    "pointer": "/edges/0/source",
+    "value": "symbol:punctuation"
+  },
+  {
+    "name": "legacy string label",
+    "pointer": "/nodes/0/title",
+    "value": "old"
+  },
+  {
+    "name": "unknown region field",
+    "pointer": "/nodes/0/regions/items/0/x",
+    "value": 3
+  },
+  {
+    "name": "too many parts",
+    "pointer": "/nodes/0/title/parts",
+    "value": [
+      {
+        "id": "p0",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p1",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p2",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p3",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p4",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p5",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p6",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p7",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p8",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p9",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p10",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p11",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p12",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p13",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p14",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p15",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p16",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p17",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p18",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p19",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p20",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p21",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p22",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p23",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p24",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p25",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p26",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p27",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p28",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p29",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p30",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p31",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      },
+      {
+        "id": "p32",
+        "text": "Left occurrence",
+        "binding": {
+          "key": "semantic:part",
+          "elementId": "snapshot:2",
+          "context": [
+            "left"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "editTool": null
+      }
+    ]
+  },
+  {
+    "name": "too many regions per node",
+    "pointer": "/nodes/0/regions/items",
+    "value": [
+      {
+        "id": "r0",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r1",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r2",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r3",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r4",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r5",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r6",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r7",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r8",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r9",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r10",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r11",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r12",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r13",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r14",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r15",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      },
+      {
+        "id": "r16",
+        "rule": "groups",
+        "label": {
+          "parts": []
+        },
+        "binding": {
+          "key": "fixture:group",
+          "elementId": "fixture:group",
+          "context": [
+            "left",
+            "semantic:part"
+          ],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 1,
+              "character": 0
+            },
+            "end": {
+              "line": 1,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "collapsed": false,
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "collapsed region retains children",
+    "pointer": "/nodes/0/regions/items/0",
+    "value": {
+      "id": "symbol:group",
+      "rule": "groups",
+      "label": {
+        "parts": [
+          {
+            "id": "symbol:group-part",
+            "text": "Group",
+            "binding": {
+              "key": "fixture:group",
+              "elementId": "fixture:group",
+              "context": [
+                "left",
+                "semantic:part"
+              ],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "editTool": null
+          }
+        ]
+      },
+      "binding": {
+        "key": "fixture:group",
+        "elementId": "fixture:group",
+        "context": [
+          "left",
+          "semantic:part"
+        ],
+        "uri": "file:///example.model",
+        "range": {
+          "start": {
+            "line": 1,
+            "character": 0
+          },
+          "end": {
+            "line": 1,
+            "character": 5
+          }
+        },
+        "readOnly": false
+      },
+      "collapsed": true,
+      "children": [
+        {
+          "id": "region-child",
+          "notation": "box",
+          "title": {
+            "parts": []
+          },
+          "subtitle": {
+            "parts": []
+          },
+          "binding": {
+            "key": "region-child",
+            "elementId": "region-child",
+            "context": [
+              "left",
+              "semantic:part",
+              "fixture:group"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,970 @@
+[
+  {
+    "name": "matrix",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "grid",
+      "ruleSet": "harness.structure",
+      "grid": {
+        "kind": "matrix",
+        "rows": [
+          {
+            "id": "r",
+            "label": "A",
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "c",
+            "label": "B",
+            "binding": {
+              "key": "B",
+              "elementId": "B",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ],
+        "cells": [
+          {
+            "id": "cell",
+            "row": "r",
+            "column": "c",
+            "origin": "relation",
+            "value": {
+              "kind": "integer",
+              "value": "1"
+            },
+            "binding": {
+              "key": "trace:first",
+              "elementId": "trace:first",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": [
+              {
+                "id": "m",
+                "label": "first",
+                "binding": {
+                  "key": "trace:first",
+                  "elementId": "trace:first",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "table",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "grid",
+      "ruleSet": "harness.structure",
+      "grid": {
+        "kind": "table",
+        "rows": [
+          {
+            "id": "r",
+            "label": "A",
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "zero",
+            "label": "zero",
+            "scalar": "integer",
+            "many": false
+          },
+          {
+            "id": "false",
+            "label": "false",
+            "scalar": "boolean",
+            "many": false
+          },
+          {
+            "id": "empty",
+            "label": "empty",
+            "scalar": "string",
+            "many": false
+          },
+          {
+            "id": "ref",
+            "label": "ref",
+            "scalar": "reference",
+            "many": false
+          },
+          {
+            "id": "list",
+            "label": "list",
+            "scalar": "integer",
+            "many": true
+          }
+        ],
+        "cells": [
+          {
+            "id": "cell:zero",
+            "row": "r",
+            "column": "zero",
+            "origin": "query",
+            "value": {
+              "kind": "integer",
+              "value": "0"
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          },
+          {
+            "id": "cell:false",
+            "row": "r",
+            "column": "false",
+            "origin": "query",
+            "value": {
+              "kind": "boolean",
+              "value": false
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          },
+          {
+            "id": "cell:empty",
+            "row": "r",
+            "column": "empty",
+            "origin": "query",
+            "value": {
+              "kind": "string",
+              "value": ""
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          },
+          {
+            "id": "cell:ref",
+            "row": "r",
+            "column": "ref",
+            "origin": "query",
+            "value": {
+              "kind": "reference",
+              "label": "Outside",
+              "binding": {
+                "key": "Outside",
+                "elementId": "Outside",
+                "context": [],
+                "uri": "file:///example.model",
+                "range": {
+                  "start": {
+                    "line": 1,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "character": 5
+                  }
+                },
+                "readOnly": false
+              }
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          },
+          {
+            "id": "cell:list",
+            "row": "r",
+            "column": "list",
+            "origin": "query",
+            "value": {
+              "kind": "list",
+              "items": [
+                {
+                  "kind": "integer",
+                  "value": "-9223372036854775808"
+                },
+                {
+                  "kind": "integer",
+                  "value": "9223372036854775807"
+                }
+              ]
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "derived",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "grid",
+      "ruleSet": "harness.structure",
+      "grid": {
+        "kind": "matrix",
+        "rows": [
+          {
+            "id": "r",
+            "label": "A",
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "c",
+            "label": "B",
+            "binding": {
+              "key": "B",
+              "elementId": "B",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            }
+          }
+        ],
+        "cells": [
+          {
+            "id": "cell",
+            "row": "r",
+            "column": "c",
+            "origin": "derived",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            },
+            "binding": {
+              "key": "A",
+              "elementId": "A",
+              "context": [],
+              "uri": "file:///example.model",
+              "range": {
+                "start": {
+                  "line": 1,
+                  "character": 0
+                },
+                "end": {
+                  "line": 1,
+                  "character": 5
+                }
+              },
+              "readOnly": false
+            },
+            "members": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "empty-axis",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "grid",
+      "ruleSet": "harness.structure",
+      "grid": {
+        "kind": "matrix",
+        "rows": [],
+        "columns": [],
+        "cells": []
+      }
+    }
+  },
+  {
+    "name": "grid-target",
+    "kind": "targets",
+    "value": {
+      "revision": 1,
+      "viewKey": "view",
+      "toolId": "tool",
+      "row": "r",
+      "column": "c",
+      "member": null,
+      "enabled": false,
+      "reason": "Read-only"
+    }
+  },
+  {
+    "name": "structure",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.structure",
+      "label": "Structure",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "match": "Box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "styleClass": "boxStyle",
+          "compartments": [
+            {
+              "label": "fields",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel",
+              "id": "compartment-1"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "children": {
+            "select": "boxParts"
+          },
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes",
+              "select": "linkedBoxes"
+            }
+          ],
+          "create": [
+            {
+              "tool": "box",
+              "command": "harness.createBox",
+              "accepts": "canCreate"
+            },
+            {
+              "tool": "pin",
+              "command": "harness.createPin",
+              "accepts": "canCreate"
+            }
+          ]
+        },
+        {
+          "id": "pin",
+          "match": "Pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "compartments": [],
+          "expand": []
+        }
+      ],
+      "edges": [
+        {
+          "id": "link",
+          "kind": "element",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "connect": {
+            "command": "harness.createLink",
+            "sourceAccepts": "canStartLink",
+            "targetAccepts": "canEndLink"
+          }
+        },
+        {
+          "id": "kind",
+          "kind": "reference",
+          "per": "box",
+          "targets": "boxKindRef",
+          "notation": "typing",
+          "label": {
+            "text": "kind"
+          },
+          "anchor": "root"
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8.0,
+        "stubLength": 18.0,
+        "trunks": "none"
+      }
+    }
+  },
+  {
+    "name": "box-table",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.box-table",
+      "label": "Boxes",
+      "language": "urn:intersect:harness:1",
+      "form": "grid",
+      "grid": {
+        "kind": "table",
+        "query": {
+          "from": "Box",
+          "select": [
+            {
+              "name": "name",
+              "expression": {
+                "op": "field",
+                "path": "name"
+              }
+            },
+            {
+              "name": "kind",
+              "expression": {
+                "op": "field",
+                "path": "kind.name"
+              }
+            },
+            {
+              "name": "fields",
+              "expression": {
+                "op": "count",
+                "path": "fields"
+              }
+            }
+          ],
+          "order_by": [
+            {
+              "expression": {
+                "op": "field",
+                "path": "name"
+              },
+              "descending": false
+            }
+          ]
+        },
+        "rowLabel": "name",
+        "columns": [
+          {
+            "id": "kind",
+            "label": "Kind",
+            "value": "kind"
+          },
+          {
+            "id": "fields",
+            "label": "Own fields",
+            "value": "fields"
+          }
+        ]
+      },
+      "projection": {
+        "kind": "nested"
+      }
+    }
+  },
+  {
+    "name": "trace-matrix",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.trace-matrix",
+      "label": "Traces",
+      "language": "urn:intersect:harness:1",
+      "form": "grid",
+      "grid": {
+        "kind": "matrix",
+        "rows": {
+          "query": {
+            "from": "Box",
+            "select": [
+              {
+                "name": "name",
+                "expression": {
+                  "op": "field",
+                  "path": "name"
+                }
+              }
+            ]
+          },
+          "label": "name"
+        },
+        "columns": {
+          "query": {
+            "from": "Box",
+            "select": [
+              {
+                "name": "name",
+                "expression": {
+                  "op": "field",
+                  "path": "name"
+                }
+              }
+            ]
+          },
+          "label": "name"
+        },
+        "cells": {
+          "related": "traceTargets",
+          "members": {
+            "select": "outgoingTraces",
+            "column": "traceTarget",
+            "label": "traceLabel"
+          },
+          "edit": {
+            "create": {
+              "tool": "trace-add",
+              "command": "harness.createTrace",
+              "rowAccepts": "canTraceRow",
+              "columnAccepts": "canTraceColumn"
+            },
+            "delete": {
+              "tool": "trace-remove",
+              "command": "harness.deleteTrace",
+              "accepts": "canDeleteTrace"
+            }
+          }
+        }
+      },
+      "projection": {
+        "kind": "nested"
+      }
+    }
+  },
+  {
+    "name": "derived-matrix",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.derived-matrix",
+      "label": "Derived traces",
+      "language": "urn:intersect:harness:1",
+      "form": "grid",
+      "grid": {
+        "kind": "matrix",
+        "rows": {
+          "query": {
+            "from": "Box",
+            "select": [
+              {
+                "name": "name",
+                "expression": {
+                  "op": "field",
+                  "path": "name"
+                }
+              }
+            ]
+          },
+          "label": "name"
+        },
+        "columns": {
+          "query": {
+            "from": "Box",
+            "select": [
+              {
+                "name": "name",
+                "expression": {
+                  "op": "field",
+                  "path": "name"
+                }
+              }
+            ]
+          },
+          "label": "name"
+        },
+        "cells": {
+          "related": "traceTargets"
+        }
+      },
+      "projection": {
+        "kind": "nested"
+      }
+    }
+  }
+]

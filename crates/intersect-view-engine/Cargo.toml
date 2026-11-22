@@ -1,0 +1,20 @@
+[package]
+name = "intersect-view-engine"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+autotests = false
+
+[features]
+milestone-tests = []
+
+[dependencies]
+intersect-views.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[[test]]
+name = "all"
+path = "tests/all.rs"

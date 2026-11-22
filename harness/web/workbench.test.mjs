@@ -1,0 +1,56 @@
+import assert from 'node:assert/strict';
+import { chromium, expect } from '@playwright/test';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { createServer } from 'vite';
+const server=await createServer({server:{port:0,strictPort:false,hmr:false,watch:null}});
+await server.listen();
+const base=server.resolvedUrls.local[0];
+const browser=await chromium.launch({headless:true});const errors=[],checks=[];await mkdir('target/workbench',{recursive:true});
+try{
+ const page=await browser.newPage({viewport:{width:1700,height:1050}});page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'harness/web/');
+ await expect(page.locator('.diagram-node')).toHaveCount(6,{timeout:60000});
+ assert.equal(await page.locator('.example-link').count(),16);
+ checks.push('One navigator exposes all 16 current capability examples');
+ for(const [id,title,selector]of [['regions','Nested regions','.diagram-region'],['table','Query table','.grid-row-header'],['matrix','Traceability matrix','.grid-cell.relation'],['derived','Derived matrix','.grid-cell.derived'],['lanes','Ordered lanes','.lane-step']]){
+  await page.locator(`[data-example="${id}"]`).click();
+  await expect(page.locator('.workbench-context h1')).toHaveText(title,{timeout:60000});
+  await expect(page.locator(selector).first()).toBeVisible({timeout:60000});
+  checks.push('Navigator opens '+title+' with the matching live view');
+ }
+ await page.screenshot({path:'target/workbench/lanes.png',fullPage:true});
+ await page.locator('[data-example="classic"]').click();
+ await expect(page.locator('#status')).toContainText('Accepted classic package',{timeout:60000});
+ await page.getByRole('button',{name:'Capabilities',exact:true}).click();
+ await expect(page.getByRole('tab',{name:'Details',exact:true})).toHaveAttribute('aria-selected','true');
+ await expect(page.locator('.workbench-guide')).toContainText('What to try');
+ await page.getByRole('tab',{name:'Library',exact:true}).click();
+ await page.locator('#library').evaluate(e=>e.closest('details').open=true);
+ await expect(page.locator('#library')).toBeVisible();
+ checks.push('Graphics use the same inspector with capability guidance and actual library source');
+ await page.getByRole('button',{name:'Source & details',exact:true}).click();
+ await expect(page.locator('#sources')).toBeHidden();
+ await page.getByRole('button',{name:'Source & details',exact:true}).click();
+ await expect(page.locator('#sources')).toBeVisible();
+ checks.push('Inspector can be collapsed to give the live view more space');
+ await page.locator('[data-example="fmea"]').click();
+ await expect(page.locator('#status')).toContainText('Clean FMEA',{timeout:60000});
+ await page.locator('[aria-label="Diagram view"]:visible').selectOption('failures');
+ await expect(page.locator('.grid-row-header').first()).toBeVisible({timeout:60000});
+ await expect(page.locator('.workbench-context h1')).toHaveText('Failure analysis');
+ checks.push('Independent FMEA language shares navigation and inspection while retaining its worksheets');
+ await page.screenshot({path:'target/workbench/fmea-worksheet.png',fullPage:true});
+ const mobile=await browser.newPage({viewport:{width:768,height:1000}});mobile.on('pageerror',e=>errors.push(e.message));
+ await mobile.goto(base+'harness/web/m12.html?example=text');
+ await expect(mobile.locator('#status')).toContainText('Accepted classic package',{timeout:60000});
+ await expect(mobile.locator('.workbench-context h1')).toHaveText('Bound text & wrapping');
+ await expect(mobile.locator('#sources')).toBeHidden();
+ await mobile.getByRole('button',{name:'Toggle examples'}).click();
+ await expect(mobile.locator('.workbench-examples')).toBeVisible();
+ await mobile.getByRole('button',{name:'Toggle examples'}).click();
+ assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ await mobile.screenshot({path:'target/workbench/mobile.png',fullPage:true});
+ checks.push('Narrow layout retains example navigation and a usable full-width canvas without page overflow');
+ assert.deepEqual(errors,[]);await writeFile('target/workbench/verification.json',JSON.stringify({checks,errors},null,2));
+ console.log(checks.length+' coherent workbench browser checks passed');
+}finally{await browser.close();await server.close();}

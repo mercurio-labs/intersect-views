@@ -1,0 +1,31 @@
+rcore 1;
+package intersect.fmea.bindings version "1";
+import model "urn:intersect:fmea:1" as f;
+bind validate f.Element = unique_names;
+bind validate f.FailureMode = severity;
+bind validate f.FailureMode = occurrence;
+bind validate f.FailureMode = detection;
+bind validate f.Action = completed;
+fn unique_names(self:f.Element)->Sequence<Issue> = if contents::<f.Element>(self).exists(|child|contents::<f.Element>(self).filter(|other|child.name==other.name).size()>1) { [issue_at("error","fmea.names.unique","Names must be unique within an owner.","name")] } else { [] };
+fn severity(self:f.FailureMode)->Sequence<Issue> = if self.severity<1 || self.severity>10 { [issue_at("error","fmea.rating.severity","Severity must be from 1 to 10.","severity")] } else { [] };
+fn occurrence(self:f.FailureMode)->Sequence<Issue> = if self.occurrence<1 || self.occurrence>10 { [issue_at("error","fmea.rating.occurrence","Occurrence must be from 1 to 10.","occurrence")] } else { [] };
+fn detection(self:f.FailureMode)->Sequence<Issue> = if self.detection<1 || self.detection>10 { [issue_at("error","fmea.rating.detection","Detection must be from 1 to 10.","detection")] } else { [] };
+fn completed(self:f.Action)->Sequence<Issue> = if self.status=="done" && (self.owner=="" || self.evidence=="") { [issue_at("error","fmea.action.evidence","A completed action requires an owner and evidence.","evidence")] } else { [] };
+
+bind validate f.Item = item_function;
+fn item_function(self:f.Item)->Sequence<Issue> = if self.function=="" { [issue_at("error","fmea.item.function","Function must not be empty.","function")] } else { [] };
+
+bind validate f.FailureMode = failuremode_mode;
+fn failuremode_mode(self:f.FailureMode)->Sequence<Issue> = if self.mode=="" { [issue_at("error","fmea.failure.mode","Mode must not be empty.","mode")] } else { [] };
+
+bind validate f.FailureMode = failuremode_effect;
+fn failuremode_effect(self:f.FailureMode)->Sequence<Issue> = if self.effect=="" { [issue_at("error","fmea.failure.effect","Effect must not be empty.","effect")] } else { [] };
+
+bind validate f.FailureMode = failuremode_cause;
+fn failuremode_cause(self:f.FailureMode)->Sequence<Issue> = if self.cause=="" { [issue_at("error","fmea.failure.cause","Cause must not be empty.","cause")] } else { [] };
+
+bind validate f.FailureMode = failuremode_control;
+fn failuremode_control(self:f.FailureMode)->Sequence<Issue> = if self.control=="" { [issue_at("error","fmea.failure.control","Control must not be empty.","control")] } else { [] };
+
+bind validate f.Action = action_description;
+fn action_description(self:f.Action)->Sequence<Issue> = if self.description=="" { [issue_at("error","fmea.action.description","Description must not be empty.","description")] } else { [] };

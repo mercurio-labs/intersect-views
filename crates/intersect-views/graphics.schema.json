@@ -1,0 +1,1485 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/library",
+  "$defs": {
+    "value": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "numeric": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "width",
+                "height"
+              ]
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "parameter"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "op",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "add",
+                "subtract",
+                "multiply",
+                "divide",
+                "min",
+                "max"
+              ]
+            },
+            "left": {
+              "$ref": "#/$defs/numeric"
+            },
+            "right": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "op",
+            "left",
+            "right"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "slotWidth",
+                "slotHeight"
+              ]
+            },
+            "slot": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "op",
+            "slot"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "select"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            },
+            "ifTrue": {
+              "$ref": "#/$defs/numeric"
+            },
+            "ifFalse": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "op",
+            "condition",
+            "ifTrue",
+            "ifFalse"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "parameter"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "op",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "equal"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "value": {
+              "$ref": "#/$defs/value"
+            }
+          },
+          "required": [
+            "op",
+            "name",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "paint": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(none|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8})$"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "parameter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "string"
+            },
+            "default": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "bool"
+            },
+            "default": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "number"
+            },
+            "default": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "choice"
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 64
+            },
+            "default": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "values",
+            "default"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "title",
+                "subtitle",
+                "label",
+                "compartments",
+                "children",
+                "regions"
+              ]
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "text"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "instance": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/value"
+          },
+          "maxProperties": 32
+        },
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/source"
+          },
+          "maxProperties": 32
+        }
+      },
+      "required": [
+        "definition",
+        "parameters",
+        "slots"
+      ],
+      "additionalProperties": false
+    },
+    "anchor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "x": {
+          "$ref": "#/$defs/numeric"
+        },
+        "y": {
+          "$ref": "#/$defs/numeric"
+        },
+        "dx": {
+          "$ref": "#/$defs/numeric"
+        },
+        "dy": {
+          "$ref": "#/$defs/numeric"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "dx",
+        "dy"
+      ],
+      "additionalProperties": false
+    },
+    "valueExpression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "constant"
+            },
+            "value": {
+              "$ref": "#/$defs/value"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "parameter"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/numeric"
+        },
+        "y": {
+          "$ref": "#/$defs/numeric"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "pathCommand": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "move"
+            },
+            "x": {
+              "$ref": "#/$defs/numeric"
+            },
+            "y": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "kind",
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "line"
+            },
+            "x": {
+              "$ref": "#/$defs/numeric"
+            },
+            "y": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "kind",
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "quadratic"
+            },
+            "cx": {
+              "$ref": "#/$defs/numeric"
+            },
+            "cy": {
+              "$ref": "#/$defs/numeric"
+            },
+            "x": {
+              "$ref": "#/$defs/numeric"
+            },
+            "y": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "kind",
+            "cx",
+            "cy",
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "cubic"
+            },
+            "cx1": {
+              "$ref": "#/$defs/numeric"
+            },
+            "cy1": {
+              "$ref": "#/$defs/numeric"
+            },
+            "cx2": {
+              "$ref": "#/$defs/numeric"
+            },
+            "cy2": {
+              "$ref": "#/$defs/numeric"
+            },
+            "x": {
+              "$ref": "#/$defs/numeric"
+            },
+            "y": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "kind",
+            "cx1",
+            "cy1",
+            "cx2",
+            "cy2",
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "close"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "geometry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "rectangle"
+            },
+            "width": {
+              "$ref": "#/$defs/numeric"
+            },
+            "height": {
+              "$ref": "#/$defs/numeric"
+            },
+            "radius": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "width",
+            "height",
+            "radius"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ellipse"
+            },
+            "width": {
+              "$ref": "#/$defs/numeric"
+            },
+            "height": {
+              "$ref": "#/$defs/numeric"
+            }
+          },
+          "required": [
+            "kind",
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "polyline"
+            },
+            "width": {
+              "$ref": "#/$defs/numeric"
+            },
+            "height": {
+              "$ref": "#/$defs/numeric"
+            },
+            "points": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/point"
+              },
+              "maxItems": 2048
+            },
+            "closed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "width",
+            "height",
+            "points",
+            "closed"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "path"
+            },
+            "width": {
+              "$ref": "#/$defs/numeric"
+            },
+            "height": {
+              "$ref": "#/$defs/numeric"
+            },
+            "commands": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/pathCommand"
+              },
+              "maxItems": 2048
+            }
+          },
+          "required": [
+            "kind",
+            "width",
+            "height",
+            "commands"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "content": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "frame"
+            },
+            "padding": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "radius": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "fill": {
+              "$ref": "#/$defs/paint"
+            },
+            "stroke": {
+              "$ref": "#/$defs/paint"
+            },
+            "strokeWidth": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/part"
+              },
+              "maxItems": 256
+            },
+            "dash": {
+              "enum": [
+                "solid",
+                "dashed",
+                "dotted"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "padding",
+            "radius",
+            "fill",
+            "stroke",
+            "strokeWidth",
+            "children"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "stack"
+            },
+            "direction": {
+              "enum": [
+                "row",
+                "column"
+              ]
+            },
+            "align": {
+              "enum": [
+                "start",
+                "center",
+                "end"
+              ]
+            },
+            "gap": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/part"
+              },
+              "maxItems": 256
+            }
+          },
+          "required": [
+            "kind",
+            "direction",
+            "align",
+            "gap",
+            "children"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "overlay"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/part"
+              },
+              "maxItems": 256
+            }
+          },
+          "required": [
+            "kind",
+            "children"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "geometry"
+            },
+            "geometry": {
+              "$ref": "#/$defs/geometry"
+            },
+            "fill": {
+              "$ref": "#/$defs/paint"
+            },
+            "stroke": {
+              "$ref": "#/$defs/paint"
+            },
+            "strokeWidth": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "dash": {
+              "enum": [
+                "solid",
+                "dashed",
+                "dotted"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "geometry",
+            "fill",
+            "stroke",
+            "strokeWidth"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "text"
+            },
+            "slot": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "size": {
+              "type": "number",
+              "minimum": 6,
+              "maximum": 96
+            },
+            "weight": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 900
+            },
+            "italic": {
+              "type": "boolean"
+            },
+            "align": {
+              "enum": [
+                "start",
+                "center",
+                "end"
+              ]
+            },
+            "wrap": {
+              "type": "boolean"
+            },
+            "color": {
+              "$ref": "#/$defs/paint"
+            }
+          },
+          "required": [
+            "kind",
+            "slot",
+            "size",
+            "weight",
+            "italic",
+            "align",
+            "wrap",
+            "color"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "content"
+            },
+            "slot": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "kind",
+            "slot"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "use"
+            },
+            "definition": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "parameters": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/valueExpression"
+              },
+              "maxProperties": 32
+            },
+            "slots": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "maxProperties": 32
+            }
+          },
+          "required": [
+            "kind",
+            "definition",
+            "parameters",
+            "slots"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "transform"
+            },
+            "x": {
+              "$ref": "#/$defs/numeric"
+            },
+            "y": {
+              "$ref": "#/$defs/numeric"
+            },
+            "rotate": {
+              "$ref": "#/$defs/numeric"
+            },
+            "scaleX": {
+              "$ref": "#/$defs/numeric"
+            },
+            "scaleY": {
+              "$ref": "#/$defs/numeric"
+            },
+            "child": {
+              "$ref": "#/$defs/part"
+            }
+          },
+          "required": [
+            "kind",
+            "x",
+            "y",
+            "rotate",
+            "scaleX",
+            "scaleY",
+            "child"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "size": {
+      "type": "object",
+      "properties": {
+        "minimumWidth": {
+          "$ref": "#/$defs/numeric"
+        },
+        "preferredWidth": {
+          "$ref": "#/$defs/numeric"
+        },
+        "minimumHeight": {
+          "$ref": "#/$defs/numeric"
+        },
+        "preferredHeight": {
+          "$ref": "#/$defs/numeric"
+        }
+      },
+      "required": [
+        "minimumWidth",
+        "preferredWidth",
+        "minimumHeight",
+        "preferredHeight"
+      ],
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "when": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/condition"
+            }
+          ]
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/anchor"
+          },
+          "maxItems": 32
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        }
+      },
+      "required": [
+        "id",
+        "when",
+        "anchors",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "definition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "role": {
+          "enum": [
+            "node",
+            "port",
+            "marker"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/parameter"
+          },
+          "maxProperties": 32
+        },
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "text",
+              "compartments",
+              "children",
+              "regions"
+            ]
+          },
+          "maxProperties": 32
+        },
+        "root": {
+          "$ref": "#/$defs/part"
+        },
+        "connectionAnchor": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          ]
+        },
+        "size": {
+          "$ref": "#/$defs/size"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "role",
+        "parameters",
+        "slots",
+        "root",
+        "connectionAnchor"
+      ],
+      "additionalProperties": false
+    },
+    "library": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "maxItems": 64
+        },
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/definition"
+          },
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "id",
+        "imports",
+        "definitions"
+      ],
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "libraries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/library"
+          },
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "fingerprint",
+        "libraries"
+      ],
+      "additionalProperties": false
+    },
+    "textPart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 4096,
+          "pattern": "^[^\\r\\t]*$"
+        },
+        "binding": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "graph.schema.json#/$defs/binding"
+            }
+          ]
+        },
+        "editTool": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "binding",
+        "editTool"
+      ],
+      "additionalProperties": false
+    },
+    "textBlock": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "parts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/textPart"
+                },
+                "maxItems": 32
+              }
+            },
+            "required": [
+              "id",
+              "parts"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "runs"
+      ],
+      "additionalProperties": false
+    },
+    "slot": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "sourceText"
+          ],
+          "properties": {
+            "sourceText": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "labelRule": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/slot"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "subject": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "self"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "none"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "select"
+                          },
+                          "select": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 256
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "select"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "text": {
+                    "$ref": "#/$defs/slot"
+                  },
+                  "when": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "edit": {
+                    "type": "object",
+                    "properties": {
+                      "tool": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "command": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "accepts": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      }
+                    },
+                    "required": [
+                      "tool",
+                      "command",
+                      "accepts"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "subject",
+                  "text"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 32
+            }
+          },
+          "required": [
+            "parts"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "constant"
+                  },
+                  "value": {
+                    "$ref": "#/$defs/value"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "value"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "string"
+                  },
+                  "value": {
+                    "$ref": "#/$defs/slot"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "value"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "bool"
+                  },
+                  "function": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "required": [
+                  "kind",
+                  "function"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "maxProperties": 32
+        },
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/source"
+          },
+          "maxProperties": 32
+        },
+        "text": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "runs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    },
+                    "label": {
+                      "$ref": "#/$defs/labelRule"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 64
+              }
+            },
+            "required": [
+              "runs"
+            ],
+            "additionalProperties": false
+          },
+          "maxProperties": 32
+        }
+      },
+      "required": [
+        "definition",
+        "parameters",
+        "slots",
+        "text"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

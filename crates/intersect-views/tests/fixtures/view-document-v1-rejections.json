@@ -1,0 +1,32 @@
+[
+  {
+    "name": "unknown document version",
+    "pointer": "/schemaVersion",
+    "value": 2
+  },
+  {
+    "name": "empty key",
+    "pointer": "/key",
+    "value": ""
+  },
+  {
+    "name": "empty name",
+    "pointer": "/name",
+    "value": ""
+  },
+  {
+    "name": "empty rule set",
+    "pointer": "/ruleSet",
+    "value": ""
+  },
+  {
+    "name": "unknown document field",
+    "pointer": "/future",
+    "value": true
+  },
+  {
+    "name": "bad nested scope",
+    "pointer": "/scope/schemaVersion",
+    "value": 2
+  }
+]

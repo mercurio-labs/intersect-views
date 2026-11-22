@@ -1,0 +1,1003 @@
+{
+  "schemaVersion": 1,
+  "id": "example.sysml",
+  "imports": [],
+  "definitions": [
+    {
+      "id": "example.sysml/card",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fill": {
+          "kind": "string",
+          "default": "#fff0f5"
+        },
+        "ink": {
+          "kind": "string",
+          "default": "#375b43"
+        },
+        "showDoc": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text",
+        "subtitle": "text",
+        "doc": "text",
+        "compartments": "compartments"
+      },
+      "root": {
+        "id": "body",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "frame",
+          "padding": 18,
+          "radius": 8,
+          "fill": {
+            "parameter": "fill"
+          },
+          "stroke": {
+            "parameter": "ink"
+          },
+          "strokeWidth": 1.5,
+          "children": [
+            {
+              "id": "glyphs",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "stack",
+                "direction": "row",
+                "align": "start",
+                "gap": 10,
+                "children": [
+                  {
+                    "id": "show-packageTab",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/packageTab",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-foldedNote",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/foldedNote",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-initial",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/initial",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-final",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/final",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-forkJoin",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/forkJoin",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-hollowTriangle",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.sysml/hollowTriangle",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "stereotype",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "subtitle",
+                "size": 11,
+                "weight": 400,
+                "italic": false,
+                "align": "center",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "name",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "title",
+                "size": 16,
+                "weight": 700,
+                "italic": false,
+                "align": "center",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "documentation",
+              "when": {
+                "op": "parameter",
+                "name": "showDoc"
+              },
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "doc",
+                "size": 13,
+                "weight": 400,
+                "italic": false,
+                "align": "start",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "features",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "content",
+                "slot": "compartments"
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/structured",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fill": {
+          "kind": "string",
+          "default": "#fff0f5"
+        },
+        "ink": {
+          "kind": "string",
+          "default": "#375b43"
+        },
+        "showDoc": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text",
+        "subtitle": "text",
+        "doc": "text",
+        "compartments": "compartments"
+      },
+      "root": {
+        "id": "reuse",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "use",
+          "definition": "example.sysml/card",
+          "parameters": {
+            "fill": {
+              "kind": "parameter",
+              "name": "fill"
+            },
+            "ink": {
+              "kind": "parameter",
+              "name": "ink"
+            },
+            "showDoc": {
+              "kind": "parameter",
+              "name": "showDoc"
+            }
+          },
+          "slots": {
+            "title": "title",
+            "subtitle": "subtitle",
+            "doc": "doc",
+            "compartments": "compartments"
+          }
+        }
+      },
+      "connectionAnchor": null,
+      "size": {
+        "minimumWidth": 240,
+        "preferredWidth": 360,
+        "minimumHeight": 40,
+        "preferredHeight": {
+          "op": "max",
+          "left": 40,
+          "right": {
+            "op": "slotHeight",
+            "slot": "doc"
+          }
+        }
+      }
+    },
+    {
+      "id": "example.sysml/terminal",
+      "version": "1",
+      "role": "port",
+      "parameters": {
+        "angle": {
+          "kind": "number",
+          "default": 0
+        },
+        "facing": {
+          "kind": "choice",
+          "values": [
+            "WEST",
+            "EAST"
+          ],
+          "default": "EAST"
+        }
+      },
+      "slots": {
+        "label": "text"
+      },
+      "root": {
+        "id": "port",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "orientation",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": 0,
+                "y": 0,
+                "rotate": {
+                  "op": "parameter",
+                  "name": "angle"
+                },
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "direction",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "transform",
+                    "x": 0,
+                    "y": 0,
+                    "rotate": 0,
+                    "scaleX": {
+                      "op": "select",
+                      "condition": {
+                        "op": "equal",
+                        "name": "facing",
+                        "value": "EAST"
+                      },
+                      "ifTrue": 1,
+                      "ifFalse": -1
+                    },
+                    "scaleY": 1,
+                    "child": {
+                      "id": "glyph",
+                      "when": null,
+                      "anchors": [
+                        {
+                          "id": "tip",
+                          "x": 16,
+                          "y": 8,
+                          "dx": 1,
+                          "dy": 0
+                        }
+                      ],
+                      "content": {
+                        "kind": "overlay",
+                        "children": [
+                          {
+                            "id": "outline",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "rectangle",
+                                "width": 16,
+                                "height": 16,
+                                "radius": 2
+                              },
+                              "fill": "#ffffff",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.3
+                            }
+                          },
+                          {
+                            "id": "arrow",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "path",
+                                "width": 16,
+                                "height": 16,
+                                "commands": [
+                                  {
+                                    "kind": "move",
+                                    "x": 3,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "move",
+                                    "x": 8,
+                                    "y": 4
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 8,
+                                    "y": 12
+                                  }
+                                ]
+                              },
+                              "fill": "none",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.4
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "outsideLabel",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": {
+                  "op": "select",
+                  "condition": {
+                    "op": "equal",
+                    "name": "facing",
+                    "value": "EAST"
+                  },
+                  "ifTrue": 28,
+                  "ifFalse": {
+                    "op": "subtract",
+                    "left": -12,
+                    "right": {
+                      "op": "slotWidth",
+                      "slot": "label"
+                    }
+                  }
+                },
+                "y": -24,
+                "rotate": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "labelText",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "text",
+                    "slot": "label",
+                    "size": 12,
+                    "weight": 400,
+                    "italic": false,
+                    "align": "start",
+                    "wrap": false,
+                    "color": "#375b43"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": "tip"
+    },
+    {
+      "id": "example.sysml/diamond",
+      "version": "1",
+      "role": "marker",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "diamond",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "geometry",
+          "geometry": {
+            "kind": "path",
+            "width": 16,
+            "height": 16,
+            "commands": [
+              {
+                "kind": "move",
+                "x": 0,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 3
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 13
+              },
+              {
+                "kind": "close"
+              }
+            ]
+          },
+          "fill": "#536759",
+          "stroke": "#536759",
+          "strokeWidth": 1.4
+        }
+      },
+      "connectionAnchor": "attachment"
+    },
+    {
+      "id": "example.sysml/packageTab",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "packageTab",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "tab",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "path",
+                  "width": 64,
+                  "height": 40,
+                  "commands": [
+                    {
+                      "kind": "move",
+                      "x": 0,
+                      "y": 10
+                    },
+                    {
+                      "kind": "line",
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "kind": "line",
+                      "x": 28,
+                      "y": 0
+                    },
+                    {
+                      "kind": "line",
+                      "x": 34,
+                      "y": 10
+                    },
+                    {
+                      "kind": "line",
+                      "x": 64,
+                      "y": 10
+                    },
+                    {
+                      "kind": "line",
+                      "x": 64,
+                      "y": 40
+                    },
+                    {
+                      "kind": "line",
+                      "x": 0,
+                      "y": 40
+                    },
+                    {
+                      "kind": "close"
+                    }
+                  ]
+                },
+                "fill": "#e8e9fa",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "tabRule",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 64,
+                  "height": 40,
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 10
+                    },
+                    {
+                      "x": 34,
+                      "y": 10
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/foldedNote",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "foldedNote",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "note",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "path",
+                  "width": 64,
+                  "height": 40,
+                  "commands": [
+                    {
+                      "kind": "move",
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "kind": "line",
+                      "x": 49,
+                      "y": 0
+                    },
+                    {
+                      "kind": "line",
+                      "x": 64,
+                      "y": 15
+                    },
+                    {
+                      "kind": "line",
+                      "x": 64,
+                      "y": 40
+                    },
+                    {
+                      "kind": "line",
+                      "x": 0,
+                      "y": 40
+                    },
+                    {
+                      "kind": "close"
+                    }
+                  ]
+                },
+                "fill": "#fff4cc",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "fold",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 64,
+                  "height": 40,
+                  "points": [
+                    {
+                      "x": 49,
+                      "y": 0
+                    },
+                    {
+                      "x": 49,
+                      "y": 15
+                    },
+                    {
+                      "x": 64,
+                      "y": 15
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/initial",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "initial",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "initialBody",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "ellipse",
+                  "width": 18,
+                  "height": 18
+                },
+                "fill": "#263843",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/final",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "final",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "outer",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "ellipse",
+                  "width": 24,
+                  "height": 24
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "center",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": 5,
+                "y": 5,
+                "rotate": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "inner",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "geometry",
+                    "geometry": {
+                      "kind": "ellipse",
+                      "width": 14,
+                      "height": 14
+                    },
+                    "fill": "#263843",
+                    "stroke": "#334b5e",
+                    "strokeWidth": 1.5
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/forkJoin",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "forkJoin",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "bar",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "rectangle",
+                  "width": 52,
+                  "height": 7,
+                  "radius": 0
+                },
+                "fill": "#263843",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/hollowTriangle",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "hollowTriangle",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "triangle",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "path",
+                  "width": 16,
+                  "height": 16,
+                  "commands": [
+                    {
+                      "kind": "move",
+                      "x": 0,
+                      "y": 8
+                    },
+                    {
+                      "kind": "line",
+                      "x": 16,
+                      "y": 0
+                    },
+                    {
+                      "kind": "line",
+                      "x": 16,
+                      "y": 16
+                    },
+                    {
+                      "kind": "close"
+                    }
+                  ]
+                },
+                "fill": "#ffffff",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.sysml/hollowDiamondMarker",
+      "version": "1",
+      "role": "marker",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "diamond",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "geometry",
+          "geometry": {
+            "kind": "path",
+            "width": 16,
+            "height": 16,
+            "commands": [
+              {
+                "kind": "move",
+                "x": 0,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 3
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 13
+              },
+              {
+                "kind": "close"
+              }
+            ]
+          },
+          "fill": "#ffffff",
+          "stroke": "#536759",
+          "strokeWidth": 1.4
+        }
+      },
+      "connectionAnchor": "attachment"
+    },
+    {
+      "id": "example.sysml/triangleMarker",
+      "version": "1",
+      "role": "marker",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "triangle",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "geometry",
+          "geometry": {
+            "kind": "path",
+            "width": 16,
+            "height": 16,
+            "commands": [
+              {
+                "kind": "move",
+                "x": 0,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 0
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 16
+              },
+              {
+                "kind": "close"
+              }
+            ]
+          },
+          "fill": "#ffffff",
+          "stroke": "#334b5e",
+          "strokeWidth": 1.5
+        }
+      },
+      "connectionAnchor": "attachment"
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 8,
+  "id": "harness.regions-column",
+  "label": "Regions column",
+  "language": "urn:intersect:harness:1",
+  "form": "graph",
+  "layout": {
+    "strategy": "layered",
+    "direction": "RIGHT"
+  },
+  "symbols": [
+    {
+      "id": "box",
+      "match": "Box",
+      "emit": "node",
+      "notation": "box",
+      "title": {
+        "parts": [
+          {
+            "id": "name",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "boxTitle"
+          },
+          {
+            "id": "kind",
+            "subject": {
+              "kind": "select",
+              "select": "boxKindRef"
+            },
+            "text": "kindTitle"
+          }
+        ]
+      },
+      "subtitle": "boxKind",
+      "styleClass": "boxStyle",
+      "compartments": [
+        {
+          "label": "fields",
+          "rows": "boxFields",
+          "rowLabel": {
+            "parts": [
+              {
+                "id": "name",
+                "subject": {
+                  "kind": "self"
+                },
+                "text": "fieldLabel"
+              },
+              {
+                "id": "equals",
+                "subject": {
+                  "kind": "none"
+                },
+                "text": {
+                  "text": " = "
+                }
+              },
+              {
+                "id": "value",
+                "subject": {
+                  "kind": "self"
+                },
+                "text": "fieldBand",
+                "edit": {
+                  "tool": "field-value",
+                  "command": "harness.setFieldValue",
+                  "accepts": "canSetFieldValue"
+                }
+              }
+            ]
+          },
+          "id": "compartment-1"
+        }
+      ],
+      "ports": {
+        "select": "boxPins",
+        "rule": "pin"
+      },
+      "children": {
+        "select": "boxParts"
+      },
+      "expand": [
+        {
+          "id": "linked",
+          "label": "Linked boxes",
+          "select": "linkedBoxes"
+        }
+      ],
+      "create": [
+        {
+          "tool": "box",
+          "command": "harness.createBox",
+          "accepts": "canCreate"
+        },
+        {
+          "tool": "pin",
+          "command": "harness.createPin",
+          "accepts": "canCreate"
+        },
+        {
+          "tool": "group",
+          "command": "harness.createGroup",
+          "accepts": "canCreate"
+        }
+      ],
+      "regions": {
+        "id": "box-groups",
+        "select": "boxGroups",
+        "label": {
+          "parts": [
+            {
+              "id": "name",
+              "subject": {
+                "kind": "self"
+              },
+              "text": "groupLabel"
+            },
+            {
+              "id": "separator",
+              "subject": {
+                "kind": "none"
+              },
+              "text": {
+                "text": " \u2237 "
+              }
+            },
+            {
+              "id": "empty",
+              "subject": {
+                "kind": "self"
+              },
+              "text": {
+                "text": ""
+              }
+            }
+          ]
+        },
+        "children": {
+          "select": "groupParts"
+        },
+        "direction": "column"
+      }
+    },
+    {
+      "id": "pin",
+      "match": "Pin",
+      "emit": "port",
+      "label": "pinLabel",
+      "side": "pinSide",
+      "compartments": [],
+      "expand": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "link",
+      "kind": "element",
+      "per": "box",
+      "select": "boxLinks",
+      "notation": "link",
+      "label": {
+        "parts": [
+          {
+            "id": "name",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "linkLabel"
+          },
+          {
+            "id": "from",
+            "subject": {
+              "kind": "select",
+              "select": "sourceEnd"
+            },
+            "text": "endLabel"
+          },
+          {
+            "id": "to",
+            "subject": {
+              "kind": "select",
+              "select": "targetEnd"
+            },
+            "text": "endLabel"
+          }
+        ]
+      },
+      "sourcePath": "linkSourcePath",
+      "targetPath": "linkTargetPath",
+      "anchor": "owner",
+      "connect": {
+        "command": "harness.createLink",
+        "sourceAccepts": "canStartLink",
+        "targetAccepts": "canEndLink"
+      }
+    },
+    {
+      "id": "kind",
+      "kind": "reference",
+      "per": "box",
+      "targets": "boxKindRef",
+      "notation": "typing",
+      "label": {
+        "text": "kind"
+      },
+      "anchor": "root"
+    }
+  ],
+  "projection": {
+    "kind": "nested"
+  },
+  "routing": {
+    "algorithm": "orthogonal",
+    "clearance": 8,
+    "stubLength": 18,
+    "trunks": "none"
+  }
+}

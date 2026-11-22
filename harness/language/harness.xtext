@@ -1,0 +1,32 @@
+grammar org.intersect.Harness with org.eclipse.xtext.common.Terminals
+import "urn:intersect:harness:1" as h
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+Space returns h::Space:
+  'space' name=Name '{' (kinds+=Kind | boxes+=Box | traces+=Trace | lanes+=Lane | steps+=Step)* '}';
+Kind returns h::Kind:
+  'kind' name=Name '{' (groups+=Group | parts+=Box | pins+=Pin | fields+=Field | links+=Link)* '}';
+Box returns h::Box:
+  'box' name=Name (':' kind=[h::Kind|Name])? ('->' peer=[h::Box|Name])? '{'
+    (groups+=Group | parts+=Box | pins+=Pin | fields+=Field | links+=Link)* '}';
+Pin returns h::Pin:
+  'pin' name=Name ':' direction=Direction ';';
+Direction returns ecore::EString: 'in' | 'out';
+Field returns h::Field:
+  'field' name=Name '=' value=INT ';';
+Link returns h::Link:
+  'link' name=Name '{' 'from' source=End 'to' target=End '}';
+End returns h::End:
+  name=Name '(' ('group' group=[h::Group|Name])? ('part' part=[h::Box|Name])? ('pin' pin=[h::Pin|Name])? ')';
+
+Trace returns h::Trace:
+  'trace' name=Name 'from' source=[h::Box|Name] 'to' target=[h::Box|Name] ';';
+
+Group returns h::Group: 'group' name=Name '{' (parts+=Box)* '}';
+
+Lane returns h::Lane: 'lane' name=Name ';';
+Step returns h::Step: 'step' name=Name 'in' lane=[h::Lane|Name]
+  ('after' after+=[h::Step|Name] (',' after+=[h::Step|Name])*)?
+  ('end' end=[h::Step|Name])? ('across' across+=[h::Lane|Name] (',' across+=[h::Lane|Name])*)? ';';
+
+// M9's new keywords remain legal pre-existing declaration/reference names.
+Name returns ecore::EString: ID | 'lane' | 'step' | 'after' | 'end' | 'across';

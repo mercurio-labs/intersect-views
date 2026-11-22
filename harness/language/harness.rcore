@@ -1,0 +1,43 @@
+rcore 1;
+package intersect.harness version "1";
+metamodel "urn:intersect:harness:1" prefix h {
+  abstract class Element { attr name: String [1,1]; }
+  class Space extends Element {
+    ref kinds: Kind [0,*] containment;
+    ref boxes: Box [0,*] containment;
+    ref traces: Trace [0,*] containment;
+    ref lanes: Lane [0,*] containment;
+    ref steps: Step [0,*] containment;
+  }
+  class Kind extends Element {
+    ref groups: Group [0,*] containment;
+    ref parts: Box [0,*] containment;
+    ref pins: Pin [0,*] containment;
+    ref fields: Field [0,*] containment;
+    ref links: Link [0,*] containment;
+  }
+  class Box extends Element {
+    ref kind: Kind [0,1];
+    ref groups: Group [0,*] containment;
+    ref parts: Box [0,*] containment;
+    ref pins: Pin [0,*] containment;
+    ref fields: Field [0,*] containment;
+    ref links: Link [0,*] containment;
+    ref peer: Box [0,1];
+  }
+  class Lane extends Element {}
+  class Step extends Element { ref lane: Lane [1,1]; ref after: Step [0,*]; ref end: Step [0,1]; ref across: Lane [0,*]; }
+  class Group extends Element { ref parts: Box [0,*] containment; }
+  class Pin extends Element { attr direction: String [1,1]; }
+  class Field extends Element { attr value: Int32 [1,1]; }
+  class Link extends Element {
+    ref source: End [1,1] containment;
+    ref target: End [1,1] containment;
+  }
+  class Trace extends Element { ref source: Box [1,1]; ref target: Box [1,1]; }
+  class End extends Element {
+    ref group: Group [0,1];
+    ref part: Box [0,1];
+    ref pin: Pin [0,1];
+  }
+}

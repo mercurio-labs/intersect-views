@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "fmea.standard",
+  "shapes": {
+    "analysis": {
+      "shape": "rounded",
+      "fill": "#f3f6fa",
+      "stroke": "#45637a",
+      "radius": 8
+    },
+    "item": {
+      "shape": "rounded",
+      "fill": "#e5eef9",
+      "stroke": "#45637a",
+      "radius": 8
+    },
+    "failure": {
+      "shape": "rectangle",
+      "fill": "#fff5e8",
+      "stroke": "#45637a",
+      "radius": 8
+    },
+    "action": {
+      "shape": "rectangle",
+      "fill": "#e7f4ed",
+      "stroke": "#45637a",
+      "radius": 8
+    }
+  },
+  "styleClasses": {
+    "high-severity": {
+      "node": {
+        "stroke": "#a14b35"
+      }
+    }
+  }
+}

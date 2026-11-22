@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "key": "failures",
+  "name": "Failure worksheet",
+  "ruleSet": "fmea.failures",
+  "scope": {
+    "schemaVersion": 1,
+    "ops": []
+  }
+}

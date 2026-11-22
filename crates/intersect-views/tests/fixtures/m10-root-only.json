@@ -1,0 +1,8 @@
+[
+  {"name":"root-only true","value":true,"accepted":true},
+  {"name":"root-only false","value":false,"accepted":true},
+  {"name":"root-only null refused","value":null,"accepted":false},
+  {"name":"root-only numeric refused","value":1,"accepted":false},
+  {"name":"root-only text refused","value":"true","accepted":false},
+  {"name":"root-only object refused","value":{},"accepted":false}
+]

@@ -1,0 +1,4182 @@
+[
+  {
+    "name": "explicit routing policy",
+    "kind": "policy",
+    "value": {
+      "algorithm": "orthogonal",
+      "clearance": 8,
+      "stubLength": 18,
+      "trunks": "none"
+    },
+    "accepted": true
+  },
+  {
+    "name": "unsupported algorithm",
+    "kind": "policy",
+    "value": {
+      "algorithm": "straight",
+      "clearance": 8,
+      "stubLength": 18,
+      "trunks": "none"
+    },
+    "accepted": false
+  },
+  {
+    "name": "short terminal stub",
+    "kind": "policy",
+    "value": {
+      "algorithm": "orthogonal",
+      "clearance": 8,
+      "stubLength": 9,
+      "trunks": "none"
+    },
+    "accepted": false
+  },
+  {
+    "name": "unbounded clearance",
+    "kind": "policy",
+    "value": {
+      "algorithm": "orthogonal",
+      "clearance": 65,
+      "stubLength": 18,
+      "trunks": "none"
+    },
+    "accepted": false
+  },
+  {
+    "name": "unknown trunk policy",
+    "kind": "policy",
+    "value": {
+      "algorithm": "orthogonal",
+      "clearance": 8,
+      "stubLength": 18,
+      "trunks": "nets"
+    },
+    "accepted": false
+  },
+  {
+    "name": "manual frame local constraint",
+    "kind": "constraint",
+    "value": {
+      "frame": "route:root",
+      "waypoints": [
+        {
+          "x": 100,
+          "y": -20
+        }
+      ]
+    },
+    "accepted": true
+  },
+  {
+    "name": "empty frame",
+    "kind": "constraint",
+    "value": {
+      "frame": "",
+      "waypoints": [
+        {
+          "x": 100,
+          "y": -20
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "waypoint quota",
+    "kind": "constraint",
+    "value": {
+      "frame": "route:root",
+      "waypoints": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "waypoint extent",
+    "kind": "constraint",
+    "value": {
+      "frame": "route:root",
+      "waypoints": [
+        {
+          "x": 1000001,
+          "y": 0
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "unknown saved terminal",
+    "kind": "constraint",
+    "value": {
+      "frame": "route:root",
+      "waypoints": [
+        {
+          "x": 100,
+          "y": -20
+        }
+      ],
+      "source": "fake"
+    },
+    "accepted": false
+  },
+  {
+    "name": "owner label placement",
+    "kind": "placement",
+    "value": {
+      "kind": "owner",
+      "dx": 10,
+      "dy": -5
+    },
+    "accepted": true
+  },
+  {
+    "name": "route label placement",
+    "kind": "placement",
+    "value": {
+      "kind": "route",
+      "fraction": 0.4,
+      "tangentOffset": 2,
+      "normalOffset": -10
+    },
+    "accepted": true
+  },
+  {
+    "name": "invalid placement 12",
+    "kind": "placement",
+    "value": {
+      "kind": "route",
+      "fraction": 1.1,
+      "tangentOffset": 0,
+      "normalOffset": 0
+    },
+    "accepted": false
+  },
+  {
+    "name": "invalid placement 13",
+    "kind": "placement",
+    "value": {
+      "kind": "owner",
+      "dx": 0,
+      "dy": 0,
+      "fraction": 0
+    },
+    "accepted": false
+  },
+  {
+    "name": "invalid placement 14",
+    "kind": "placement",
+    "value": {
+      "kind": "owner",
+      "dx": -1000001,
+      "dy": 0
+    },
+    "accepted": false
+  },
+  {
+    "name": "saved v4 route and label maps",
+    "kind": "presentation",
+    "value": {
+      "schemaVersion": 4,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {
+            "edge:logical": {
+              "frame": "route:root",
+              "waypoints": [
+                {
+                  "x": 100,
+                  "y": -20
+                }
+              ]
+            }
+          },
+          "labelPlacements": {
+            "label:logical": {
+              "kind": "route",
+              "fraction": 0.5,
+              "tangentOffset": 0,
+              "normalOffset": 12
+            }
+          }
+        }
+      }
+    },
+    "accepted": true
+  },
+  {
+    "name": "missing routeConstraints",
+    "kind": "presentation",
+    "value": {
+      "schemaVersion": 4,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "labelPlacements": {
+            "label:logical": {
+              "kind": "route",
+              "fraction": 0.5,
+              "tangentOffset": 0,
+              "normalOffset": 12
+            }
+          }
+        }
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "missing labelPlacements",
+    "kind": "presentation",
+    "value": {
+      "schemaVersion": 4,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {
+            "edge:logical": {
+              "frame": "route:root",
+              "waypoints": [
+                {
+                  "x": 100,
+                  "y": -20
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "unmodified v3 requires migration",
+    "kind": "presentation",
+    "value": {
+      "schemaVersion": 3,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1"
+        }
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "collapsed endpoint exact source proxy",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": null
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": true
+  },
+  {
+    "name": "foreign proxy owner",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": null
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:right",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "duplicate visible proxy id",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": null
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      },
+      "endpointProxies": [
+        {
+          "id": "node:left",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "foreign endpoint context",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": null
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "branches require authored sibling policy",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": "branch:1"
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "declared branch group",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": "branch:1"
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "siblings"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": true
+  },
+  {
+    "name": "branch group requires common source",
+    "kind": "scene",
+    "value": {
+      "schemaVersion": 7,
+      "revision": 7,
+      "layout": {
+        "direction": "RIGHT",
+        "strategy": "layered"
+      },
+      "view": {
+        "key": "view:example",
+        "name": "Example",
+        "kind": "structure",
+        "binding": {
+          "key": "semantic:view",
+          "elementId": "snapshot:1",
+          "context": [],
+          "uri": "file:///example.model",
+          "range": {
+            "start": {
+              "line": 0,
+              "character": 0
+            },
+            "end": {
+              "line": 0,
+              "character": 5
+            }
+          },
+          "readOnly": false
+        },
+        "owners": [
+          {
+            "key": "semantic:owner",
+            "label": "Example owner"
+          }
+        ],
+        "details": [],
+        "problems": []
+      },
+      "nodes": [
+        {
+          "id": "node:left",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-1",
+                "text": "Left occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-2",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "left"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "left"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "compartments": [
+            {
+              "label": "Properties",
+              "rows": [
+                {
+                  "label": {
+                    "parts": [
+                      {
+                        "id": "symbol:fixture-part-4",
+                        "text": "label",
+                        "binding": {
+                          "key": "semantic:field",
+                          "elementId": "snapshot:3",
+                          "context": [
+                            "left"
+                          ],
+                          "uri": "file:///example.model",
+                          "range": {
+                            "start": {
+                              "line": 2,
+                              "character": 0
+                            },
+                            "end": {
+                              "line": 2,
+                              "character": 5
+                            }
+                          },
+                          "readOnly": false
+                        },
+                        "editTool": null
+                      }
+                    ]
+                  },
+                  "binding": {
+                    "key": "semantic:field",
+                    "elementId": "snapshot:3",
+                    "context": [
+                      "left"
+                    ],
+                    "uri": "file:///example.model",
+                    "range": {
+                      "start": {
+                        "line": 2,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "character": 5
+                      }
+                    },
+                    "readOnly": false
+                  },
+                  "id": "row:left:field"
+                }
+              ],
+              "id": "compartment:node:left:0"
+            }
+          ],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": true,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        },
+        {
+          "id": "node:right",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-5",
+                "text": "Right occurrence",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "subtitle": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-6",
+                "text": "Element",
+                "binding": {
+                  "key": "semantic:part",
+                  "elementId": "snapshot:2",
+                  "context": [
+                    "right"
+                  ],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 1,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": true
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "binding": {
+            "key": "semantic:part",
+            "elementId": "snapshot:2",
+            "context": [
+              "right"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": true
+          },
+          "compartments": [],
+          "children": [],
+          "ports": [],
+          "rule": "box",
+          "styleClass": "",
+          "expand": [
+            {
+              "id": "linked",
+              "label": "Linked boxes"
+            }
+          ],
+          "collapsed": false,
+          "regions": null,
+          "graphic": null,
+          "text": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge:1",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "hidden:endpoint",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": "branch:1"
+        },
+        {
+          "id": "edge:second",
+          "notation": "connection",
+          "label": {
+            "parts": [
+              {
+                "id": "symbol:fixture-part-8",
+                "text": "Link",
+                "binding": {
+                  "key": "semantic:link",
+                  "elementId": "snapshot:5",
+                  "context": [],
+                  "uri": "file:///example.model",
+                  "range": {
+                    "start": {
+                      "line": 4,
+                      "character": 0
+                    },
+                    "end": {
+                      "line": 4,
+                      "character": 5
+                    }
+                  },
+                  "readOnly": false
+                },
+                "editTool": null
+              }
+            ]
+          },
+          "source": "node:right",
+          "target": "node:right",
+          "binding": {
+            "key": "semantic:link",
+            "elementId": "snapshot:5",
+            "context": [],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 0
+              },
+              "end": {
+                "line": 4,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "rule": "link",
+          "styleClass": "",
+          "startMarker": null,
+          "endMarker": null,
+          "text": {},
+          "branchGroup": "branch:1"
+        }
+      ],
+      "palette": {
+        "schemaVersion": 1,
+        "id": "example.tools",
+        "label": "Example tools",
+        "groups": [
+          {
+            "id": "navigation",
+            "label": "Navigation",
+            "entries": [
+              {
+                "id": "select",
+                "label": "Select",
+                "icon": "pointer",
+                "gesture": "select",
+                "command": "presentation.select",
+                "parameters": {},
+                "inputs": []
+              }
+            ]
+          }
+        ]
+      },
+      "problems": [],
+      "form": "graph",
+      "ruleSet": "harness.structure",
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "siblings"
+      },
+      "endpointProxies": [
+        {
+          "id": "hidden:endpoint",
+          "displayOwner": "node:left",
+          "binding": {
+            "key": "hidden:key",
+            "elementId": "snapshot:hidden",
+            "context": [
+              "left",
+              "semantic:part"
+            ],
+            "uri": "file:///example.model",
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 1,
+                "character": 5
+              }
+            },
+            "readOnly": false
+          },
+          "label": {
+            "parts": []
+          }
+        }
+      ]
+    },
+    "accepted": false
+  },
+  {
+    "name": "bound stored source text block",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "self"
+                          },
+                          "text": {
+                            "sourceText": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": true
+  },
+  {
+    "name": "sourceText false",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "self"
+                          },
+                          "text": {
+                            "sourceText": false
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "mixed sourceText literal",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "self"
+                          },
+                          "text": {
+                            "sourceText": true,
+                            "text": "spoof"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "sourceText string",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "self"
+                          },
+                          "text": {
+                            "sourceText": "true"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "sourceText requires a stored subject",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": "boxTitle",
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "none"
+                          },
+                          "text": {
+                            "sourceText": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": false
+  },
+  {
+    "name": "stored source text cannot authorize an edit",
+    "kind": "rules",
+    "value": {
+      "schemaVersion": 8,
+      "id": "harness.symbols",
+      "label": "Graphical compositions",
+      "language": "urn:intersect:harness:1",
+      "form": "graph",
+      "layout": {
+        "strategy": "layered",
+        "direction": "RIGHT"
+      },
+      "symbols": [
+        {
+          "id": "box",
+          "emit": "node",
+          "notation": "box",
+          "title": {
+            "parts": [
+              {
+                "id": "role",
+                "subject": {
+                  "kind": "self"
+                },
+                "text": {
+                  "sourceText": true
+                },
+                "edit": {
+                  "tool": "rename",
+                  "command": "rename",
+                  "accepts": "allow"
+                }
+              }
+            ]
+          },
+          "subtitle": "boxKind",
+          "compartments": [
+            {
+              "id": "fields",
+              "label": "attributes",
+              "rows": "boxFields",
+              "rowLabel": "fieldLabel"
+            }
+          ],
+          "ports": {
+            "select": "boxPins",
+            "rule": "pin"
+          },
+          "graphic": {
+            "definition": "harness.symbols/structured",
+            "parameters": {
+              "showDoc": {
+                "kind": "bool",
+                "function": "boxHasFields"
+              }
+            },
+            "slots": {
+              "title": {
+                "kind": "title"
+              },
+              "subtitle": {
+                "kind": "subtitle"
+              },
+              "doc": {
+                "kind": "text",
+                "name": "documentation"
+              },
+              "compartments": {
+                "kind": "compartments"
+              }
+            },
+            "text": {
+              "documentation": {
+                "runs": [
+                  {
+                    "id": "doc",
+                    "label": {
+                      "parts": [
+                        {
+                          "id": "role",
+                          "subject": {
+                            "kind": "self"
+                          },
+                          "text": {
+                            "sourceText": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "match": "Box"
+        },
+        {
+          "id": "pin",
+          "emit": "port",
+          "label": "pinLabel",
+          "side": "pinSide",
+          "graphic": {
+            "definition": "harness.symbols/terminal",
+            "parameters": {
+              "facing": {
+                "kind": "string",
+                "value": "pinSide"
+              }
+            },
+            "slots": {
+              "label": {
+                "kind": "label"
+              }
+            },
+            "text": {}
+          },
+          "match": "Pin"
+        }
+      ],
+      "edges": [
+        {
+          "kind": "element",
+          "id": "wire",
+          "per": "box",
+          "select": "boxLinks",
+          "notation": "link",
+          "label": "linkLabel",
+          "sourcePath": "linkSourcePath",
+          "targetPath": "linkTargetPath",
+          "anchor": "owner",
+          "endMarker": {
+            "definition": "harness.symbols/diamond",
+            "parameters": {},
+            "slots": {},
+            "text": {}
+          }
+        }
+      ],
+      "projection": {
+        "kind": "nested"
+      },
+      "routing": {
+        "algorithm": "orthogonal",
+        "clearance": 8,
+        "stubLength": 18,
+        "trunks": "none"
+      }
+    },
+    "accepted": false
+  }
+]

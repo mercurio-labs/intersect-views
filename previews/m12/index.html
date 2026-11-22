@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Intersect · M12 symbol lab</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/harness/web/"><span class="brand-mark">i</span> intersect <span>VIEWS</span></a>
+      <nav><a href="/harness/web/">Current engine</a><a href="/languages/fmea/web/">FMEA harness</a><span class="tag">M12 · DESIGN PREVIEW</span></nav>
+    </header>
+    <main>
+      <div class="intro"><div><p class="eyebrow">CONFIGURABLE NOTATION</p><h1>One renderer. Your symbols.</h1><p class="lede">Explore reusable compositions, measured text and connected anchors.</p></div><div class="preview-note"><strong>Visual prototype</strong><span>Fixture data and a standalone browser interpreter. Native/WASM package loading and SysML model generation are pending.</span></div></div>
+      <div class="lab">
+        <aside class="controls">
+          <h2>Presentation</h2>
+          <label for="example">Example library</label><select id="example"><option value="sysml">SysML · vehicle</option><option value="electrical">Electrical · circuit</option><option value="fault">Fault analysis · events</option></select>
+          <label for="theme">Appearance</label><select id="theme"><option value="pastel">Semantic colors</option><option value="mono">Monochrome</option></select>
+          <div class="label-row"><label for="width">Symbol width</label><output id="width-value">340 px</output></div><input id="width" type="range" min="250" max="430" step="10" value="340" />
+          <div class="label-row"><label for="rotation">Terminal rotation</label><output id="rotation-value">0°</output></div><input id="rotation" type="range" min="0" max="270" step="90" value="0" />
+          <label class="check"><input id="documentation" type="checkbox" checked /> Show documentation</label>
+          <div class="button-row"><button id="save">Save layout</button><button id="reset-layout" class="quiet">Reset</button></div>
+          <p class="small" id="save-status">Layout settings save in this browser.</p>
+          <div class="divider"></div><h2>Inspect a part</h2><p class="small">Select a symbol or text run to see its fixture identity.</p>
+          <dl id="selection"><dt>Selection</dt><dd>No part selected</dd></dl>
+          <div class="legend"><span class="dot"></span> Same interpreter for every library</div>
+        </aside>
+        <section class="surface" aria-label="Symbol preview">
+          <div class="canvas-bar"><div><span class="live-dot"></span><strong id="scene-title">Vehicle structure & requirements</strong></div><span id="scene-count"></span></div>
+          <div id="canvas" tabindex="0" aria-label="Interactive diagram"></div>
+          <div class="canvas-footer"><span>Click a part to inspect · adjust width to reflow</span><span id="part-count"></span></div>
+        </section>
+      </div>
+      <section class="definitions">
+        <div class="definition-heading"><div><p class="eyebrow">AUTHORING EXPERIMENT</p><h2>Edit the composition</h2><p>Change the selected JSON definition and apply it to every use. Invalid definitions leave the accepted preview intact.</p></div><label>Definition<select id="definition" aria-label="Definition"></select></label></div>
+        <textarea id="definition-source" aria-label="Definition JSON" spellcheck="false"></textarea>
+        <div class="definition-actions"><div class="button-row"><button id="apply" class="primary">Apply definition</button><button id="reset-definition">Restore definition</button><button id="invalid" class="quiet">Try invalid definition</button></div><p id="status" role="status">Loading preview…</p></div>
+      </section>
+      <footer>Prototype vocabulary: frame · stack · repeat · text · path · ellipse · rectangle · use. This is an isolated review surface, not the M12 engine contract.</footer>
+    </main>
+    <script type="module" src="./main.mjs"></script>
+  </body>
+</html>

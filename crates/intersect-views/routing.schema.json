@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:intersect:views:routing",
+  "$defs": {
+    "policy": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "const": "orthogonal"
+        },
+        "clearance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "stubLength": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 128,
+          "description": "Runtime validators additionally require stubLength >= clearance + 2."
+        },
+        "trunks": {
+          "enum": [
+            "none",
+            "siblings"
+          ]
+        }
+      },
+      "required": [
+        "algorithm",
+        "clearance",
+        "stubLength",
+        "trunks"
+      ],
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "y": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "constraint": {
+      "type": "object",
+      "properties": {
+        "frame": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]+$",
+          "description": "A logical LCA occurrence ID or route:root; UTF-8 identity bound and current scene membership are checked by runtime validators."
+        },
+        "waypoints": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/point"
+          }
+        }
+      },
+      "required": [
+        "frame",
+        "waypoints"
+      ],
+      "additionalProperties": false
+    },
+    "labelPlacement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "owner"
+            },
+            "dx": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            },
+            "dy": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "dx",
+            "dy"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "route"
+            },
+            "fraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tangentOffset": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            },
+            "normalOffset": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "fraction",
+            "tangentOffset",
+            "normalOffset"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

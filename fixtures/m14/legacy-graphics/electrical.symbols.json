@@ -1,0 +1,800 @@
+{
+  "schemaVersion": 1,
+  "id": "example.electrical",
+  "imports": [],
+  "definitions": [
+    {
+      "id": "example.electrical/card",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fill": {
+          "kind": "string",
+          "default": "#edf4ff"
+        },
+        "ink": {
+          "kind": "string",
+          "default": "#375b43"
+        },
+        "showDoc": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text",
+        "subtitle": "text",
+        "doc": "text",
+        "compartments": "compartments"
+      },
+      "root": {
+        "id": "body",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "frame",
+          "padding": 18,
+          "radius": 8,
+          "fill": {
+            "parameter": "fill"
+          },
+          "stroke": {
+            "parameter": "ink"
+          },
+          "strokeWidth": 1.5,
+          "children": [
+            {
+              "id": "glyphs",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "stack",
+                "direction": "row",
+                "align": "start",
+                "gap": 10,
+                "children": [
+                  {
+                    "id": "show-resistor",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.electrical/resistor",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-transformer",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.electrical/transformer",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  },
+                  {
+                    "id": "show-terminalContactGlyph",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "use",
+                      "definition": "example.electrical/terminalContactGlyph",
+                      "parameters": {},
+                      "slots": {}
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "stereotype",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "subtitle",
+                "size": 11,
+                "weight": 400,
+                "italic": false,
+                "align": "center",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "name",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "title",
+                "size": 16,
+                "weight": 700,
+                "italic": false,
+                "align": "center",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "documentation",
+              "when": {
+                "op": "parameter",
+                "name": "showDoc"
+              },
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "doc",
+                "size": 13,
+                "weight": 400,
+                "italic": false,
+                "align": "start",
+                "wrap": true,
+                "color": {
+                  "parameter": "ink"
+                }
+              }
+            },
+            {
+              "id": "features",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "content",
+                "slot": "compartments"
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.electrical/structured",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fill": {
+          "kind": "string",
+          "default": "#edf4ff"
+        },
+        "ink": {
+          "kind": "string",
+          "default": "#375b43"
+        },
+        "showDoc": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text",
+        "subtitle": "text",
+        "doc": "text",
+        "compartments": "compartments"
+      },
+      "root": {
+        "id": "reuse",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "use",
+          "definition": "example.electrical/card",
+          "parameters": {
+            "fill": {
+              "kind": "parameter",
+              "name": "fill"
+            },
+            "ink": {
+              "kind": "parameter",
+              "name": "ink"
+            },
+            "showDoc": {
+              "kind": "parameter",
+              "name": "showDoc"
+            }
+          },
+          "slots": {
+            "title": "title",
+            "subtitle": "subtitle",
+            "doc": "doc",
+            "compartments": "compartments"
+          }
+        }
+      },
+      "connectionAnchor": null,
+      "size": {
+        "minimumWidth": 240,
+        "preferredWidth": 360,
+        "minimumHeight": 40,
+        "preferredHeight": {
+          "op": "max",
+          "left": 40,
+          "right": {
+            "op": "slotHeight",
+            "slot": "doc"
+          }
+        }
+      }
+    },
+    {
+      "id": "example.electrical/terminal",
+      "version": "1",
+      "role": "port",
+      "parameters": {
+        "angle": {
+          "kind": "number",
+          "default": 0
+        },
+        "facing": {
+          "kind": "choice",
+          "values": [
+            "WEST",
+            "EAST"
+          ],
+          "default": "EAST"
+        }
+      },
+      "slots": {
+        "label": "text"
+      },
+      "root": {
+        "id": "port",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "orientation",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": 0,
+                "y": 0,
+                "rotate": {
+                  "op": "parameter",
+                  "name": "angle"
+                },
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "direction",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "transform",
+                    "x": 0,
+                    "y": 0,
+                    "rotate": 0,
+                    "scaleX": {
+                      "op": "select",
+                      "condition": {
+                        "op": "equal",
+                        "name": "facing",
+                        "value": "EAST"
+                      },
+                      "ifTrue": 1,
+                      "ifFalse": -1
+                    },
+                    "scaleY": 1,
+                    "child": {
+                      "id": "glyph",
+                      "when": null,
+                      "anchors": [
+                        {
+                          "id": "tip",
+                          "x": 16,
+                          "y": 8,
+                          "dx": 1,
+                          "dy": 0
+                        }
+                      ],
+                      "content": {
+                        "kind": "overlay",
+                        "children": [
+                          {
+                            "id": "outline",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "rectangle",
+                                "width": 16,
+                                "height": 16,
+                                "radius": 2
+                              },
+                              "fill": "#ffffff",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.3
+                            }
+                          },
+                          {
+                            "id": "arrow",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "path",
+                                "width": 16,
+                                "height": 16,
+                                "commands": [
+                                  {
+                                    "kind": "move",
+                                    "x": 3,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "move",
+                                    "x": 8,
+                                    "y": 4
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 8,
+                                    "y": 12
+                                  }
+                                ]
+                              },
+                              "fill": "none",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.4
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "outsideLabel",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": {
+                  "op": "select",
+                  "condition": {
+                    "op": "equal",
+                    "name": "facing",
+                    "value": "EAST"
+                  },
+                  "ifTrue": 28,
+                  "ifFalse": {
+                    "op": "subtract",
+                    "left": -12,
+                    "right": {
+                      "op": "slotWidth",
+                      "slot": "label"
+                    }
+                  }
+                },
+                "y": -2,
+                "rotate": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "labelText",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "text",
+                    "slot": "label",
+                    "size": 12,
+                    "weight": 400,
+                    "italic": false,
+                    "align": "start",
+                    "wrap": false,
+                    "color": "#375b43"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": "tip"
+    },
+    {
+      "id": "example.electrical/diamond",
+      "version": "1",
+      "role": "marker",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "diamond",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "geometry",
+          "geometry": {
+            "kind": "path",
+            "width": 16,
+            "height": 16,
+            "commands": [
+              {
+                "kind": "move",
+                "x": 0,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 3
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 13
+              },
+              {
+                "kind": "close"
+              }
+            ]
+          },
+          "fill": "#536759",
+          "stroke": "#536759",
+          "strokeWidth": 1.4
+        }
+      },
+      "connectionAnchor": "attachment"
+    },
+    {
+      "id": "example.electrical/resistor",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "resistor",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "resistive",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 64,
+                  "height": 40,
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 20
+                    },
+                    {
+                      "x": 10,
+                      "y": 20
+                    },
+                    {
+                      "x": 15,
+                      "y": 10
+                    },
+                    {
+                      "x": 23,
+                      "y": 30
+                    },
+                    {
+                      "x": 31,
+                      "y": 10
+                    },
+                    {
+                      "x": 39,
+                      "y": 30
+                    },
+                    {
+                      "x": 47,
+                      "y": 10
+                    },
+                    {
+                      "x": 52,
+                      "y": 20
+                    },
+                    {
+                      "x": 64,
+                      "y": 20
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.electrical/transformer",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "transformer",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "coils",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "path",
+                  "width": 64,
+                  "height": 40,
+                  "commands": [
+                    {
+                      "kind": "move",
+                      "x": 0,
+                      "y": 3
+                    },
+                    {
+                      "kind": "line",
+                      "x": 16,
+                      "y": 3
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 3,
+                      "cx2": 32,
+                      "cy2": 14,
+                      "x": 16,
+                      "y": 14
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 14,
+                      "cx2": 32,
+                      "cy2": 25,
+                      "x": 16,
+                      "y": 25
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 25,
+                      "cx2": 32,
+                      "cy2": 37,
+                      "x": 16,
+                      "y": 37
+                    },
+                    {
+                      "kind": "line",
+                      "x": 0,
+                      "y": 37
+                    },
+                    {
+                      "kind": "move",
+                      "x": 64,
+                      "y": 3
+                    },
+                    {
+                      "kind": "line",
+                      "x": 48,
+                      "y": 3
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 3,
+                      "cx2": 32,
+                      "cy2": 14,
+                      "x": 48,
+                      "y": 14
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 14,
+                      "cx2": 32,
+                      "cy2": 25,
+                      "x": 48,
+                      "y": 25
+                    },
+                    {
+                      "kind": "cubic",
+                      "cx1": 32,
+                      "cy1": 25,
+                      "cx2": 32,
+                      "cy2": 37,
+                      "x": 48,
+                      "y": 37
+                    },
+                    {
+                      "kind": "line",
+                      "x": 64,
+                      "y": 37
+                    }
+                  ]
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "coreOne",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 64,
+                  "height": 40,
+                  "points": [
+                    {
+                      "x": 31,
+                      "y": 1
+                    },
+                    {
+                      "x": 31,
+                      "y": 39
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "coreTwo",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 64,
+                  "height": 40,
+                  "points": [
+                    {
+                      "x": 35,
+                      "y": 1
+                    },
+                    {
+                      "x": 35,
+                      "y": 39
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    },
+    {
+      "id": "example.electrical/terminalContactGlyph",
+      "version": "1",
+      "role": "node",
+      "parameters": {},
+      "slots": {},
+      "root": {
+        "id": "terminalContactGlyph",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "lead",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 32,
+                  "height": 20,
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 10
+                    },
+                    {
+                      "x": 22,
+                      "y": 10
+                    }
+                  ],
+                  "closed": false
+                },
+                "fill": "none",
+                "stroke": "#334b5e",
+                "strokeWidth": 1.5
+              }
+            },
+            {
+              "id": "contact",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": 22,
+                "y": 4,
+                "rotate": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "terminalContact",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "geometry",
+                    "geometry": {
+                      "kind": "ellipse",
+                      "width": 12,
+                      "height": 12
+                    },
+                    "fill": "#ffffff",
+                    "stroke": "#334b5e",
+                    "strokeWidth": 1.5
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": null
+    }
+  ]
+}

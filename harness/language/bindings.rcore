@@ -1,0 +1,78 @@
+rcore 1;
+package intersect.harness.bindings version "1";
+import model "urn:intersect:harness:1" as h;
+import package intersect.harness.navigation version "1" as nav;
+bind scope h.Box.kind = kinds;
+bind scope h.Box.peer = peers;
+bind scope h.End.group = groups;
+bind scope h.End.part = parts;
+bind scope h.End.pin = pins;
+bind validate h.Link = different_ends;
+bind validate h.End = has_target;
+bind validate h.End = pin_belongs;
+bind validate h.Element = unique_names;
+fn kinds(self:h.Box, name:String)->Sequence<h.Kind> =
+  ancestors::<h.Space>(self).flatMap(|space| space.kinds).filter(|kind| kind.name == name);
+fn peers(self:h.Box, name:String)->Sequence<h.Box> =
+  ancestors::<h.Space>(self).flatMap(|space| space.boxes).filter(|box| box.name == name);
+fn parts(self:h.End, name:String)->Sequence<h.Box> =
+  match self.group { Some(group) => Sequence(group.parts), None => nav.endOwners(self).flatMap(|owner| nav.ownerParts(owner)) }.filter(|part| part.name == name);
+fn pins(self:h.End, name:String)->Sequence<h.Pin> {
+  let preferred = match self.part {
+    Some(part) => nav.boxPins(part),
+    None => nav.endOwners(self).flatMap(|owner| nav.ownerPins(owner))
+  }.filter(|pin| pin.name == name);
+  // Context first; a unique visible fallback permits located legality issues.
+  if size(preferred) > 0 { preferred } else {
+    nav.endOwners(self).flatMap(|owner|
+      nav.ownerPins(owner).concat(nav.ownerParts(owner).flatMap(|part| nav.boxPins(part)))
+    ).filter(|pin| pin.name == name)
+  }
+}
+fn different_ends(self:h.Link)->Sequence<Issue> =
+  if self.source.group == self.target.group && self.source.part == self.target.part && self.source.pin == self.target.pin {
+    [issue_at("error", "harness.link.ends", "Link ends must differ.", "target")]
+  } else { [] };
+fn has_target(self:h.End)->Sequence<Issue> =
+  if match self.group { Some(group) => false, None => match self.part { None => match self.pin { None => true, Some(pin) => false }, Some(part) => false } } {
+    [issue_at("error", "harness.end.target", "An end must name a part or pin.", "part")]
+  } else { [] };
+fn pin_belongs(self:h.End)->Sequence<Issue> =
+  if match self.group { Some(group) => match self.part { None => true, Some(part) => false }, None => false } { [] } else { match self.pin {
+    None => [],
+    Some(pin) => if match self.part {
+      Some(part) => nav.boxPins(part).exists(|candidate| candidate == pin),
+      None => nav.endOwners(self).flatMap(|owner| nav.ownerPins(owner)).exists(|candidate| candidate == pin)
+    } { [] } else {
+      [issue_at("error", "harness.end.owner", "Pin must belong to its part or the link owner.", "pin")]
+    }
+  } } ;
+fn unique_names(self:h.Element)->Sequence<Issue> =
+  if contents::<h.Element>(self).exists(|child|
+    contents::<h.Element>(self).filter(|other| child.name == other.name &&
+      match child { _:h.Lane => match other { _:h.Lane => true, _ => false }, _:h.Step => match other { _:h.Step => true, _ => false }, _ => match other { _:h.Lane => false, _:h.Step => false, _ => true } }
+    ).size() > 1
+  ) {
+    [issue_at("error", "harness.names.unique", "Names must be unique within an owner.", "name")]
+  } else { [] };
+
+bind scope h.Trace.source = trace_boxes;
+bind scope h.Trace.target = trace_boxes;
+bind validate h.Trace = trace_ends;
+fn trace_boxes(self:h.Trace, name:String)->Sequence<h.Box> = ancestors::<h.Space>(self).flatMap(|space| space.boxes).filter(|box| box.name == name);
+fn trace_ends(self:h.Trace)->Sequence<Issue> = if self.source == self.target { [issue_at("error", "harness.trace.ends", "Trace ends must differ.", "target")] } else { [] };
+
+bind validate h.End = group_member;
+fn groups(self:h.End, name:String)->Sequence<h.Group> = nav.endOwners(self).flatMap(|owner| nav.ownerGroups(owner)).filter(|group| group.name == name);
+fn group_member(self:h.End)->Sequence<Issue> = match self.group { None => [], Some(group) => if match self.part { Some(part) => group.parts.exists(|candidate| candidate == part), None => false } { [] } else { [issue_at("error", "harness.end.group", "A group end must name a part in that Group.", "part")] } };
+
+bind scope h.Step.lane = step_lanes;
+bind scope h.Step.across = step_lanes;
+bind scope h.Step.after = step_steps;
+bind scope h.Step.end = step_steps;
+bind validate h.Step = lane_step;
+fn step_lanes(self:h.Step,name:String)->Sequence<h.Lane> = nav.lexicalLanes(self).filter(|l| l.name == name);
+fn step_steps(self:h.Step,name:String)->Sequence<h.Step> = nav.lexicalSteps(self).filter(|s| s.name == name);
+fn lane_step(self:h.Step)->Sequence<Issue> =
+  if self.after.contains(self) { [issue_at("error","harness.step.self","A Step cannot precede itself.","after")] }
+  else { if size(self.across.distinct()) != size(self.across) { [issue_at("error","harness.step.across","Across lanes must be distinct.","across")] } else { [] } };

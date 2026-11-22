@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 6,
+  "id": "harness.process",
+  "label": "Process",
+  "language": "urn:intersect:harness:1",
+  "form": "laneGraph",
+  "laneGraph": {
+    "container": {
+      "match": "Space",
+      "lanes": "spaceLanes",
+      "steps": "spaceSteps"
+    },
+    "lane": {
+      "id": "lane",
+      "label": {
+        "parts": [
+          {
+            "id": "prefix",
+            "subject": {
+              "kind": "none"
+            },
+            "text": {
+              "text": "Lane "
+            }
+          },
+          {
+            "id": "name",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "laneLabel"
+          }
+        ]
+      }
+    },
+    "step": {
+      "id": "step",
+      "label": "stepLabel",
+      "lane": "stepLane",
+      "after": "stepAfter",
+      "end": "stepEnd",
+      "across": "stepAcross"
+    },
+    "axis": {
+      "direction": "horizontal",
+      "semantic": true
+    },
+    "edit": {
+      "tool": "place-step",
+      "command": "harness.placeStep",
+      "accepts": "canPlaceStep"
+    }
+  }
+}

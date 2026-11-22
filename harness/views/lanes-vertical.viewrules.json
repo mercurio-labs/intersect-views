@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 8,
+  "id": "harness.lanes-vertical",
+  "label": "Lanes vertical",
+  "language": "urn:intersect:harness:1",
+  "form": "laneGraph",
+  "laneGraph": {
+    "container": {
+      "match": "Space",
+      "lanes": "spaceLanes",
+      "steps": "spaceSteps"
+    },
+    "lane": {
+      "id": "lane",
+      "label": {
+        "parts": [
+          {
+            "id": "prefix",
+            "subject": {
+              "kind": "none"
+            },
+            "text": {
+              "text": "Lane \u00b7 "
+            }
+          },
+          {
+            "id": "name",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "laneLabel"
+          }
+        ]
+      }
+    },
+    "step": {
+      "id": "step",
+      "label": {
+        "parts": [
+          {
+            "id": "prefix",
+            "subject": {
+              "kind": "none"
+            },
+            "text": {
+              "text": "\ud83d\ude80 "
+            }
+          },
+          {
+            "id": "name",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "stepLabel"
+          }
+        ]
+      },
+      "lane": "stepLane",
+      "after": "stepAfter",
+      "end": "stepEnd",
+      "across": "stepAcross"
+    },
+    "axis": {
+      "direction": "vertical",
+      "semantic": true
+    },
+    "edit": {
+      "tool": "place-step",
+      "command": "harness.placeStep",
+      "accepts": "canPlaceStep"
+    }
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

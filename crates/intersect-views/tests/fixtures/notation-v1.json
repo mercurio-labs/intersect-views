@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "harness.custom",
+  "shapes": {
+    "box": {
+      "shape": "rounded",
+      "fill": "#e8f0ff",
+      "stroke": "#3568b8",
+      "radius": 12
+    }
+  },
+  "edges": {
+    "link": {
+      "line": "dashed",
+      "stroke": "#64748b",
+      "startMarker": "none",
+      "endMarker": "arrow"
+    },
+    "typing": {
+      "line": "dotted",
+      "stroke": "#64748b",
+      "startMarker": "none",
+      "endMarker": "triangle"
+    }
+  },
+  "styleClasses": {
+    "critical": {
+      "node": {
+        "stroke": "#b34a34",
+        "fill": "#fff3e5"
+      }
+    }
+  },
+  "icons": {
+    "pointer": "↖"
+  }
+}

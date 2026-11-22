@@ -1,0 +1,7 @@
+space Invalid {
+  box Owner {
+    pin p : in;
+    box Child {}
+    link illegal { from s (part Child pin p) to t (pin p) }
+  }
+}

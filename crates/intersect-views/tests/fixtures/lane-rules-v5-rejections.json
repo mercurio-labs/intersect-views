@@ -1,0 +1,37 @@
+[
+  {
+    "name": "old rules v4",
+    "pointer": "/schemaVersion",
+    "value": 4
+  },
+  {
+    "name": "mixed graph fields",
+    "pointer": "/symbols",
+    "value": []
+  },
+  {
+    "name": "missing semantic axis",
+    "pointer": "/laneGraph/axis/semantic",
+    "value": false
+  },
+  {
+    "name": "null edit",
+    "pointer": "/laneGraph/edit",
+    "value": null
+  },
+  {
+    "name": "unknown selector field",
+    "pointer": "/laneGraph/step/future",
+    "value": "x"
+  },
+  {
+    "name": "empty selector",
+    "pointer": "/laneGraph/step/after",
+    "value": ""
+  },
+  {
+    "name": "duplicate lane/step rule ID",
+    "pointer": "/laneGraph/step/id",
+    "value": "lane"
+  }
+]

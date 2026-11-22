@@ -1,0 +1,3 @@
+space Invalid {
+  box Owner { field repeated = 1; field repeated = 2; }
+}

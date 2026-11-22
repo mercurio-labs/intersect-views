@@ -1,0 +1,36 @@
+{
+  "sourceRepository": "https://github.com/mercurio-labs/intersect-lang-kerml-pre-dev.git",
+  "sourceCommit": "94d650dab0a0e7e7d443c217efdcb13abfb74329",
+  "files": [
+    {
+      "path": "crates/intersect-kerml/src/frozen_load.rs",
+      "sha256": "ece65c05d5daa5c119b2387514378ea8f6c625f54ba9cb152e1a1fea9399861a"
+    },
+    {
+      "path": "crates/intersect-kerml-ide/src/lib.rs",
+      "sha256": "a8dc4cde7fb292c79c9a16d926dd65bbbf520f217bc789e598e831ceba3b3589"
+    },
+    {
+      "path": "crates/intersect-kerml-ide/src/views.rs",
+      "sha256": "ba965e5e4e70f3871625fc7fab398123487504792f853e54a3543076d4cb1f16"
+    }
+  ],
+  "port": "load_frozen, FrozenLoad/LoadDiagnostic/LoadPhase and issue helpers; read-only protocol/UTF-16 helpers; named class/name paths, key catalog and anonymous bindings; M6 isolated transaction and lexical member insertion from the listed host/views sources",
+  "adaptations": [
+    "generic language inputs and owned prepared definition",
+    "clean-only publication and optional inspect/source revision compatibility",
+    "preserve located ObjectIssue values for the harness without duplicate validation",
+    "finite parse limits and M0 public store revision initialization",
+    "M6 Commands adapter, structured Issue rejections and full-project exact buffer receipts",
+    "M6 rule-authorized predicate targets, anonymous occurrence aliases and one pending isolated candidate"
+  ],
+  "terminals": "Copied from harness/language/Terminals.xtext, retaining itemis EPL-2.0 notice",
+  "currentLoaderOwner": {
+    "package": "intersect-load",
+    "repository": "intersect-text",
+    "commit": "a4b66da578e655c83ef17d19ffaabcb37713de31",
+    "model": "ef2b43fdc0963270b2c729bca4a8078d3b107551",
+    "path": "crates/intersect-load/src/lib.rs",
+    "compatibility": "load module reexports; no duplicated parse/link/completion/validation orchestration"
+  }
+}

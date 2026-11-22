@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Intersect · View playground</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <strong>Intersect</strong><span class="tag">VIEW PLAYGROUND</span>
+      </div>
+      <nav>
+        <a href="/previews/m12/">M12 visual preview</a>
+        <a href="/harness/web/m12.html">M12 live WASM test</a>
+        <a href="/languages/fmea/web/">FMEA example</a>
+        <button id="undo-source">Undo source</button>
+        <button id="redo-source">Redo source</button>
+        <button id="load-lanes">Load Lanes example</button>
+        <button id="load-regions">Load Regions example</button
+        ><button id="load-grid">Load Trace example</button
+        ><button id="analyze">Analyze source</button
+        ><button id="save">Save project</button
+        ><button id="download">Export project</button
+        ><button id="reset">Reset example</button>
+      </nav>
+    </header>
+    <main>
+      <aside id="sources">
+        <div class="intro">
+          <h1>Explore the model</h1>
+          <p>
+            Edit the source, then analyze. Add boxes from the tree. Right click
+            a node to expand, collapse or hide it.
+          </p>
+        </div>
+        <div id="status" role="status">Loading the WASM host…</div>
+        <section>
+          <h2>Elements <span>Double click to add a seed</span></h2>
+          <div id="tree"></div>
+        </section>
+        <details open>
+          <summary>Model source · structure.harness</summary>
+          <textarea
+            id="model"
+            aria-label="Model source"
+            spellcheck="false"
+          ></textarea>
+        </details>
+        <details>
+          <summary>View document · structure.view.json</summary>
+          <textarea
+            id="view"
+            aria-label="View document"
+            spellcheck="false"
+          ></textarea>
+        </details>
+        <details>
+          <summary>Notation profile · harness.notation.json</summary>
+          <textarea
+            id="notation"
+            aria-label="Notation profile"
+            spellcheck="false"
+          ></textarea
+          ><button id="notation-apply">Apply notation</button>
+        </details>
+        <details>
+          <summary>Diagnostics</summary>
+          <pre id="diagnostics">No analysis yet.</pre>
+        </details>
+      </aside>
+      <section id="workspace">
+        <div class="explore-bar">
+          <span id="scope-count">Saved scope</span
+          ><button id="undo-scope">Undo exploration</button
+          ><button id="clear-scope">Clear scope</button
+          ><span class="help"
+            >Drag to arrange · scroll to zoom · double click to reveal
+            source</span
+          >
+        </div>
+        <div id="canvas"></div>
+      </section>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

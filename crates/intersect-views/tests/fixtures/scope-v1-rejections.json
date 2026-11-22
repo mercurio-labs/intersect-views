@@ -1,0 +1,52 @@
+[
+  {
+    "name": "unknown scope version",
+    "pointer": "/schemaVersion",
+    "value": 2
+  },
+  {
+    "name": "unknown op",
+    "pointer": "/ops/0/op",
+    "value": "execute"
+  },
+  {
+    "name": "empty element",
+    "pointer": "/ops/0/element",
+    "value": ""
+  },
+  {
+    "name": "unknown op field",
+    "pointer": "/ops/0/future",
+    "value": true
+  },
+  {
+    "name": "empty relation",
+    "pointer": "/ops/1/relation",
+    "value": ""
+  },
+  {
+    "name": "zero hops",
+    "pointer": "/ops/1/hops",
+    "value": 0
+  },
+  {
+    "name": "too many hops",
+    "pointer": "/ops/1/hops",
+    "value": 9
+  },
+  {
+    "name": "fractional hops",
+    "pointer": "/ops/1/hops",
+    "value": 1.5
+  },
+  {
+    "name": "empty context key",
+    "pointer": "/ops/3/context/0",
+    "value": ""
+  },
+  {
+    "name": "invalid context",
+    "pointer": "/ops/3/context",
+    "value": null
+  }
+]

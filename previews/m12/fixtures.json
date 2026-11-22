@@ -1,0 +1,96 @@
+{
+  "format": "m12-visual-prototype-1",
+  "definitions": {
+    "element": {
+      "kind": "frame", "id": "body", "fill": "@fill", "stroke": "@ink", "radius": 8, "padding": 18,
+      "children": [
+        { "kind": "text", "id": "stereotype", "text": "@stereotype", "color": "@ink", "size": 11, "align": "center", "italic": true },
+        { "kind": "text", "id": "name", "text": "@name", "binding": "@fixtureKey", "color": "@ink", "size": 15, "weight": 700, "align": "center" },
+        { "kind": "text", "id": "doc", "when": "@showDoc", "text": "@doc", "binding": "@docKey", "color": "@ink", "size": 13, "wrap": true },
+        { "kind": "repeat", "id": "compartments", "items": "@sections", "gap": 9,
+          "child": { "kind": "stack", "id": "section", "gap": 5, "children": [
+            { "kind": "line", "id": "divider", "color": "@ink" },
+            { "kind": "text", "id": "caption", "text": "@caption", "color": "@ink", "size": 10, "italic": true, "align": "center" },
+            { "kind": "repeat", "id": "rows", "items": "@rows", "gap": 4,
+              "child": { "kind": "text", "id": "value", "text": "@text", "binding": "@key", "color": "@ink", "size": 12, "wrap": true } }
+          ] }
+        }
+      ]
+    },
+    "note": {
+      "kind": "frame", "id": "note", "fill": "@fill", "stroke": "@ink", "radius": 0, "padding": 18, "cutCorner": 18,
+      "children": [
+        { "kind": "text", "id": "title", "text": "@name", "binding": "@fixtureKey", "weight": 700, "size": 14, "color": "@ink" },
+        { "kind": "line", "id": "divider", "color": "@ink" },
+        { "kind": "text", "id": "content", "text": "@doc", "binding": "@docKey", "color": "@ink", "size": 13 }
+      ]
+    },
+    "terminal": { "kind": "overlay", "id": "terminal", "children": [
+      { "kind": "rectangle", "id": "square", "width": 16, "height": 16, "fill": "#ffffff", "stroke": "#527663", "radius": 2 },
+      { "kind": "path", "id": "direction", "d": "M3 8 L12 8 M8 4 L12 8 L8 12", "width": 16, "height": 16, "stroke": "#527663", "fill": "none" }
+    ] },
+    "diamond": { "kind": "path", "id": "composition", "d": "M0 8 L8 3 L16 8 L8 13 Z", "width": 16, "height": 16, "fill": "#75877a", "stroke": "#75877a" },
+    "hollow": { "kind": "path", "id": "aggregation", "d": "M0 8 L8 3 L16 8 L8 13 Z", "width": 16, "height": 16, "fill": "#ffffff", "stroke": "#75877a" },
+    "resistor": { "kind": "path", "id": "resistor", "d": "M0 24 L16 24 L22 10 L32 38 L42 10 L52 38 L62 10 L72 24 L90 24", "width": 90, "height": 48, "stroke": "@ink", "strokeWidth": 2 },
+    "coils": { "kind": "path", "id": "coils", "d": "M0 0 L0 8 C28 8 28 20 0 20 C28 20 28 32 0 32 C28 32 28 44 0 44 L0 52 M40 0 L40 8 C12 8 12 20 40 20 C12 20 12 32 40 32 C12 32 12 44 40 44 L40 52 M18 0 L18 52 M22 0 L22 52", "width": 40, "height": 52, "stroke": "@ink", "strokeWidth": 1.7 },
+    "resistorCard": { "kind": "frame", "id": "component", "fill": "@fill", "stroke": "@ink", "padding": 24, "radius": 8, "children": [
+      { "kind": "text", "id": "name", "text": "@name", "binding": "@fixtureKey", "color": "@ink", "weight": 700, "align": "center" },
+      { "kind": "stack", "id": "symbol", "align": "center", "children": [{ "kind": "use", "id": "body", "definition": "resistor" }] },
+      { "kind": "text", "id": "value", "text": "@value", "binding": "@valueKey", "color": "@ink", "size": 12, "align": "center" },
+      { "kind": "text", "id": "doc", "when": "@showDoc", "text": "@doc", "binding": "@docKey", "color": "@ink", "size": 12 }
+    ] },
+    "transformerCard": { "kind": "frame", "id": "component", "fill": "@fill", "stroke": "@ink", "padding": 24, "radius": 8, "children": [
+      { "kind": "text", "id": "name", "text": "@name", "binding": "@fixtureKey", "color": "@ink", "weight": 700, "align": "center" },
+      { "kind": "stack", "id": "symbol", "align": "center", "children": [{ "kind": "use", "id": "body", "definition": "coils" }] },
+      { "kind": "text", "id": "value", "text": "@value", "binding": "@valueKey", "color": "@ink", "size": 12, "align": "center" },
+      { "kind": "text", "id": "doc", "when": "@showDoc", "text": "@doc", "binding": "@docKey", "color": "@ink", "size": 12 }
+    ] },
+    "gate": { "kind": "path", "id": "gate", "d": "M0 48 L0 24 C0 -8 64 -8 64 24 L64 48 Z", "width": 64, "height": 48, "fill": "#ffffff", "stroke": "@ink", "strokeWidth": 2 },
+    "gateCard": { "kind": "frame", "id": "event", "fill": "@fill", "stroke": "@ink", "padding": 22, "radius": 8, "children": [
+      { "kind": "text", "id": "name", "text": "@name", "binding": "@fixtureKey", "color": "@ink", "weight": 700, "align": "center" },
+      { "kind": "stack", "id": "symbol", "align": "center", "children": [{ "kind": "use", "id": "body", "definition": "gate" }] },
+      { "kind": "text", "id": "value", "text": "@value", "binding": "@valueKey", "color": "@ink", "size": 12, "align": "center" },
+      { "kind": "text", "id": "doc", "when": "@showDoc", "text": "@doc", "binding": "@docKey", "color": "@ink", "size": 12 }
+    ] }
+  },
+  "scenes": {
+    "sysml": {
+      "title": "Vehicle structure & requirements", "editDefinition": "element",
+      "rows": [
+        [
+          { "id": "vehicle", "definition": "element", "params": { "name": "Vehicle", "stereotype": "«part def»", "fixtureKey": "fixture:Vehicle", "docKey": "fixture:Vehicle/doc", "fill": "#eaf3e9", "ink": "#416c48", "doc": "A reusable vehicle definition with typed features, measured compartments and a directional boundary port.", "sections": [
+            { "id": "attributes", "caption": "attributes", "rows": [{ "id": "mass", "text": "dryMass :> ISQBase::mass", "key": "fixture:Vehicle/dryMass" }, { "id": "capacity", "text": "passengerCapacity : Integer = 5", "key": "fixture:Vehicle/passengerCapacity" }] },
+            { "id": "ports", "caption": "ports", "rows": [{ "id": "fuel", "text": "fuelPort : FuelPort", "key": "fixture:Vehicle/fuelPort" }] }
+          ] } },
+          { "id": "mass", "definition": "element", "params": { "name": "MassRequirement", "stereotype": "«requirement def»", "fixtureKey": "fixture:MassRequirement", "docKey": "fixture:MassRequirement/doc", "fill": "#f9eaf0", "ink": "#85516b", "doc": "The actual mass shall be less than or equal to the required mass. Resize this symbol to see the documentation reflow while its fixture binding remains the same.", "sections": [
+            { "id": "attributes", "caption": "attributes", "rows": [{ "id": "required", "text": "massRequired :> ISQBase::mass", "key": "fixture:MassRequirement/massRequired" }, { "id": "actual", "text": "massActual :> ISQBase::mass", "key": "fixture:MassRequirement/massActual" }] },
+            { "id": "constraints", "caption": "require constraints", "rows": [{ "id": "limit", "text": "{massActual <= massRequired}", "key": "fixture:MassRequirement/constraint" }] }
+          ] } }
+        ],
+        [
+          { "id": "vehicle_b", "definition": "element", "params": { "name": "vehicle_b : Vehicle", "stereotype": "«part»", "fixtureKey": "fixture:vehicle_b", "docKey": "fixture:vehicle_b/doc", "fill": "#eaf3e9", "ink": "#416c48", "doc": "Another use of the same element composition. Its visual parts keep an independent occurrence identity.", "sections": [
+            { "id": "values", "caption": "attributes", "rows": [{ "id": "mass", "text": ":>> dryMass = 1,850 [kg]", "key": "fixture:vehicle_b/dryMass" }, { "id": "fuel", "text": "fuelMassMax = 60 [kg]", "key": "fixture:vehicle_b/fuelMassMax" }] }
+          ] } },
+          { "id": "method", "definition": "note", "params": { "name": "VerificationMethod", "fixtureKey": "fixture:VerificationMethod", "docKey": "fixture:VerificationMethod/kind", "fill": "#fff1de", "ink": "#9a713b", "doc": "kind = (test, analyze)\n\nA folded-note composition. This preview displays the method; it does not execute a verification." } }
+        ]
+      ],
+      "edges": [{ "id": "satisfy", "source": "vehicle", "target": "mass", "label": "subject", "marker": "hollow" }]
+    },
+    "electrical": {
+      "title": "Electrical symbol compositions", "editDefinition": "resistor",
+      "rows": [[
+        { "id": "R1", "definition": "resistorCard", "params": { "name": "R1 · current limiting", "fixtureKey": "fixture:R1", "value": "220 Ω · ±5%", "valueKey": "fixture:R1/resistance", "docKey": "fixture:R1/doc", "fill": "#e9f1f8", "ink": "#4a6c87", "doc": "A path definition reused inside a component frame. Rotate the boundary terminal and watch its wire follow." } },
+        { "id": "T1", "definition": "transformerCard", "params": { "name": "T1 · isolation transformer", "fixtureKey": "fixture:T1", "value": "Turns ratio 10 : 1", "valueKey": "fixture:T1/ratio", "docKey": "fixture:T1/doc", "fill": "#e9f1f8", "ink": "#4a6c87", "doc": "Curves and lines compose the coil body. Electrical connectivity here is illustrative fixture data." } }
+      ]],
+      "edges": [{ "id": "wire", "source": "R1", "target": "T1", "label": "fixture wire", "marker": "hollow" }]
+    },
+    "fault": {
+      "title": "Fault event & gate compositions", "editDefinition": "gate",
+      "rows": [[
+        { "id": "failure", "definition": "element", "params": { "name": "Loss of propulsion", "stereotype": "«fault event»", "fixtureKey": "fixture:lossOfPropulsion", "docKey": "fixture:lossOfPropulsion/doc", "fill": "#f8ede6", "ink": "#92654b", "doc": "An event reuses the same compartment composition as the vehicle and requirement examples.", "sections": [{ "id": "ranking", "caption": "fixture values", "rows": [{ "id": "severity", "text": "severity = 7", "key": "fixture:lossOfPropulsion/severity" }, { "id": "occurrence", "text": "occurrence = 3", "key": "fixture:lossOfPropulsion/occurrence" }, { "id": "detection", "text": "detection = 4", "key": "fixture:lossOfPropulsion/detection" }] }] } },
+        { "id": "gate", "definition": "gateCard", "params": { "name": "AND · dependent conditions", "fixtureKey": "fixture:gate", "value": "All input conditions are required", "valueKey": "fixture:gate/operator", "docKey": "fixture:gate/doc", "fill": "#f0ecf8", "ink": "#786392", "doc": "A gate body expressed as a reusable curved path. No probability calculation or fault execution is performed." } }
+      ]],
+      "edges": [{ "id": "dependency", "source": "failure", "target": "gate", "label": "fixture relationship", "marker": "diamond" }]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "path": "harness/views/symbols/classic.symbols.json",
+    "before": "5b7202e5815fd2f179041a74d4220d3af2fdd51d89865c18fb5ff78d28b3fd4e",
+    "after": "1204feaa59d27de710aecaafd07227bad7a43dc8be0a8a2d4c008ca6281ac20c",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  },
+  {
+    "path": "harness/views/symbols/containers.symbols.json",
+    "before": "3daf6c7c0eca847709e3eca56947bd4897e13f830f94aee6aba33a35c988fdac",
+    "after": "aa757170f945e0d40ca50b38b6bf428789ef2bf6127089609f7ac551a6c40812",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  },
+  {
+    "path": "harness/views/symbols/electrical.symbols.json",
+    "before": "08901d1adba89f1fa31a835b92948cc383672f4cef0e04adee52ac12912e8f7b",
+    "after": "e995715150cbe9511117e6b28815ae22b83e08fcd9705884bec7418ff40fb4a9",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  },
+  {
+    "path": "harness/views/symbols/fault.symbols.json",
+    "before": "738936e19e8ab343c02c465cd9a19e18a55297fc25af8fb05221d339ddf04d2c",
+    "after": "6258e49d8f607946960a542beaf4b7b88286a7bc36375a1d013a9890bdae308b",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  },
+  {
+    "path": "harness/views/symbols/rotated.symbols.json",
+    "before": "11b97598654a7e4c1d8ef75762dbb9e8312e6a11c8bafb45e728292f3aeecf1d",
+    "after": "93255f427a42bc49c949d4e7df7f927538407cc01ddb7bbd6b507c6a63e42926",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  },
+  {
+    "path": "harness/views/symbols/sysml.symbols.json",
+    "before": "f74567ac1935aaa8cc7ce2a9acb43eedb591b41d1ccdaf2d035bb4a668a525ae",
+    "after": "7123dd7e888dc3664a4f75ffc1a7d2a8180e6d50371c2f7ea9e600bd0455018a",
+    "change": "Outside port label y=-24 reserves the bounded terminal lead channel; glyph/normal unchanged."
+  }
+]

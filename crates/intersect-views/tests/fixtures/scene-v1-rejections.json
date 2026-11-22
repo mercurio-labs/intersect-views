@@ -1,0 +1,17 @@
+[
+  {"name":"unknown scene version","pointer":"/schemaVersion","value":2},
+  {"name":"unknown field","pointer":"/futureModel","value":true},
+  {"name":"duplicate occurrence identity","pointer":"/nodes/1/id","value":"node:left"},
+  {"name":"duplicate port identity","pointer":"/nodes/1/ports/0/id","value":"port:left"},
+  {"name":"unbound edge endpoint","pointer":"/edges/0/target","value":"missing"},
+  {"name":"unknown layout direction","pointer":"/layout/direction","value":"AROUND"},
+  {"name":"unknown port side","pointer":"/nodes/0/ports/0/side","value":"MIDDLE"},
+  {"name":"unsafe JSON revision","pointer":"/revision","value":9007199254740992},
+  {"name":"reversed source range","pointer":"/nodes/0/binding/range/start/line","value":10},
+  {"name":"negative source coordinate","pointer":"/nodes/0/binding/range/start/character","value":-1},
+  {"name":"unknown binding field","pointer":"/nodes/0/binding/futureIdentity","value":true},
+  {"name":"unknown palette version","pointer":"/palette/schemaVersion","value":2},
+  {"name":"duplicate palette identity","pointer":"/palette/groups/0/entries/0/id","value":"navigation"},
+  {"name":"unsupported gesture","pointer":"/palette/groups/0/entries/0/gesture","value":"execute-script"},
+  {"name":"empty source identity","pointer":"/edges/0/binding/uri","value":""}
+]

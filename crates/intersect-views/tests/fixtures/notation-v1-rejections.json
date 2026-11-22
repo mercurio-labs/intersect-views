@@ -1,0 +1,67 @@
+[
+  {
+    "name": "unknown root field",
+    "pointer": "/code",
+    "value": "alert(1)"
+  },
+  {
+    "name": "unknown shape",
+    "pointer": "/shapes/box/shape",
+    "value": "script"
+  },
+  {
+    "name": "color url",
+    "pointer": "/shapes/box/fill",
+    "value": "url(https://example.com)"
+  },
+  {
+    "name": "negative radius",
+    "pointer": "/shapes/box/radius",
+    "value": -1
+  },
+  {
+    "name": "huge radius",
+    "pointer": "/shapes/box/radius",
+    "value": 101
+  },
+  {
+    "name": "unknown line",
+    "pointer": "/edges/link/line",
+    "value": "wavy"
+  },
+  {
+    "name": "unknown marker",
+    "pointer": "/edges/link/endMarker",
+    "value": "external"
+  },
+  {
+    "name": "null map",
+    "pointer": "/icons",
+    "value": null
+  },
+  {
+    "name": "empty icon",
+    "pointer": "/icons/pointer",
+    "value": ""
+  },
+  {
+    "name": "long icon",
+    "pointer": "/icons/pointer",
+    "value": "aaaaaaaaaaaaaaaaa"
+  },
+  {
+    "name": "unknown override",
+    "pointer": "/styleClasses/critical/executable",
+    "value": true
+  },
+  {
+    "name": "wrong override color",
+    "pointer": "/styleClasses/critical/node/fill",
+    "value": 2
+  },
+  {
+    "name": "wrong version",
+    "pointer": "/schemaVersion",
+    "value": 2
+  }
+]

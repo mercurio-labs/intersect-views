@@ -1,0 +1,20 @@
+[package]
+autotests = false
+name = "intersect-views"
+description = "Language-neutral visualization and source-command wire contracts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+milestone-tests = []
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[[test]]
+name = "all"
+path = "tests/all.rs"

@@ -1,0 +1,6 @@
+space Invalid {
+  box Owner {
+    pin p : in;
+    link same { from s (pin p) to t (pin p) }
+  }
+}

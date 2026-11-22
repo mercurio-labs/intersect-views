@@ -1,0 +1,10 @@
+space Symbols {
+  kind Shared {
+    pin input : in;
+    pin output : out;
+    field threshold = 9;
+    link inheritedWire { from s (pin output) to t (pin input) }
+  }
+  box Alpha : Shared {}
+  box Beta : Shared {}
+}

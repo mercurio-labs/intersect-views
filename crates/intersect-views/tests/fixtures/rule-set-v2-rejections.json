@@ -1,0 +1,153 @@
+[
+  {
+    "name": "unknown rule version",
+    "pointer": "/schemaVersion",
+    "value": 99
+  },
+  {
+    "name": "unknown rule field",
+    "pointer": "/future",
+    "value": true
+  },
+  {
+    "name": "unsupported rule form",
+    "pointer": "/form",
+    "value": "grid"
+  },
+  {
+    "name": "unsupported layout strategy",
+    "pointer": "/layout/strategy",
+    "value": "force"
+  },
+  {
+    "name": "unsupported direction",
+    "pointer": "/layout/direction",
+    "value": "AROUND"
+  },
+  {
+    "name": "empty rule identity",
+    "pointer": "/id",
+    "value": ""
+  },
+  {
+    "name": "duplicate symbol ID",
+    "pointer": "/symbols/1/id",
+    "value": "box"
+  },
+  {
+    "name": "duplicate match class",
+    "pointer": "/symbols/1/match",
+    "value": "Box"
+  },
+  {
+    "name": "unsupported emission",
+    "pointer": "/symbols/0/emit",
+    "value": "row"
+  },
+  {
+    "name": "empty function",
+    "pointer": "/symbols/0/title",
+    "value": ""
+  },
+  {
+    "name": "unknown label object field",
+    "pointer": "/edges/1/label/future",
+    "value": true
+  },
+  {
+    "name": "bad constant type",
+    "pointer": "/edges/1/label/text",
+    "value": true
+  },
+  {
+    "name": "unknown port rule",
+    "pointer": "/symbols/0/ports/rule",
+    "value": "missing"
+  },
+  {
+    "name": "unknown child field",
+    "pointer": "/symbols/0/children/future",
+    "value": true
+  },
+  {
+    "name": "unknown compartment field",
+    "pointer": "/symbols/0/compartments/0/future",
+    "value": true
+  },
+  {
+    "name": "unknown expand field",
+    "pointer": "/symbols/0/expand/0/future",
+    "value": true
+  },
+  {
+    "name": "null optional slot",
+    "pointer": "/symbols/0/title",
+    "value": null
+  },
+  {
+    "name": "null optional notation",
+    "pointer": "/symbols/0/notation",
+    "value": null
+  },
+  {
+    "name": "duplicate edge ID",
+    "pointer": "/edges/0/id",
+    "value": "box"
+  },
+  {
+    "name": "unknown edge owner",
+    "pointer": "/edges/0/per",
+    "value": "missing"
+  },
+  {
+    "name": "invalid anchor",
+    "pointer": "/edges/0/anchor",
+    "value": "scene"
+  },
+  {
+    "name": "unsupported edge kind",
+    "pointer": "/edges/0/kind",
+    "value": "script"
+  },
+  {
+    "name": "wrong edge-kind field",
+    "pointer": "/edges/1/select",
+    "value": "boxLinks"
+  },
+  {
+    "name": "empty creation predicate",
+    "pointer": "/symbols/0/create/0/accepts",
+    "value": ""
+  },
+  {
+    "name": "unknown create field",
+    "pointer": "/symbols/0/create/0/code",
+    "value": "execute()"
+  },
+  {
+    "name": "null connect",
+    "pointer": "/edges/0/connect",
+    "value": null
+  },
+  {
+    "name": "empty endpoint predicate",
+    "pointer": "/edges/0/connect/sourceAccepts",
+    "value": ""
+  },
+  {
+    "name": "unknown connect field",
+    "pointer": "/edges/0/connect/targetClass",
+    "value": "Pin"
+  },
+  {
+    "name": "creation on port rule",
+    "pointer": "/symbols/1/create",
+    "value": [
+      {
+        "tool": "pin",
+        "command": "harness.createPin",
+        "accepts": "accept"
+      }
+    ]
+  }
+]

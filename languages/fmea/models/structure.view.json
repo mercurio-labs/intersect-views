@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "key": "structure",
+  "name": "Failure analysis",
+  "ruleSet": "fmea.structure",
+  "scope": {
+    "schemaVersion": 1,
+    "ops": []
+  }
+}

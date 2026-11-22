@@ -1,0 +1,89 @@
+{
+  "status": "non-overwriting current fixture copies; original bytes preserved",
+  "files": [
+    {
+      "original": "crates/intersect-views/tests/fixtures/graph-m12.json",
+      "originalSha256": "674b554b8ddcfc1636378b26e6d7da7390ddd63ef0617dd91873e10bdd28ea9f",
+      "candidate": "crates/intersect-views/tests/fixtures/graph-m12-m14.json",
+      "candidateSha256": "c7119d4b5d8a1f41e6e734700afc154f47ee73aafcc591794c15c71f56703909"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/grid-v6-accepted.json",
+      "originalSha256": "f0db8ea557b073eaa5303d122fc959d68aa5048e1a5365b8ec63c15a297d2d25",
+      "candidate": "crates/intersect-views/tests/fixtures/grid-v6-accepted-m14.json",
+      "candidateSha256": "af6bd17337aee1ef3c52ac338c79e5c0fdd7a8ad1833682699cf3a223fcba566"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/grid-v6-rejected.json",
+      "originalSha256": "1677ddfc3ad12d371c8a762bf7c475c6053018493996a0580003bac9e3d32f34",
+      "candidate": "crates/intersect-views/tests/fixtures/grid-v6-rejected-m14.json",
+      "candidateSha256": "7a678b5a29390d2d6e3929f4f9b02aa003b95a969fb307e53111b58f09a23dc4"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/grid-v7-accepted.json",
+      "originalSha256": "34ef6e6472fa2508f431665c451ae32bd27b15203dec8d47ac0526e6f5556d51",
+      "candidate": "crates/intersect-views/tests/fixtures/grid-v7-accepted-m14.json",
+      "candidateSha256": "02ddd3fc3049cff71666f945932dde581bea7d1a9ee9bc1e44cde89c3e130890"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/grid-v7-rejected.json",
+      "originalSha256": "4927e4832a66d8478b4663a45592f3358750cc2ffdce22db9fe7a86ae6f0ddd8",
+      "candidate": "crates/intersect-views/tests/fixtures/grid-v7-rejected-m14.json",
+      "candidateSha256": "ce36a674f6dbf85860bc65236526b4a514bac129ce7a5c2cd19483359736498f"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/lane-scene-v6.json",
+      "originalSha256": "46da08a59442dfcc368cd53538c3c2f7640776039e2ad60e6bb1b20fc5443ff3",
+      "candidate": "crates/intersect-views/tests/fixtures/lane-scene-v6-m14.json",
+      "candidateSha256": "babf35dfac20da781187c65b74125d46cd0f0a9f590f47ca1d6f2a41e293ff11"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/rendering-v1.json",
+      "originalSha256": "8824aef557bcaac6cadf4c5e388450595f1f4d63825672834289557d61c25cb2",
+      "candidate": "crates/intersect-views/tests/fixtures/rendering-v1-m14.json",
+      "candidateSha256": "26d4610750abfd55c545c540bb940f894657b74ec829aef7a4744deb01bb04df"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/scene-harness-v6.json",
+      "originalSha256": "05ed4b61db15670e86785e2b0121998cf1b176cebcf6135556c3cf9e7ee0d7c0",
+      "candidate": "crates/intersect-views/tests/fixtures/scene-harness-v6-m14.json",
+      "candidateSha256": "b715051289d3ac238fac02e6f2cea3ae908c1eaf9d3ba25e5feb9f40ab900c47"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/scene-v6.json",
+      "originalSha256": "6ab234f9d3fc36786f76dc3924dfc710af5056343bbdcad7f3782f6934931b9c",
+      "candidate": "crates/intersect-views/tests/fixtures/scene-v6-m14.json",
+      "candidateSha256": "bafa129f55ae53647601121d6d33592f3c8167b3ab5ea95fddf47a6de653dad8"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/rule-set-v7.json",
+      "originalSha256": "4102e10769ebf783df9d249185c26f3ecf29f88a18ac6015ccfb52a425efa5e1",
+      "candidate": "crates/intersect-views/tests/fixtures/rule-set-v7-m14.json",
+      "candidateSha256": "b6ebbef0c11089bdc6aab533f490c4527bb3a4fe9fc7ac929cabd57fdebed992"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/lane-rules-v7.json",
+      "originalSha256": "5965a2352fedb1791c544b1b1ac656740e2cc4e22ea277ce52cd2cf97454863e",
+      "candidate": "crates/intersect-views/tests/fixtures/lane-rules-v7-m14.json",
+      "candidateSha256": "639260f6d88c071519a04d799777d651a05891e466da09481632f684967bcf90"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/presentation-v3.json",
+      "originalSha256": "a8c15d9c9a8da369ca46080fc4995b87e71704c03599f7fc2ed5d6dfd8950220",
+      "candidate": "crates/intersect-views/tests/fixtures/presentation-v4.json",
+      "candidateSha256": "162dcaf3a9a54c0c2e60fb9d0ca6a72fd4aa4508edc232715511da3262aa44be"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/presentation-v3-rejections.json",
+      "originalSha256": "f4a22dae68eb3b77a93baeec60a0034078ea660bd9b3761a29b6cff64f16701d",
+      "candidate": "crates/intersect-views/tests/fixtures/presentation-v4-rejections.json",
+      "candidateSha256": "f4a22dae68eb3b77a93baeec60a0034078ea660bd9b3761a29b6cff64f16701d"
+    },
+    {
+      "original": "crates/intersect-views/tests/fixtures/document-boundaries-v3.json",
+      "originalSha256": "46104b32cf735987c1e668dbe58c555b024faa4282a8cdf7d570f57913ddbf53",
+      "candidate": "crates/intersect-views/tests/fixtures/document-boundaries-v4.json",
+      "candidateSha256": "12acee9b3d7d43d3bb8322ce43cda2302e608790d6c68a3e32f0157810d120d4"
+    }
+  ]
+}

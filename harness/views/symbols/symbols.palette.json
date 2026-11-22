@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "harness.symbols.readonly",
+  "label": "Symbols",
+  "groups": [
+    {
+      "id": "view",
+      "label": "View",
+      "entries": [
+        {
+          "id": "select",
+          "label": "Select",
+          "icon": "pointer",
+          "gesture": "select",
+          "command": "presentation.select",
+          "parameters": {},
+          "inputs": []
+        }
+      ]
+    }
+  ]
+}

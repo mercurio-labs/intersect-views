@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "fmea.tools",
+  "label": "FMEA tools",
+  "groups": [
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "entries": [
+        {
+          "id": "select",
+          "label": "Select",
+          "icon": "pointer",
+          "gesture": "select",
+          "command": "presentation.select",
+          "parameters": {},
+          "inputs": []
+        },
+        {
+          "id": "fit",
+          "label": "Fit",
+          "icon": "maximize",
+          "gesture": "action",
+          "command": "presentation.fit",
+          "parameters": {},
+          "inputs": []
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "label": "Model",
+      "entries": [
+        {
+          "id": "rate",
+          "label": "Set ratings",
+          "icon": "box",
+          "gesture": "action",
+          "command": "fmea.setRatings",
+          "parameters": {},
+          "inputs": [
+            {
+              "id": "severity",
+              "label": "Severity",
+              "default": "8"
+            },
+            {
+              "id": "occurrence",
+              "label": "Occurrence",
+              "default": "3"
+            },
+            {
+              "id": "detection",
+              "label": "Detection",
+              "default": "4"
+            }
+          ]
+        },
+        {
+          "id": "action-status",
+          "label": "Update action",
+          "icon": "box",
+          "gesture": "action",
+          "command": "fmea.updateAction",
+          "parameters": {},
+          "inputs": [
+            {
+              "id": "status",
+              "label": "Status",
+              "default": "done"
+            },
+            {
+              "id": "owner",
+              "label": "Owner",
+              "default": "Review team"
+            },
+            {
+              "id": "evidence",
+              "label": "Evidence",
+              "default": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

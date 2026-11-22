@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:intersect:presentation:v4",
+  "title": "Intersect presentation, version 4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "views"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 4
+    },
+    "views": {
+      "type": "object",
+      "maxProperties": 128,
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "positions",
+              "viewport",
+              "form",
+              "packageFingerprint",
+              "projection",
+              "routeConstraints",
+              "labelPlacements"
+            ],
+            "properties": {
+              "positions": {
+                "type": "object",
+                "maxProperties": 5000,
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "width",
+                    "height"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number",
+                      "minimum": -1000000,
+                      "maximum": 1000000
+                    },
+                    "y": {
+                      "type": "number",
+                      "minimum": -1000000,
+                      "maximum": 1000000
+                    },
+                    "width": {
+                      "type": "number",
+                      "minimum": 1
+                    },
+                    "height": {
+                      "type": "number",
+                      "minimum": 1
+                    }
+                  }
+                }
+              },
+              "viewport": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "zoom"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "zoom": {
+                    "type": "number",
+                    "minimum": 0.05,
+                    "maximum": 4
+                  }
+                }
+              },
+              "form": {
+                "const": "graph"
+              },
+              "packageFingerprint": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "projection": {
+                "type": "string",
+                "minLength": 1
+              },
+              "routeConstraints": {
+                "type": "object",
+                "maxProperties": 2048,
+                "propertyNames": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "additionalProperties": {
+                  "$ref": "routing.schema.json#/$defs/constraint"
+                }
+              },
+              "labelPlacements": {
+                "type": "object",
+                "maxProperties": 20000,
+                "propertyNames": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "additionalProperties": {
+                  "$ref": "routing.schema.json#/$defs/labelPlacement"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "form",
+              "laneOrder",
+              "viewport",
+              "packageFingerprint",
+              "projection"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "form": {
+                "const": "laneGraph"
+              },
+              "laneOrder": {
+                "type": "array",
+                "maxItems": 128,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "viewport": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "zoom"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "zoom": {
+                    "type": "number",
+                    "minimum": 0.05,
+                    "maximum": 4
+                  }
+                }
+              },
+              "packageFingerprint": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "projection": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

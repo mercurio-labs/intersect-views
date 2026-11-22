@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "key": "structure-1",
+  "name": "Structure",
+  "ruleSet": "harness.structure",
+  "scope": {
+    "schemaVersion": 1,
+    "ops": []
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "status": "original rule bytes preserved; active M14 copies explicitly migrated; package-fingerprint compatibility and migration UI pending",
+  "files": [
+    {
+      "path": "crates/intersect-views/tests/fixtures/lane-rules-v7.json",
+      "originalSha256": "5965a2352fedb1791c544b1b1ac656740e2cc4e22ea277ce52cd2cf97454863e",
+      "preserved": "fixtures/m14/legacy-rules/crates/intersect-views/tests/fixtures/lane-rules-v7.json"
+    },
+    {
+      "path": "crates/intersect-views/tests/fixtures/rule-set-v7.json",
+      "originalSha256": "4102e10769ebf783df9d249185c26f3ecf29f88a18ac6015ccfb52a425efa5e1",
+      "preserved": "fixtures/m14/legacy-rules/crates/intersect-views/tests/fixtures/rule-set-v7.json"
+    },
+    {
+      "path": "harness/views/box-table.viewrules.json",
+      "originalSha256": "1a16ece1465d149150ee7375f1e658f9a9b5ede3de8dbf4dcc1d1fc635b1b2fb",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/box-table.viewrules.json"
+    },
+    {
+      "path": "harness/views/derived-matrix.viewrules.json",
+      "originalSha256": "2f16b56f4826713d7891c1aca636c09ff6cdd1f209738c14eb90f7568ed50f40",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/derived-matrix.viewrules.json"
+    },
+    {
+      "path": "harness/views/lanes-horizontal.viewrules.json",
+      "originalSha256": "29e86a25f99bd785fda5425943a7df249ac17f2bda7020a9ae56b16dd24b2b10",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/lanes-horizontal.viewrules.json"
+    },
+    {
+      "path": "harness/views/lanes-vertical.viewrules.json",
+      "originalSha256": "cd65acc5d72d99bca285f56e529e5585651b599e53d2c44738c5b8a50d6a740e",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/lanes-vertical.viewrules.json"
+    },
+    {
+      "path": "harness/views/regions-column.viewrules.json",
+      "originalSha256": "45f1a6339216ec7d6d4d1edb0d12043f54e85a4b935cb8dec8be5c55def54502",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/regions-column.viewrules.json"
+    },
+    {
+      "path": "harness/views/regions.viewrules.json",
+      "originalSha256": "72afb012c55f011336b0eecdadc1736958ace3f0170aa760313ff88d73070c7e",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/regions.viewrules.json"
+    },
+    {
+      "path": "harness/views/structure.viewrules.json",
+      "originalSha256": "36fdd391a047297d3f0db5e6b0571949625f525f8becceb015c9c7592bdb7f03",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/structure.viewrules.json"
+    },
+    {
+      "path": "harness/views/symbols/containers.viewrules.json",
+      "originalSha256": "4846e13d3642fdc74544c109610fb0b18e4e20354c2805610f33c638833ed16c",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/symbols/containers.viewrules.json"
+    },
+    {
+      "path": "harness/views/symbols/symbols.viewrules.json",
+      "originalSha256": "6eedc69198a47db6a22509135443d4188f8193b46df13321cd3dfd10bf6790f2",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/symbols/symbols.viewrules.json"
+    },
+    {
+      "path": "harness/views/trace-matrix.viewrules.json",
+      "originalSha256": "33122b7d5279750fba080ef3d7c7adca107e042c1aba37a5d600e1867bd747a0",
+      "preserved": "fixtures/m14/legacy-rules/harness/views/trace-matrix.viewrules.json"
+    },
+    {
+      "path": "languages/fmea/views/actions.viewrules.json",
+      "originalSha256": "ba25562558182131530b70e62e246474c5002abe8f51f689ec7febfd4c6c7d0e",
+      "preserved": "fixtures/m14/legacy-rules/languages/fmea/views/actions.viewrules.json"
+    },
+    {
+      "path": "languages/fmea/views/failures.viewrules.json",
+      "originalSha256": "ad47f839b54ecea86a25ab19fb5e751c2354126379ee4542fbbf7665a87044c0",
+      "preserved": "fixtures/m14/legacy-rules/languages/fmea/views/failures.viewrules.json"
+    },
+    {
+      "path": "languages/fmea/views/structure.viewrules.json",
+      "originalSha256": "eb18f78eef519a328eb57f0e3a939bf3912446f713c6cd3fd3a4c203ce7224cc",
+      "preserved": "fixtures/m14/legacy-rules/languages/fmea/views/structure.viewrules.json"
+    }
+  ]
+}

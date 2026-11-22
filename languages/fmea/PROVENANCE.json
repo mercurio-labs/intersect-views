@@ -1,0 +1,36 @@
+{
+  "template": {
+    "repository": "local intersect-views",
+    "revision": "e2eb46602b3e668f61fbad4669a6f202fd07ae9c",
+    "paths": [
+      "harness/Cargo.toml",
+      "harness/src/lib.rs",
+      "harness/src/commands.rs",
+      "harness/language/harness.rcore",
+      "harness/language/harness.xtext",
+      "harness/language/bindings.rcore",
+      "harness/language/views.rcore",
+      "harness/views",
+      "harness/web"
+    ]
+  },
+  "adaptations": [
+    "Independent FMEA metamodel, grammar, validation, Rcore RPN formatter, rules and sample",
+    "Language-owned rating and action lexical patches using shared Text lexer/source_patch",
+    "Browser source adapter built on ViewSession/ViewCanvas with its own worker and buffers",
+    "Shared worker ABI transport extracted from the harness; generic client fixes preserve typed action inputs and initial form visibility"
+  ],
+  "runtimeDependencies": [
+    "intersect-view-host",
+    "intersect-views",
+    "intersect-model",
+    "intersect-text",
+    "serde_json"
+  ],
+  "pins": {
+    "model": "9f026067f71721909ea508177127fccf5e7efd44",
+    "text": "3d026308b87a40d6a9548f1307c694558cbbaa30"
+  },
+  "license": "MIT",
+  "domainReference": "https://asq.org/quality-resources/articles/failure-mode-and-effect-analysis-fmea?id=191be3dc32e1431a81bdd867614ab2f3"
+}

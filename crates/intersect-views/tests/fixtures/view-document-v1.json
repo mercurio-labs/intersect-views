@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "key": "structure-1",
+  "name": "Structure",
+  "ruleSet": "harness.structure",
+  "scope": {
+    "schemaVersion": 1,
+    "ops": [
+      {
+        "op": "addSeed",
+        "element": "box:Alpha"
+      },
+      {
+        "op": "expand",
+        "element": "box:Alpha",
+        "relation": "linked",
+        "hops": 1
+      },
+      {
+        "op": "hide",
+        "element": "box:Beta"
+      },
+      {
+        "op": "collapse",
+        "element": "box:Alpha",
+        "context": [
+          "outer"
+        ]
+      },
+      {
+        "op": "removeSeed",
+        "element": "box:Beta"
+      }
+    ]
+  }
+}

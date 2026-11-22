@@ -1,0 +1,1377 @@
+{
+  "capabilities": [
+    {
+      "enabled": true,
+      "reason": "",
+      "toolId": "select"
+    }
+  ],
+  "scene": {
+    "edges": [
+      {
+        "binding": {
+          "context": [
+            "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+          ],
+          "elementId": "structure.harness#16",
+          "key": "element:2430f8d576c4a02a12225adf07c9d2d4ea1dad7daabbb298cbc82ca31f9181f3",
+          "range": {
+            "end": {
+              "character": 84,
+              "line": 12
+            },
+            "start": {
+              "character": 4,
+              "line": 12
+            }
+          },
+          "readOnly": false,
+          "uri": "structure.harness"
+        },
+        "id": "symbol:08a0fed314ae3435f601970113516e0643d4289f4fffb15ada9e8f4c41a5998a",
+        "label": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-23",
+              "text": "wire",
+              "binding": {
+                "context": [
+                  "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                ],
+                "elementId": "structure.harness#16",
+                "key": "element:2430f8d576c4a02a12225adf07c9d2d4ea1dad7daabbb298cbc82ca31f9181f3",
+                "range": {
+                  "end": {
+                    "character": 84,
+                    "line": 12
+                  },
+                  "start": {
+                    "character": 4,
+                    "line": 12
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "notation": "link",
+        "rule": "link",
+        "source": "symbol:920faceab92a0f972e6e843406bc15241a2d8b07d38510211dfa7e6b46f81353",
+        "styleClass": "",
+        "target": "symbol:307d961ef1c9bfaf8c80e2b7fd49036b28f215cb377dbd7acc45daa011f399b2",
+        "startMarker": null,
+        "endMarker": null,
+        "text": {},
+        "branchGroup": null
+      },
+      {
+        "binding": {
+          "context": [
+            "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+          ],
+          "elementId": "structure.harness#6",
+          "key": "element:c6303c39c80161d05c67edc070f0df8c5380165537a6869582e924c2580b9318",
+          "range": {
+            "end": {
+              "character": 82,
+              "line": 5
+            },
+            "start": {
+              "character": 4,
+              "line": 5
+            }
+          },
+          "readOnly": false,
+          "uri": "structure.harness"
+        },
+        "id": "symbol:bcd7ff275ba4e5d2c9fc7f51dd32af789951aac39b448868419f82dcefdcafb5",
+        "label": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-24",
+              "text": "inheritedWire",
+              "binding": {
+                "context": [
+                  "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                ],
+                "elementId": "structure.harness#6",
+                "key": "element:c6303c39c80161d05c67edc070f0df8c5380165537a6869582e924c2580b9318",
+                "range": {
+                  "end": {
+                    "character": 82,
+                    "line": 5
+                  },
+                  "start": {
+                    "character": 4,
+                    "line": 5
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "notation": "link",
+        "rule": "link",
+        "source": "symbol:19f32412f09efb270f7e7555cbe8559635ad490414ba576e9106ca4f4ba9c058",
+        "styleClass": "",
+        "target": "symbol:0eb4b81137ab5ed3f128d88c6c5c60f243ab047588c187dd13de9a54e0001a7d",
+        "startMarker": null,
+        "endMarker": null,
+        "text": {},
+        "branchGroup": null
+      },
+      {
+        "binding": {
+          "context": [
+            "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+          ],
+          "elementId": "structure.harness#6",
+          "key": "element:c6303c39c80161d05c67edc070f0df8c5380165537a6869582e924c2580b9318",
+          "range": {
+            "end": {
+              "character": 82,
+              "line": 5
+            },
+            "start": {
+              "character": 4,
+              "line": 5
+            }
+          },
+          "readOnly": false,
+          "uri": "structure.harness"
+        },
+        "id": "symbol:c8157e45a6e2efd3172768976bc0388f49ad0a405eaaac1d4e934fc5a3942b07",
+        "label": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-25",
+              "text": "inheritedWire",
+              "binding": {
+                "context": [
+                  "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+                ],
+                "elementId": "structure.harness#6",
+                "key": "element:c6303c39c80161d05c67edc070f0df8c5380165537a6869582e924c2580b9318",
+                "range": {
+                  "end": {
+                    "character": 82,
+                    "line": 5
+                  },
+                  "start": {
+                    "character": 4,
+                    "line": 5
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "notation": "link",
+        "rule": "link",
+        "source": "symbol:a3acea8d1ed7be8c88ddc81b09407ae4246d758182a8c839d2b203c66caddeb3",
+        "styleClass": "",
+        "target": "symbol:030cb4a5dbe8f659dcc8d942278bef94c30728fa7267f2ff7cee5fd6ae9f26e6",
+        "startMarker": null,
+        "endMarker": null,
+        "text": {},
+        "branchGroup": null
+      }
+    ],
+    "form": "graph",
+    "layout": {
+      "direction": "RIGHT",
+      "strategy": "layered"
+    },
+    "nodes": [
+      {
+        "binding": {
+          "context": [],
+          "elementId": "structure.harness#9",
+          "key": "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+          "range": {
+            "end": {
+              "character": 3,
+              "line": 13
+            },
+            "start": {
+              "character": 2,
+              "line": 7
+            }
+          },
+          "readOnly": false,
+          "uri": "structure.harness"
+        },
+        "children": [
+          {
+            "binding": {
+              "context": [
+                "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+              ],
+              "elementId": "structure.harness#12",
+              "key": "element:980d7a41c994c50d2fc5d1e3892984e8aa4ea5c9461840ac5ec7d7da7d8003e9",
+              "range": {
+                "end": {
+                  "character": 37,
+                  "line": 10
+                },
+                "start": {
+                  "character": 4,
+                  "line": 10
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "children": [],
+            "collapsed": false,
+            "compartments": [
+              {
+                "label": "fields",
+                "rows": [],
+                "id": "compartment:symbol:b2c726afa1fcc7ac1237518a77b1af250de296447fbb331b6cd345bc42c675e1:0"
+              }
+            ],
+            "expand": [
+              {
+                "id": "linked",
+                "label": "Linked boxes"
+              }
+            ],
+            "id": "symbol:b2c726afa1fcc7ac1237518a77b1af250de296447fbb331b6cd345bc42c675e1",
+            "notation": "box",
+            "ports": [
+              {
+                "binding": {
+                  "context": [
+                    "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                    "element:980d7a41c994c50d2fc5d1e3892984e8aa4ea5c9461840ac5ec7d7da7d8003e9"
+                  ],
+                  "elementId": "structure.harness#13",
+                  "key": "element:c4da86b78a02eb7fa20870d221aeb6c7c402223f19507bed2937e0ead5f995e2",
+                  "range": {
+                    "end": {
+                      "character": 35,
+                      "line": 10
+                    },
+                    "start": {
+                      "character": 16,
+                      "line": 10
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:920faceab92a0f972e6e843406bc15241a2d8b07d38510211dfa7e6b46f81353",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-5",
+                      "text": "outgoing",
+                      "binding": {
+                        "context": [
+                          "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                          "element:980d7a41c994c50d2fc5d1e3892984e8aa4ea5c9461840ac5ec7d7da7d8003e9"
+                        ],
+                        "elementId": "structure.harness#13",
+                        "key": "element:c4da86b78a02eb7fa20870d221aeb6c7c402223f19507bed2937e0ead5f995e2",
+                        "range": {
+                          "end": {
+                            "character": 35,
+                            "line": 10
+                          },
+                          "start": {
+                            "character": 16,
+                            "line": 10
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                },
+                "rule": "pin",
+                "side": "EAST",
+                "graphic": null,
+                "text": {}
+              }
+            ],
+            "rule": "box",
+            "styleClass": "",
+            "subtitle": {
+              "parts": []
+            },
+            "title": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-3",
+                  "text": "Local",
+                  "binding": {
+                    "context": [
+                      "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                    ],
+                    "elementId": "structure.harness#12",
+                    "key": "element:980d7a41c994c50d2fc5d1e3892984e8aa4ea5c9461840ac5ec7d7da7d8003e9",
+                    "range": {
+                      "end": {
+                        "character": 37,
+                        "line": 10
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 10
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "regions": null,
+            "graphic": null,
+            "text": {}
+          },
+          {
+            "binding": {
+              "context": [
+                "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+              ],
+              "elementId": "structure.harness#14",
+              "key": "element:9b688eacba1f064978249611bdc19db943f5a9dffbfc9c72fd334abf2331d1f2",
+              "range": {
+                "end": {
+                  "character": 37,
+                  "line": 11
+                },
+                "start": {
+                  "character": 4,
+                  "line": 11
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "children": [],
+            "collapsed": false,
+            "compartments": [
+              {
+                "label": "fields",
+                "rows": [],
+                "id": "compartment:symbol:d5206d2f27b96a099cccd07f62ca7bd887e127ffbb7f5be871de3037e1b28627:0"
+              }
+            ],
+            "expand": [
+              {
+                "id": "linked",
+                "label": "Linked boxes"
+              }
+            ],
+            "id": "symbol:d5206d2f27b96a099cccd07f62ca7bd887e127ffbb7f5be871de3037e1b28627",
+            "notation": "box",
+            "ports": [
+              {
+                "binding": {
+                  "context": [
+                    "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                    "element:9b688eacba1f064978249611bdc19db943f5a9dffbfc9c72fd334abf2331d1f2"
+                  ],
+                  "elementId": "structure.harness#15",
+                  "key": "element:10eea30132070235a9e93aafb9c7820f71eceab0cfd7d1cc10738d35a6290542",
+                  "range": {
+                    "end": {
+                      "character": 35,
+                      "line": 11
+                    },
+                    "start": {
+                      "character": 17,
+                      "line": 11
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:307d961ef1c9bfaf8c80e2b7fd49036b28f215cb377dbd7acc45daa011f399b2",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-8",
+                      "text": "outgoing",
+                      "binding": {
+                        "context": [
+                          "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                          "element:9b688eacba1f064978249611bdc19db943f5a9dffbfc9c72fd334abf2331d1f2"
+                        ],
+                        "elementId": "structure.harness#15",
+                        "key": "element:10eea30132070235a9e93aafb9c7820f71eceab0cfd7d1cc10738d35a6290542",
+                        "range": {
+                          "end": {
+                            "character": 35,
+                            "line": 11
+                          },
+                          "start": {
+                            "character": 17,
+                            "line": 11
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                },
+                "rule": "pin",
+                "side": "WEST",
+                "graphic": null,
+                "text": {}
+              }
+            ],
+            "rule": "box",
+            "styleClass": "",
+            "subtitle": {
+              "parts": []
+            },
+            "title": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-6",
+                  "text": "Mirror",
+                  "binding": {
+                    "context": [
+                      "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                    ],
+                    "elementId": "structure.harness#14",
+                    "key": "element:9b688eacba1f064978249611bdc19db943f5a9dffbfc9c72fd334abf2331d1f2",
+                    "range": {
+                      "end": {
+                        "character": 37,
+                        "line": 11
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 11
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "regions": null,
+            "graphic": null,
+            "text": {}
+          },
+          {
+            "binding": {
+              "context": [
+                "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+              ],
+              "elementId": "structure.harness#4",
+              "key": "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3",
+              "range": {
+                "end": {
+                  "character": 38,
+                  "line": 4
+                },
+                "start": {
+                  "character": 4,
+                  "line": 4
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "children": [],
+            "collapsed": false,
+            "compartments": [
+              {
+                "label": "fields",
+                "rows": [],
+                "id": "compartment:symbol:79a27aec1884d06ea9e52a78b312bb0baf9736f24b8477c32e509b0c7a6c5630:0"
+              }
+            ],
+            "expand": [
+              {
+                "id": "linked",
+                "label": "Linked boxes"
+              }
+            ],
+            "id": "symbol:79a27aec1884d06ea9e52a78b312bb0baf9736f24b8477c32e509b0c7a6c5630",
+            "notation": "box",
+            "ports": [
+              {
+                "binding": {
+                  "context": [
+                    "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                    "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3"
+                  ],
+                  "elementId": "structure.harness#5",
+                  "key": "element:609149eaf36949cd3a40a8de57b74e770641ca95353f58e4bf8637ae296797df",
+                  "range": {
+                    "end": {
+                      "character": 36,
+                      "line": 4
+                    },
+                    "start": {
+                      "character": 17,
+                      "line": 4
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:19f32412f09efb270f7e7555cbe8559635ad490414ba576e9106ca4f4ba9c058",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-11",
+                      "text": "outbound",
+                      "binding": {
+                        "context": [
+                          "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                          "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3"
+                        ],
+                        "elementId": "structure.harness#5",
+                        "key": "element:609149eaf36949cd3a40a8de57b74e770641ca95353f58e4bf8637ae296797df",
+                        "range": {
+                          "end": {
+                            "character": 36,
+                            "line": 4
+                          },
+                          "start": {
+                            "character": 17,
+                            "line": 4
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                },
+                "rule": "pin",
+                "side": "EAST",
+                "graphic": null,
+                "text": {}
+              }
+            ],
+            "rule": "box",
+            "styleClass": "",
+            "subtitle": {
+              "parts": []
+            },
+            "title": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-9",
+                  "text": "Nested",
+                  "binding": {
+                    "context": [
+                      "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                    ],
+                    "elementId": "structure.harness#4",
+                    "key": "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3",
+                    "range": {
+                      "end": {
+                        "character": 38,
+                        "line": 4
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 4
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "regions": null,
+            "graphic": null,
+            "text": {}
+          }
+        ],
+        "collapsed": false,
+        "compartments": [
+          {
+            "label": "fields",
+            "rows": [
+              {
+                "binding": {
+                  "context": [
+                    "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                  ],
+                  "elementId": "structure.harness#11",
+                  "key": "element:d4f77f890391d4035a25bdb1ac2b5998037475efe36fd13c44b9461abb89296e",
+                  "range": {
+                    "end": {
+                      "character": 20,
+                      "line": 9
+                    },
+                    "start": {
+                      "character": 4,
+                      "line": 9
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:804bb5eb07878079663ce3da9ee1b7e8940e96348e05c1bec6faa73ddbc75887",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-14",
+                      "text": "local",
+                      "binding": {
+                        "context": [
+                          "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                        ],
+                        "elementId": "structure.harness#11",
+                        "key": "element:d4f77f890391d4035a25bdb1ac2b5998037475efe36fd13c44b9461abb89296e",
+                        "range": {
+                          "end": {
+                            "character": 20,
+                            "line": 9
+                          },
+                          "start": {
+                            "character": 4,
+                            "line": 9
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                }
+              },
+              {
+                "binding": {
+                  "context": [
+                    "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                  ],
+                  "elementId": "structure.harness#3",
+                  "key": "element:14fbd17da3bae60abcd5d19c346db0fcc324fab5ce19883d393dbd44265619d6",
+                  "range": {
+                    "end": {
+                      "character": 24,
+                      "line": 3
+                    },
+                    "start": {
+                      "character": 4,
+                      "line": 3
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:714cbefbfec16ce521d31d0bace54a78ad769be082b25e06d49cc9f4f3c192bc",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-15",
+                      "text": "inherited",
+                      "binding": {
+                        "context": [
+                          "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                        ],
+                        "elementId": "structure.harness#3",
+                        "key": "element:14fbd17da3bae60abcd5d19c346db0fcc324fab5ce19883d393dbd44265619d6",
+                        "range": {
+                          "end": {
+                            "character": 24,
+                            "line": 3
+                          },
+                          "start": {
+                            "character": 4,
+                            "line": 3
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "compartment:symbol:7fb99c762ad6a03fce22b0510ec5bbef5c166b440c1702c8e4844ee883b6068c:0"
+          }
+        ],
+        "expand": [
+          {
+            "id": "linked",
+            "label": "Linked boxes"
+          }
+        ],
+        "id": "symbol:7fb99c762ad6a03fce22b0510ec5bbef5c166b440c1702c8e4844ee883b6068c",
+        "notation": "box",
+        "ports": [
+          {
+            "binding": {
+              "context": [
+                "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+              ],
+              "elementId": "structure.harness#10",
+              "key": "element:267fe7077bfeda41ca7c682a9408c1121492abf803df8672a654552ba6b68653",
+              "range": {
+                "end": {
+                  "character": 22,
+                  "line": 8
+                },
+                "start": {
+                  "character": 4,
+                  "line": 8
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "id": "symbol:b245d2db32b98a8ec7f476ebcd2ef8d3ebc683ef564a0f6a3c1d5234ed517fc1",
+            "label": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-12",
+                  "text": "incoming",
+                  "binding": {
+                    "context": [
+                      "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                    ],
+                    "elementId": "structure.harness#10",
+                    "key": "element:267fe7077bfeda41ca7c682a9408c1121492abf803df8672a654552ba6b68653",
+                    "range": {
+                      "end": {
+                        "character": 22,
+                        "line": 8
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 8
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "rule": "pin",
+            "side": "WEST",
+            "graphic": null,
+            "text": {}
+          },
+          {
+            "binding": {
+              "context": [
+                "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+              ],
+              "elementId": "structure.harness#2",
+              "key": "element:57dd25fa6ad26d633c2580febe1604e3bb867f86d38ab1b5da47ee275982b13e",
+              "range": {
+                "end": {
+                  "character": 23,
+                  "line": 2
+                },
+                "start": {
+                  "character": 4,
+                  "line": 2
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "id": "symbol:0eb4b81137ab5ed3f128d88c6c5c60f243ab047588c187dd13de9a54e0001a7d",
+            "label": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-13",
+                  "text": "boundary",
+                  "binding": {
+                    "context": [
+                      "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998"
+                    ],
+                    "elementId": "structure.harness#2",
+                    "key": "element:57dd25fa6ad26d633c2580febe1604e3bb867f86d38ab1b5da47ee275982b13e",
+                    "range": {
+                      "end": {
+                        "character": 23,
+                        "line": 2
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 2
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "rule": "pin",
+            "side": "EAST",
+            "graphic": null,
+            "text": {}
+          }
+        ],
+        "rule": "box",
+        "styleClass": "critical",
+        "subtitle": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-2",
+              "text": "Shared",
+              "binding": {
+                "context": [],
+                "elementId": "structure.harness#9",
+                "key": "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                "range": {
+                  "end": {
+                    "character": 3,
+                    "line": 13
+                  },
+                  "start": {
+                    "character": 2,
+                    "line": 7
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "title": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-1",
+              "text": "Alpha",
+              "binding": {
+                "context": [],
+                "elementId": "structure.harness#9",
+                "key": "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+                "range": {
+                  "end": {
+                    "character": 3,
+                    "line": 13
+                  },
+                  "start": {
+                    "character": 2,
+                    "line": 7
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "regions": null,
+        "graphic": null,
+        "text": {}
+      },
+      {
+        "binding": {
+          "context": [],
+          "elementId": "structure.harness#19",
+          "key": "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+          "range": {
+            "end": {
+              "character": 22,
+              "line": 14
+            },
+            "start": {
+              "character": 2,
+              "line": 14
+            }
+          },
+          "readOnly": false,
+          "uri": "structure.harness"
+        },
+        "children": [
+          {
+            "binding": {
+              "context": [
+                "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+              ],
+              "elementId": "structure.harness#4",
+              "key": "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3",
+              "range": {
+                "end": {
+                  "character": 38,
+                  "line": 4
+                },
+                "start": {
+                  "character": 4,
+                  "line": 4
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "children": [],
+            "collapsed": false,
+            "compartments": [
+              {
+                "label": "fields",
+                "rows": [],
+                "id": "compartment:symbol:f3d9a11113b118bb280d60a4175fa6cc767eae6e12f441ba7bedaeb9c15d8040:0"
+              }
+            ],
+            "expand": [
+              {
+                "id": "linked",
+                "label": "Linked boxes"
+              }
+            ],
+            "id": "symbol:f3d9a11113b118bb280d60a4175fa6cc767eae6e12f441ba7bedaeb9c15d8040",
+            "notation": "box",
+            "ports": [
+              {
+                "binding": {
+                  "context": [
+                    "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+                    "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3"
+                  ],
+                  "elementId": "structure.harness#5",
+                  "key": "element:609149eaf36949cd3a40a8de57b74e770641ca95353f58e4bf8637ae296797df",
+                  "range": {
+                    "end": {
+                      "character": 36,
+                      "line": 4
+                    },
+                    "start": {
+                      "character": 17,
+                      "line": 4
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:a3acea8d1ed7be8c88ddc81b09407ae4246d758182a8c839d2b203c66caddeb3",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-20",
+                      "text": "outbound",
+                      "binding": {
+                        "context": [
+                          "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+                          "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3"
+                        ],
+                        "elementId": "structure.harness#5",
+                        "key": "element:609149eaf36949cd3a40a8de57b74e770641ca95353f58e4bf8637ae296797df",
+                        "range": {
+                          "end": {
+                            "character": 36,
+                            "line": 4
+                          },
+                          "start": {
+                            "character": 17,
+                            "line": 4
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                },
+                "rule": "pin",
+                "side": "EAST",
+                "graphic": null,
+                "text": {}
+              }
+            ],
+            "rule": "box",
+            "styleClass": "",
+            "subtitle": {
+              "parts": []
+            },
+            "title": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-18",
+                  "text": "Nested",
+                  "binding": {
+                    "context": [
+                      "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+                    ],
+                    "elementId": "structure.harness#4",
+                    "key": "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3",
+                    "range": {
+                      "end": {
+                        "character": 38,
+                        "line": 4
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 4
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "regions": null,
+            "graphic": null,
+            "text": {}
+          }
+        ],
+        "collapsed": false,
+        "compartments": [
+          {
+            "label": "fields",
+            "rows": [
+              {
+                "binding": {
+                  "context": [
+                    "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+                  ],
+                  "elementId": "structure.harness#3",
+                  "key": "element:14fbd17da3bae60abcd5d19c346db0fcc324fab5ce19883d393dbd44265619d6",
+                  "range": {
+                    "end": {
+                      "character": 24,
+                      "line": 3
+                    },
+                    "start": {
+                      "character": 4,
+                      "line": 3
+                    }
+                  },
+                  "readOnly": false,
+                  "uri": "structure.harness"
+                },
+                "id": "symbol:06f569d13c9f261d88cf6ef7ba88c7cf4594d639b34f33a736a72dbe73579e31",
+                "label": {
+                  "parts": [
+                    {
+                      "id": "symbol:fixture-part-22",
+                      "text": "inherited",
+                      "binding": {
+                        "context": [
+                          "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+                        ],
+                        "elementId": "structure.harness#3",
+                        "key": "element:14fbd17da3bae60abcd5d19c346db0fcc324fab5ce19883d393dbd44265619d6",
+                        "range": {
+                          "end": {
+                            "character": 24,
+                            "line": 3
+                          },
+                          "start": {
+                            "character": 4,
+                            "line": 3
+                          }
+                        },
+                        "readOnly": false,
+                        "uri": "structure.harness"
+                      },
+                      "editTool": null
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "compartment:symbol:4ea5e328cce0b23d3f4fbbbee209113d1fe6e0941c3d1339a0da9febd51ee13f:0"
+          }
+        ],
+        "expand": [
+          {
+            "id": "linked",
+            "label": "Linked boxes"
+          }
+        ],
+        "id": "symbol:4ea5e328cce0b23d3f4fbbbee209113d1fe6e0941c3d1339a0da9febd51ee13f",
+        "notation": "box",
+        "ports": [
+          {
+            "binding": {
+              "context": [
+                "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+              ],
+              "elementId": "structure.harness#2",
+              "key": "element:57dd25fa6ad26d633c2580febe1604e3bb867f86d38ab1b5da47ee275982b13e",
+              "range": {
+                "end": {
+                  "character": 23,
+                  "line": 2
+                },
+                "start": {
+                  "character": 4,
+                  "line": 2
+                }
+              },
+              "readOnly": false,
+              "uri": "structure.harness"
+            },
+            "id": "symbol:030cb4a5dbe8f659dcc8d942278bef94c30728fa7267f2ff7cee5fd6ae9f26e6",
+            "label": {
+              "parts": [
+                {
+                  "id": "symbol:fixture-part-21",
+                  "text": "boundary",
+                  "binding": {
+                    "context": [
+                      "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c"
+                    ],
+                    "elementId": "structure.harness#2",
+                    "key": "element:57dd25fa6ad26d633c2580febe1604e3bb867f86d38ab1b5da47ee275982b13e",
+                    "range": {
+                      "end": {
+                        "character": 23,
+                        "line": 2
+                      },
+                      "start": {
+                        "character": 4,
+                        "line": 2
+                      }
+                    },
+                    "readOnly": false,
+                    "uri": "structure.harness"
+                  },
+                  "editTool": null
+                }
+              ]
+            },
+            "rule": "pin",
+            "side": "EAST",
+            "graphic": null,
+            "text": {}
+          }
+        ],
+        "rule": "box",
+        "styleClass": "critical",
+        "subtitle": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-17",
+              "text": "Shared",
+              "binding": {
+                "context": [],
+                "elementId": "structure.harness#19",
+                "key": "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+                "range": {
+                  "end": {
+                    "character": 22,
+                    "line": 14
+                  },
+                  "start": {
+                    "character": 2,
+                    "line": 14
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "title": {
+          "parts": [
+            {
+              "id": "symbol:fixture-part-16",
+              "text": "Beta",
+              "binding": {
+                "context": [],
+                "elementId": "structure.harness#19",
+                "key": "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+                "range": {
+                  "end": {
+                    "character": 22,
+                    "line": 14
+                  },
+                  "start": {
+                    "character": 2,
+                    "line": 14
+                  }
+                },
+                "readOnly": false,
+                "uri": "structure.harness"
+              },
+              "editTool": null
+            }
+          ]
+        },
+        "regions": null,
+        "graphic": null,
+        "text": {}
+      }
+    ],
+    "palette": {
+      "groups": [
+        {
+          "entries": [
+            {
+              "command": "presentation.select",
+              "gesture": "select",
+              "icon": "pointer",
+              "id": "select",
+              "inputs": [],
+              "label": "Select",
+              "parameters": {}
+            }
+          ],
+          "id": "navigation",
+          "label": "Navigation"
+        }
+      ],
+      "id": "harness.tools",
+      "label": "Harness tools",
+      "schemaVersion": 1
+    },
+    "problems": [
+      "Unresolved target for reference edge kind: element:1b9c04d02ea88342bd9708a5d24ad989c83b063c8053a6f7265b334a4b6b21be",
+      "Unresolved target for reference edge kind: element:1b9c04d02ea88342bd9708a5d24ad989c83b063c8053a6f7265b334a4b6b21be"
+    ],
+    "revision": 1,
+    "ruleSet": "harness.structure",
+    "schemaVersion": 7,
+    "view": {
+      "binding": {
+        "context": [],
+        "elementId": "document:structure.view.json",
+        "key": "structure-1",
+        "range": {
+          "end": {
+            "character": 0,
+            "line": 10
+          },
+          "start": {
+            "character": 0,
+            "line": 0
+          }
+        },
+        "readOnly": false,
+        "uri": "structure.view.json"
+      },
+      "details": [],
+      "key": "structure-1",
+      "kind": "harness.structure",
+      "name": "Structure",
+      "owners": [
+        {
+          "key": "element:9c94c1b22ce8b9025c39b532c5674b7c0d67df37d6cfdcae6e76415b05c90ab1",
+          "label": "Structure"
+        },
+        {
+          "key": "element:1b9c04d02ea88342bd9708a5d24ad989c83b063c8053a6f7265b334a4b6b21be",
+          "label": "Shared"
+        },
+        {
+          "key": "element:57dd25fa6ad26d633c2580febe1604e3bb867f86d38ab1b5da47ee275982b13e",
+          "label": "boundary"
+        },
+        {
+          "key": "element:14fbd17da3bae60abcd5d19c346db0fcc324fab5ce19883d393dbd44265619d6",
+          "label": "inherited"
+        },
+        {
+          "key": "element:e17f892bc49c6b4f116abcb549343acbc6c44d1e4f0cd791fa175c3e594a26f3",
+          "label": "Nested"
+        },
+        {
+          "key": "element:609149eaf36949cd3a40a8de57b74e770641ca95353f58e4bf8637ae296797df",
+          "label": "outbound"
+        },
+        {
+          "key": "element:c6303c39c80161d05c67edc070f0df8c5380165537a6869582e924c2580b9318",
+          "label": "inheritedWire"
+        },
+        {
+          "key": "element:1e5cc9cb12640985ca9956f24bbb4c25a24533e8b01a8381bde39f587eea9c5f",
+          "label": "s1"
+        },
+        {
+          "key": "element:cef018e38c50342cd3972fdae5996e532d1ca6c5f92377a7089ee655541e356d",
+          "label": "t1"
+        },
+        {
+          "key": "element:6deda9666ffd24ace7d312489aaf7648ff5dc44677fae5ad5022c1bdfb359998",
+          "label": "Alpha"
+        },
+        {
+          "key": "element:267fe7077bfeda41ca7c682a9408c1121492abf803df8672a654552ba6b68653",
+          "label": "incoming"
+        },
+        {
+          "key": "element:d4f77f890391d4035a25bdb1ac2b5998037475efe36fd13c44b9461abb89296e",
+          "label": "local"
+        },
+        {
+          "key": "element:980d7a41c994c50d2fc5d1e3892984e8aa4ea5c9461840ac5ec7d7da7d8003e9",
+          "label": "Local"
+        },
+        {
+          "key": "element:c4da86b78a02eb7fa20870d221aeb6c7c402223f19507bed2937e0ead5f995e2",
+          "label": "outgoing"
+        },
+        {
+          "key": "element:9b688eacba1f064978249611bdc19db943f5a9dffbfc9c72fd334abf2331d1f2",
+          "label": "Mirror"
+        },
+        {
+          "key": "element:10eea30132070235a9e93aafb9c7820f71eceab0cfd7d1cc10738d35a6290542",
+          "label": "outgoing"
+        },
+        {
+          "key": "element:2430f8d576c4a02a12225adf07c9d2d4ea1dad7daabbb298cbc82ca31f9181f3",
+          "label": "wire"
+        },
+        {
+          "key": "element:4da34f5c16bce4165d0d04b30b400058b4367ff478102fa792cb57dc36a4b0de",
+          "label": "s2"
+        },
+        {
+          "key": "element:962a97703e8b8ffb7df6e957f62f9726f5ae849d38b9801496f28bc5ffa9c24c",
+          "label": "t2"
+        },
+        {
+          "key": "element:4da260b05c9d71eb158038dac6e69edd74393e80b3283abaf2b3c97314166c0c",
+          "label": "Beta"
+        }
+      ],
+      "problems": []
+    },
+    "routing": {
+      "algorithm": "orthogonal",
+      "clearance": 8.0,
+      "stubLength": 18.0,
+      "trunks": "none"
+    },
+    "endpointProxies": []
+  },
+  "presentation": {
+    "fingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "libraries": []
+  }
+}

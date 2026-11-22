@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 8,
+  "id": "harness.structure",
+  "label": "Structure",
+  "language": "urn:intersect:harness:1",
+  "form": "graph",
+  "layout": {
+    "strategy": "layered",
+    "direction": "RIGHT"
+  },
+  "symbols": [
+    {
+      "id": "box",
+      "match": "Box",
+      "emit": "node",
+      "notation": "box",
+      "title": "boxTitle",
+      "subtitle": "boxKind",
+      "styleClass": "boxStyle",
+      "compartments": [
+        {
+          "label": "fields",
+          "rows": "boxFields",
+          "rowLabel": "fieldLabel",
+          "id": "compartment-1"
+        }
+      ],
+      "ports": {
+        "select": "boxPins",
+        "rule": "pin"
+      },
+      "children": {
+        "select": "boxParts"
+      },
+      "expand": [
+        {
+          "id": "linked",
+          "label": "Linked boxes",
+          "select": "linkedBoxes"
+        }
+      ],
+      "create": [
+        {
+          "tool": "box",
+          "command": "harness.createBox",
+          "accepts": "canCreate"
+        }
+      ]
+    },
+    {
+      "id": "pin",
+      "match": "Pin",
+      "emit": "port",
+      "label": "pinLabel",
+      "side": "pinSide",
+      "compartments": [],
+      "expand": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "link",
+      "kind": "element",
+      "per": "box",
+      "select": "boxLinks",
+      "notation": "link",
+      "label": "linkLabel",
+      "sourcePath": "linkSourcePath",
+      "targetPath": "linkTargetPath",
+      "anchor": "owner",
+      "connect": {
+        "command": "harness.createLink",
+        "sourceAccepts": "canStartLink",
+        "targetAccepts": "canEndLink"
+      }
+    },
+    {
+      "id": "kind",
+      "kind": "reference",
+      "per": "box",
+      "targets": "boxKindRef",
+      "notation": "typing",
+      "label": {
+        "text": "kind"
+      },
+      "anchor": "root"
+    }
+  ],
+  "projection": {
+    "kind": "nested"
+  },
+  "routing": {
+    "algorithm": "orthogonal",
+    "clearance": 8.0,
+    "stubLength": 18.0,
+    "trunks": "none"
+  }
+}

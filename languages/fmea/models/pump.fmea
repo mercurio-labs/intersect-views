@@ -1,0 +1,18 @@
+analysis PumpReview {
+  item Pump function "Deliver coolant at the specified flow" {
+    failure NoFlow mode "Pump stops delivering flow"
+      effect "Coolant flow is unavailable" cause "Motor loses electrical supply"
+      control "Flow sensor and low-flow alarm" ratings 8 3 4 {
+      action BackupPower description "Evaluate an independent supply"
+        owner "Systems team" status planned evidence "";
+      action AlarmTest description "Exercise the low-flow alarm"
+        owner "Test team" status done evidence "Bench test report AT-01";
+    }
+    failure LowFlow mode "Flow falls below the specified value"
+      effect "Cooling performance is reduced" cause "Inlet filter becomes restricted"
+      control "Scheduled filter inspection" ratings 6 4 5 {
+      action FilterMonitor description "Evaluate differential-pressure monitoring"
+        owner "Controls team" status planned evidence "";
+    }
+  }
+}

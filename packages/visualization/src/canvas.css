@@ -1,0 +1,395 @@
+.diagram-workbench {
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  font-size: 11px;
+  overflow: hidden;
+}
+.diagram-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 42px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.diagram-badge {
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  background: var(--selected);
+  color: var(--blue);
+  padding: 4px 5px;
+  border-radius: 3px;
+}
+.diagram-heading select {
+  font-weight: 600;
+  max-width: 170px;
+  min-width: 60px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  flex: 1;
+}
+.diagram-kind {
+  color: var(--muted);
+  font-size: 10px;
+  margin-right: auto;
+}
+.diagram-button {
+  white-space: nowrap;
+  padding: 5px 7px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 10px;
+}
+.diagram-status {
+  padding: 8px 12px;
+  color: var(--text);
+  background: var(--selected);
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.diagram-details {
+  display: flex;
+  gap: 8px;
+  padding: 4px 12px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.diagram-details button {
+  font-size: 9px;
+  color: var(--muted);
+  padding: 2px 0;
+}
+.diagram-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+.diagram-palette {
+  width: 142px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  padding: 12px 7px;
+  overflow: auto;
+}
+.palette-heading {
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  padding: 0 4px;
+  display: block;
+}
+.palette-heading select {
+  display: block;
+  margin: 9px 0 16px;
+  width: 100%;
+  font:
+    10px "Segoe UI",
+    sans-serif;
+  letter-spacing: 0;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 4px;
+}
+.diagram-palette h4 {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.7px;
+  padding: 0 5px;
+  margin: 17px 0 6px;
+  font-weight: 500;
+}
+.palette-tool {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  width: 100%;
+  text-align: left;
+  border-radius: 4px;
+  margin: 2px 0;
+  font-size: 11px;
+}
+.palette-tool.active {
+  background: var(--selected);
+  color: var(--blue);
+}
+.palette-glyph {
+  font-size: 17px;
+  width: 18px;
+  text-align: center;
+  color: var(--blue);
+}
+.diagram-viewport {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  outline: 0;
+}
+.diagram-viewport > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+.grid-dot {
+  fill: var(--border);
+}
+.diagram-node {
+  cursor: grab;
+}
+.diagram-node:active {
+  cursor: grabbing;
+}
+.node-body {
+  fill: var(--bg);
+  stroke: var(--blue);
+  stroke-width: 1.2;
+}
+.diagram-legal-target > .node-body,
+.diagram-port.diagram-legal-target > rect {
+  stroke: #198754;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 3px #19875477);
+}
+.fill-definition > .node-body {
+  fill: color-mix(in srgb, var(--bg) 88%, #c7dcad);
+}
+.fill-usage > .node-body {
+  fill: color-mix(in srgb, var(--bg) 91%, #99bee9);
+}
+.fill-package > .node-body {
+  fill: color-mix(in srgb, var(--bg) 85%, #ecd6a1);
+}
+.node-title {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+.node-subtitle {
+  fill: var(--muted);
+  font-size: 9px;
+}
+.compartment-label {
+  fill: var(--muted);
+  font-size: 9px;
+  font-style: italic;
+}
+.compartment-rule {
+  stroke: var(--border);
+  fill: none;
+}
+.diagram-field rect {
+  fill: transparent;
+}
+.diagram-field text {
+  fill: var(--text);
+  font-size: 10px;
+}
+.diagram-field:hover rect {
+  fill: var(--selected);
+}
+.diagram-port rect {
+  fill: var(--bg);
+  stroke: var(--blue);
+  stroke-width: 1.5;
+}
+.diagram-port text {
+  fill: var(--text);
+  font-size: 9px;
+}
+.diagram-selected > .node-body,
+.diagram-selected > rect {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.diagram-selected.diagram-field > rect {
+  fill: var(--selected);
+}
+.diagram-edge {
+  cursor: pointer;
+}
+.edge-line {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.6;
+  pointer-events: none;
+}
+.edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+}
+.diagram-edge.diagram-selected .edge-line {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.diagram-edge text {
+  fill: var(--muted);
+  font-size: 9px;
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.general-arrow {
+  fill: var(--bg);
+  stroke: var(--blue);
+  stroke-width: 1;
+}
+.diagram-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 13px;
+  color: var(--muted);
+  font-size: 9px;
+  pointer-events: none;
+  max-width: calc(100% - 150px);
+}
+.diagram-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  height: 28px;
+}
+.diagram-zoom button {
+  width: 28px;
+  height: 26px;
+  font-size: 16px;
+}
+.diagram-zoom span {
+  font-size: 9px;
+  width: 36px;
+  text-align: center;
+}
+.diagram-command {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.diagram-command[hidden],
+.diagram-details[hidden] {
+  display: none;
+}
+.diagram-command > strong {
+  font-size: 11px;
+  color: var(--blue);
+}
+.diagram-command label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.diagram-command select,
+.diagram-command input {
+  font:
+    11px "Segoe UI",
+    sans-serif;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 5px;
+  max-width: 160px;
+  min-width: 60px;
+}
+.diagram-command button {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.diagram-command button[type="submit"] {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+.diagram-command > span {
+  font-size: 9px;
+  color: var(--muted);
+  width: 100%;
+}
+.placing .diagram-node {
+  cursor: crosshair;
+}
+@media (max-width: 1150px) {
+  .diagram-palette {
+    width: 118px;
+  }
+  .diagram-kind {
+    display: none;
+  }
+  .diagram-heading {
+    gap: 5px;
+  }
+  .diagram-hint {
+    display: none;
+  }
+}
+
+.palette-tool[draggable="true"] {
+  cursor: grab;
+}
+.diagram-port {
+  cursor: crosshair;
+}
+.diagram-drop-target > .node-body,
+.diagram-drop-target > rect {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.connection-preview {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+.node-resize {
+  fill: var(--panel);
+  stroke: var(--accent);
+  cursor: nwse-resize;
+  visibility: hidden;
+}
+.diagram-node:hover > .node-resize,
+.diagram-node.diagram-selected > .node-resize {
+  visibility: visible;
+}
+
+.diagram-label-part>.label-hit{fill:transparent;stroke:none;pointer-events:all}.diagram-label-part text{pointer-events:none}.diagram-label-part:focus>.label-hit{stroke:var(--blue);stroke-width:1}.diagram-label-part.diagram-selected>.label-hit{fill:var(--selected)}.diagram-region>rect{stroke-width:1}.diagram-region>.diagram-label-part{cursor:pointer}
+
+.diagram-branch-picker { position:absolute;z-index:20;inset:25% auto auto 20%;max-width:65%;max-height:60%;overflow:auto;padding:16px;display:grid;gap:8px;background:var(--surface,#fff);color:var(--text,#19263a);border:1px solid #94a3b8;border-radius:8px;box-shadow:0 12px 32px #0003; }
+.diagram-branch-picker button { text-align:left;overflow-wrap:anywhere;padding:8px; }
+.diagram-proxy path { fill:#fff;stroke:#875b1f;stroke-width:2;stroke-dasharray:2 1;cursor:pointer; }
+.diagram-shared-segment:focus .edge-line { stroke:#2563eb !important;stroke-width:3; }
+
+.diagram-placement-tools { display:flex;gap:6px;flex-wrap:wrap;padding:6px 12px;border-bottom:1px solid var(--border,#cbd5e1); }
+.diagram-placement-tools button { padding:4px 8px; }
+.placement-label-handle { fill:#2563eb0c;stroke:#2563eb;stroke-width:1.5;stroke-dasharray:5 3;cursor:move; }
+.placement-route-handle,.placement-segment-handle { fill:#fff;stroke:#2563eb;stroke-width:2;cursor:move; }
+.placement-route-handle:focus,.placement-segment-handle:focus,.placement-label-handle:focus { stroke:#b45309;stroke-width:3;outline:none; }

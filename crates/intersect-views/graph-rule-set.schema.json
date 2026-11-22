@@ -1,0 +1,665 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 8
+    },
+    "projection": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "nested"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "containmentTree"
+            },
+            "edgeRole": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "edgeNotation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "kind",
+            "edgeRole",
+            "edgeNotation"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "form": {
+      "const": "graph"
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "const": "layered"
+        },
+        "direction": {
+          "enum": [
+            "RIGHT",
+            "LEFT",
+            "UP",
+            "DOWN"
+          ]
+        }
+      },
+      "required": [
+        "strategy",
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "symbols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "match": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "emit": {
+            "enum": [
+              "node",
+              "port"
+            ]
+          },
+          "notation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "title": {
+            "$ref": "#/$defs/labelRule"
+          },
+          "subtitle": {
+            "$ref": "#/$defs/labelRule"
+          },
+          "label": {
+            "$ref": "#/$defs/labelRule"
+          },
+          "side": {
+            "$ref": "#/$defs/slot"
+          },
+          "styleClass": {
+            "$ref": "#/$defs/slot"
+          },
+          "compartments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "label": {
+                  "type": "string"
+                },
+                "rows": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "rowLabel": {
+                  "$ref": "#/$defs/labelRule"
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "rows",
+                "rowLabel"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 256
+          },
+          "ports": {
+            "type": "object",
+            "properties": {
+              "select": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "rule": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "select",
+              "rule"
+            ],
+            "additionalProperties": false
+          },
+          "children": {
+            "type": "object",
+            "properties": {
+              "select": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "select"
+            ],
+            "additionalProperties": false
+          },
+          "regions": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "select": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "label": {
+                "$ref": "#/$defs/labelRule"
+              },
+              "children": {
+                "type": "object",
+                "properties": {
+                  "select": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "required": [
+                  "select"
+                ],
+                "additionalProperties": false
+              },
+              "direction": {
+                "enum": [
+                  "row",
+                  "column"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "select",
+              "label",
+              "children",
+              "direction"
+            ],
+            "additionalProperties": false
+          },
+          "expand": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "select": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "select"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 256
+          },
+          "create": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tool": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "command": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "accepts": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "tool",
+                "command",
+                "accepts"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 256
+          },
+          "graphic": {
+            "$ref": "graphics.schema.json#/$defs/rule"
+          }
+        },
+        "required": [
+          "id",
+          "match",
+          "emit"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 256
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "per": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "notation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "label": {
+                "$ref": "#/$defs/labelRule"
+              },
+              "anchor": {
+                "enum": [
+                  "owner",
+                  "root"
+                ]
+              },
+              "rootOnly": {
+                "type": "boolean"
+              },
+              "connect": {
+                "type": "object",
+                "properties": {
+                  "command": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "sourceAccepts": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "targetAccepts": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "required": [
+                  "command",
+                  "sourceAccepts",
+                  "targetAccepts"
+                ],
+                "additionalProperties": false
+              },
+              "startMarker": {
+                "$ref": "graphics.schema.json#/$defs/rule"
+              },
+              "endMarker": {
+                "$ref": "graphics.schema.json#/$defs/rule"
+              },
+              "kind": {
+                "const": "element"
+              },
+              "select": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "sourcePath": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "targetPath": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "id",
+              "per",
+              "notation",
+              "label",
+              "anchor",
+              "kind",
+              "select",
+              "sourcePath",
+              "targetPath"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "per": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "notation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "label": {
+                "$ref": "#/$defs/labelRule"
+              },
+              "anchor": {
+                "enum": [
+                  "owner",
+                  "root"
+                ]
+              },
+              "rootOnly": {
+                "type": "boolean"
+              },
+              "connect": {
+                "type": "object",
+                "properties": {
+                  "command": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "sourceAccepts": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "targetAccepts": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "required": [
+                  "command",
+                  "sourceAccepts",
+                  "targetAccepts"
+                ],
+                "additionalProperties": false
+              },
+              "startMarker": {
+                "$ref": "graphics.schema.json#/$defs/rule"
+              },
+              "endMarker": {
+                "$ref": "graphics.schema.json#/$defs/rule"
+              },
+              "kind": {
+                "const": "reference"
+              },
+              "targets": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            },
+            "required": [
+              "id",
+              "per",
+              "notation",
+              "label",
+              "anchor",
+              "kind",
+              "targets"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "maxItems": 256
+    },
+    "routing": {
+      "$ref": "routing.schema.json#/$defs/policy"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "projection",
+    "id",
+    "label",
+    "language",
+    "form",
+    "layout",
+    "symbols",
+    "edges",
+    "routing"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "slot": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "sourceText"
+          ],
+          "properties": {
+            "sourceText": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "labelRule": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/slot"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "subject": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "self"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "none"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "select"
+                          },
+                          "select": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 256
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "select"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "text": {
+                    "$ref": "#/$defs/slot"
+                  },
+                  "when": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "edit": {
+                    "type": "object",
+                    "properties": {
+                      "tool": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "command": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "accepts": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      }
+                    },
+                    "required": [
+                      "tool",
+                      "command",
+                      "accepts"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "subject",
+                  "text"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 32
+            }
+          },
+          "required": [
+            "parts"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

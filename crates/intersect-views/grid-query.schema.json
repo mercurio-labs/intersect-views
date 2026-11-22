@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:intersect:views:grid-query",
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "minLength": 1
+    },
+    "select": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "const": "__element"
+            }
+          },
+          "expression": {
+            "$ref": "#/$defs/expression"
+          }
+        },
+        "required": ["name", "expression"],
+        "additionalProperties": false
+      },
+      "maxItems": 31,
+      "minItems": 1
+    },
+    "filter": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/predicate"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "order_by": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "$ref": "#/$defs/expression"
+          },
+          "descending": {
+            "type": "boolean"
+          }
+        },
+        "required": ["expression"],
+        "additionalProperties": false
+      },
+      "maxItems": 8
+    }
+  },
+  "required": ["from", "select"],
+  "additionalProperties": false,
+  "$defs": {
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": ["field", "count"]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["op", "path"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value": {}
+          },
+          "required": ["op", "value"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "predicate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "is_null"
+            },
+            "expression": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": ["op", "expression"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "compare"
+            },
+            "left": {
+              "$ref": "#/$defs/expression"
+            },
+            "comparison": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "right": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": ["op", "left", "comparison", "right"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": ["and", "or"]
+            },
+            "predicates": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/predicate"
+              },
+              "maxItems": 512
+            }
+          },
+          "required": ["op", "predicates"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "not"
+            },
+            "predicate": {
+              "$ref": "#/$defs/predicate"
+            }
+          },
+          "required": ["op", "predicate"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": ["any", "all"]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "predicate": {
+              "$ref": "#/$defs/predicate"
+            }
+          },
+          "required": ["op", "path", "predicate"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

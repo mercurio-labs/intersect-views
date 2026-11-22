@@ -1,0 +1,91 @@
+{
+  "id": "example.containers/captionMarker",
+  "version": "1",
+  "role": "marker",
+  "parameters": {},
+  "slots": {
+    "caption": "text"
+  },
+  "connectionAnchor": "attachment",
+  "root": {
+    "id": "marker",
+    "when": null,
+    "anchors": [
+      {
+        "id": "attachment",
+        "x": 0,
+        "y": 8,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "content": {
+      "kind": "overlay",
+      "children": [
+        {
+          "id": "ink",
+          "when": null,
+          "anchors": [],
+          "content": {
+            "kind": "geometry",
+            "geometry": {
+              "kind": "polyline",
+              "width": 16,
+              "height": 16,
+              "closed": true,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 8
+                },
+                {
+                  "x": 8,
+                  "y": 3
+                },
+                {
+                  "x": 16,
+                  "y": 8
+                },
+                {
+                  "x": 8,
+                  "y": 13
+                }
+              ]
+            },
+            "fill": "none",
+            "stroke": "#536759",
+            "strokeWidth": 1.4
+          }
+        },
+        {
+          "id": "caption-offset",
+          "when": null,
+          "anchors": [],
+          "content": {
+            "kind": "transform",
+            "x": -32,
+            "y": -34,
+            "rotate": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "child": {
+              "id": "caption",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "text",
+                "slot": "caption",
+                "size": 12,
+                "weight": 400,
+                "italic": false,
+                "align": "start",
+                "wrap": false,
+                "color": "#536759"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

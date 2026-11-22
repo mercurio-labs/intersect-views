@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 8,
+  "id": "fmea.actions",
+  "label": "Action register",
+  "language": "urn:intersect:fmea:1",
+  "form": "grid",
+  "grid": {
+    "kind": "table",
+    "query": {
+      "from": "Action",
+      "select": [
+        {
+          "name": "name",
+          "expression": {
+            "op": "field",
+            "path": "name"
+          }
+        },
+        {
+          "name": "description",
+          "expression": {
+            "op": "field",
+            "path": "description"
+          }
+        },
+        {
+          "name": "owner",
+          "expression": {
+            "op": "field",
+            "path": "owner"
+          }
+        },
+        {
+          "name": "status",
+          "expression": {
+            "op": "field",
+            "path": "status"
+          }
+        },
+        {
+          "name": "evidence",
+          "expression": {
+            "op": "field",
+            "path": "evidence"
+          }
+        }
+      ],
+      "order_by": [
+        {
+          "expression": {
+            "op": "field",
+            "path": "name"
+          },
+          "descending": false
+        }
+      ]
+    },
+    "rowLabel": "name",
+    "columns": [
+      {
+        "id": "description",
+        "label": "Description",
+        "value": "description"
+      },
+      {
+        "id": "owner",
+        "label": "Owner",
+        "value": "owner"
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "value": "status"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence",
+        "value": "evidence"
+      }
+    ]
+  },
+  "projection": {
+    "kind": "nested"
+  }
+}

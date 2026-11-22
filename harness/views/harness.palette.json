@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "id": "harness.tools",
+  "label": "Harness tools",
+  "groups": [
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "entries": [
+        {
+          "id": "select",
+          "label": "Select",
+          "icon": "pointer",
+          "gesture": "select",
+          "command": "presentation.select",
+          "parameters": {},
+          "inputs": []
+        }
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Model",
+      "entries": [
+        {
+          "id": "box",
+          "label": "Box",
+          "icon": "box",
+          "gesture": "place",
+          "command": "harness.createBox",
+          "parameters": {
+            "placement": "node"
+          },
+          "inputs": [
+            {
+              "id": "name",
+              "label": "Name",
+              "default": "NewBox"
+            }
+          ]
+        },
+        {
+          "id": "pin",
+          "label": "Pin",
+          "icon": "port",
+          "gesture": "place",
+          "command": "harness.createPin",
+          "parameters": {
+            "placement": "border"
+          },
+          "inputs": [
+            {
+              "id": "name",
+              "label": "Name",
+              "default": "newPin"
+            },
+            {
+              "id": "direction",
+              "label": "Direction",
+              "default": "in"
+            }
+          ]
+        },
+        {
+          "id": "link",
+          "label": "Link",
+          "icon": "connection",
+          "gesture": "place",
+          "command": "harness.createLink",
+          "parameters": {
+            "placement": "connection"
+          },
+          "inputs": [
+            {
+              "id": "name",
+              "label": "Name",
+              "default": "newLink"
+            }
+          ]
+        },
+        {
+          "id": "group",
+          "label": "Group",
+          "icon": "box",
+          "gesture": "place",
+          "command": "harness.createGroup",
+          "parameters": {
+            "placement": "node"
+          },
+          "inputs": [
+            {
+              "id": "name",
+              "label": "Name",
+              "default": "NewGroup"
+            }
+          ]
+        },
+        {
+          "id": "field-value",
+          "label": "Set Field value",
+          "icon": "box",
+          "gesture": "action",
+          "command": "harness.setFieldValue",
+          "parameters": {},
+          "inputs": [
+            {
+              "id": "value",
+              "label": "Value",
+              "default": "2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lanes",
+      "label": "Lanes",
+      "entries": [
+        {
+          "id": "place-step",
+          "label": "Place Step",
+          "icon": "box",
+          "gesture": "action",
+          "command": "harness.placeStep",
+          "parameters": {
+            "notice": "This operation orders all Steps in this Space as a total chain. Cancel leaves source unchanged."
+          },
+          "inputs": []
+        }
+      ]
+    }
+  ]
+}

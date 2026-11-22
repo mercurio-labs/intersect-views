@@ -1,0 +1,699 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 7
+    },
+    "form": {
+      "const": "graph"
+    },
+    "ruleSet": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "view": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "key",
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "binding": {
+                "$ref": "#/$defs/binding"
+              }
+            },
+            "required": [
+              "label",
+              "binding"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "name",
+        "kind",
+        "binding",
+        "owners",
+        "details",
+        "problems"
+      ],
+      "additionalProperties": false
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      },
+      "maxItems": 500
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      },
+      "maxItems": 2000
+    },
+    "palette": {
+      "$ref": "palette.schema.json"
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "const": "layered"
+        },
+        "direction": {
+          "enum": [
+            "RIGHT",
+            "LEFT",
+            "UP",
+            "DOWN"
+          ]
+        }
+      },
+      "required": [
+        "strategy",
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000
+    },
+    "routing": {
+      "$ref": "routing.schema.json#/$defs/policy"
+    },
+    "endpointProxies": {
+      "type": "array",
+      "maxItems": 1500,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "displayOwner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "binding": {
+            "$ref": "#/$defs/binding"
+          },
+          "label": {
+            "$ref": "#/$defs/label"
+          }
+        },
+        "required": [
+          "id",
+          "displayOwner",
+          "binding",
+          "label"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "form",
+    "ruleSet",
+    "revision",
+    "view",
+    "nodes",
+    "edges",
+    "palette",
+    "layout",
+    "problems",
+    "routing",
+    "endpointProxies"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:intersect:views:graph",
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "elementId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "range": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "character": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "line",
+                "character"
+              ],
+              "additionalProperties": false
+            },
+            "end": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "character": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "line",
+                "character"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "key",
+        "elementId",
+        "context",
+        "uri",
+        "range",
+        "readOnly"
+      ],
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 4096,
+          "pattern": "^[^\\r\\n\\t]*$"
+        },
+        "binding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "editTool": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "binding",
+        "editTool"
+      ],
+      "additionalProperties": false
+    },
+    "label": {
+      "type": "object",
+      "properties": {
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/part"
+          },
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "row": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "$ref": "#/$defs/label"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "port": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "$ref": "#/$defs/label"
+        },
+        "side": {
+          "enum": [
+            "NORTH",
+            "SOUTH",
+            "EAST",
+            "WEST"
+          ]
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "graphic": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "graphics.schema.json#/$defs/instance"
+            }
+          ]
+        },
+        "text": {
+          "type": "object",
+          "maxProperties": 32,
+          "additionalProperties": {
+            "$ref": "graphics.schema.json#/$defs/textBlock"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "rule",
+        "label",
+        "side",
+        "binding",
+        "graphic",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "region": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "$ref": "#/$defs/label"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "collapsed": {
+          "type": "boolean"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          },
+          "maxItems": 500
+        }
+      },
+      "required": [
+        "id",
+        "rule",
+        "label",
+        "binding",
+        "collapsed",
+        "children"
+      ],
+      "additionalProperties": false
+    },
+    "node": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "styleClass": {
+          "type": "string"
+        },
+        "expand": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 256
+        },
+        "collapsed": {
+          "type": "boolean"
+        },
+        "notation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "$ref": "#/$defs/label"
+        },
+        "subtitle": {
+          "$ref": "#/$defs/label"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "compartments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/row"
+                },
+                "maxItems": 5000
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "label",
+              "rows",
+              "id"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 256
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          },
+          "maxItems": 500
+        },
+        "regions": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "direction": {
+                  "enum": [
+                    "row",
+                    "column"
+                  ]
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/region"
+                  },
+                  "maxItems": 16
+                }
+              },
+              "required": [
+                "direction",
+                "items"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/port"
+          },
+          "maxItems": 1000
+        },
+        "graphic": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "graphics.schema.json#/$defs/instance"
+            }
+          ]
+        },
+        "text": {
+          "type": "object",
+          "maxProperties": 32,
+          "additionalProperties": {
+            "$ref": "graphics.schema.json#/$defs/textBlock"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "rule",
+        "styleClass",
+        "expand",
+        "collapsed",
+        "notation",
+        "title",
+        "subtitle",
+        "binding",
+        "compartments",
+        "children",
+        "regions",
+        "ports",
+        "graphic",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "styleClass": {
+          "type": "string"
+        },
+        "notation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "$ref": "#/$defs/label"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "startMarker": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "graphics.schema.json#/$defs/instance"
+            }
+          ]
+        },
+        "endMarker": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "graphics.schema.json#/$defs/instance"
+            }
+          ]
+        },
+        "text": {
+          "type": "object",
+          "maxProperties": 32,
+          "additionalProperties": {
+            "$ref": "graphics.schema.json#/$defs/textBlock"
+          }
+        },
+        "branchGroup": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "rule",
+        "styleClass",
+        "notation",
+        "label",
+        "source",
+        "target",
+        "binding",
+        "startMarker",
+        "endMarker",
+        "text",
+        "branchGroup"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

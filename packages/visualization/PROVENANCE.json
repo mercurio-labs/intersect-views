@@ -1,0 +1,41 @@
+{
+  "sourceRepository": "https://github.com/mercurio-labs/intersect-model.git",
+  "sourceRevision": "4c782ecbf7961a8e017e6a61c93fa1636262beb3",
+  "sourcePath": "packages/visualization",
+  "baselineFiles": [
+    {
+      "path": "packages/visualization/README.md",
+      "sha256": "395e0481cfc9c40106ec01efea802700775f1766bb7063f4d19d0b7b6dd53b80"
+    },
+    {
+      "path": "packages/visualization/src/canvas.css",
+      "sha256": "e5298751ad1bab9dbde5ea17f21f1b99c75c19d19fbc53140f54ce992dcedee2"
+    },
+    {
+      "path": "packages/visualization/src/canvas.ts",
+      "sha256": "3d35e452d11d89ab79f179c10ecc29bae4a6d3c1665e5a6b33c663d160db4d2a"
+    },
+    {
+      "path": "packages/visualization/src/layout.worker.ts",
+      "sha256": "24985fffcffeb672ad8497f98dd820a1d65b7aaaa7dfe90945880435791564ad"
+    },
+    {
+      "path": "packages/visualization/src/protocol.ts",
+      "sha256": "ae7fae1dd1b8fabbed3002654e9ad44170747f6e57e47baf1f03f3853800a8ac"
+    },
+    {
+      "path": "packages/visualization/src/validation.ts",
+      "sha256": "d1d640cab6fd62a5783b2e3ecc9a11dd66d61711ce4f128fe88b65051a3ad574"
+    },
+    {
+      "path": "packages/visualization/tests/protocol.test.ts",
+      "sha256": "f7e77e8b477afc9917f815aa2312477708caafaba4fc7b89444e54ff187ae7c8"
+    },
+    {
+      "path": "packages/visualization/tsconfig.json",
+      "sha256": "9abeea6b3443292d0c33d701b2aecda630520a427d4d7cdc2dcd2d073c586e0c"
+    }
+  ],
+  "inheritedProvenance": null,
+  "adaptation": "M1 scene v2 and strict shared document contracts; see docs/evidence/m1.md"
+}

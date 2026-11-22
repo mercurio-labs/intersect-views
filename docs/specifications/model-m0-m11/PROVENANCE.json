@@ -1,0 +1,26 @@
+{
+  "source_repository": "https://github.com/mercurio-labs/intersect-model",
+  "source_commit": "e5f6231dc7b7fb2b2a7c95da8459ab846a1b2ac6",
+  "availability": "Original source commit is preserved locally; these exact-byte copies make the requirements readable without that unpublished commit.",
+  "status": "Historical M0-M11 governing specification and background proposal. Later approved additions and implementation receipts remain separate.",
+  "files": [
+    {
+      "source_path": "docs/view-engine-spec.md",
+      "path": "view-engine-spec.md",
+      "bytes": 33334,
+      "sha256": "13def129fdf3db972d42ebd9027355c90ad7dba03967e5744980b334e575cf55"
+    },
+    {
+      "source_path": "docs/view-engine-proposal.md",
+      "path": "view-engine-proposal.md",
+      "bytes": 25998,
+      "sha256": "89a439926fb743a5fd3c61d71314c424eee2d3f7ba2a31c8917b706521e992ce"
+    },
+    {
+      "source_path": "LICENSE",
+      "path": "LICENSE",
+      "bytes": 1083,
+      "sha256": "8b0f7e14508f5cc43369ce42d6c99c21f6dbc184a7d9651467cc88ae027aed26"
+    }
+  ]
+}

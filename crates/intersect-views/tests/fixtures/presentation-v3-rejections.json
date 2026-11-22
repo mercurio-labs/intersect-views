@@ -1,0 +1,67 @@
+[
+  {
+    "name": "unknown presentation version",
+    "pointer": "/schemaVersion",
+    "value": 1
+  },
+  {
+    "name": "unknown presentation field",
+    "pointer": "/future",
+    "value": true
+  },
+  {
+    "name": "invalid views map",
+    "pointer": "/views",
+    "value": []
+  },
+  {
+    "name": "unknown view field",
+    "pointer": "/views/structure-1/model",
+    "value": "semantic"
+  },
+  {
+    "name": "unknown geometry field",
+    "pointer": "/views/structure-1/positions/port:left/model",
+    "value": true
+  },
+  {
+    "name": "out of bounds position",
+    "pointer": "/views/structure-1/positions/port:left/x",
+    "value": 1000001
+  },
+  {
+    "name": "zero width",
+    "pointer": "/views/structure-1/positions/port:left/width",
+    "value": 0
+  },
+  {
+    "name": "nonnumeric geometry",
+    "pointer": "/views/structure-1/positions/port:left/y",
+    "value": "1"
+  },
+  {
+    "name": "zero zoom",
+    "pointer": "/views/structure-1/viewport/zoom",
+    "value": 0
+  },
+  {
+    "name": "too large zoom",
+    "pointer": "/views/structure-1/viewport/zoom",
+    "value": 4.1
+  },
+  {
+    "name": "unknown viewport field",
+    "pointer": "/views/structure-1/viewport/model",
+    "value": true
+  },
+  {
+    "name": "missing presentation form",
+    "pointer": "/views/structure-1/form",
+    "remove": true
+  },
+  {
+    "name": "mixed form fields",
+    "pointer": "/views/structure-1/laneOrder",
+    "value": []
+  }
+]

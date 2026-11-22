@@ -1,0 +1,3766 @@
+{
+  "accepted": [
+    {
+      "name": "bound structured definition",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "typed reuse",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            },
+            {
+              "id": "fixture.base/reuse",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "reused",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "use",
+                  "definition": "fixture.base/card",
+                  "parameters": {
+                    "ink": {
+                      "kind": "parameter",
+                      "name": "ink"
+                    }
+                  },
+                  "slots": {
+                    "title": "title"
+                  }
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transformed named anchor",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {},
+              "slots": {},
+              "connectionAnchor": "tip",
+              "root": {
+                "id": "rotate",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": 90,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "pin",
+                    "when": null,
+                    "anchors": [
+                      {
+                        "id": "tip",
+                        "x": 16,
+                        "y": 8,
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "content": {
+                      "kind": "geometry",
+                      "geometry": {
+                        "kind": "path",
+                        "width": 16,
+                        "height": 16,
+                        "commands": [
+                          {
+                            "kind": "move",
+                            "x": 0,
+                            "y": 8
+                          },
+                          {
+                            "kind": "line",
+                            "x": 16,
+                            "y": 8
+                          }
+                        ]
+                      },
+                      "fill": "none",
+                      "stroke": "#345634",
+                      "strokeWidth": 1.5
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "conditional directed port",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "harness.symbols",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "harness.symbols/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {
+                "angle": {
+                  "kind": "number",
+                  "default": 0
+                },
+                "facing": {
+                  "kind": "choice",
+                  "values": [
+                    "WEST",
+                    "EAST"
+                  ],
+                  "default": "EAST"
+                }
+              },
+              "slots": {},
+              "root": {
+                "id": "orientation",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": {
+                    "op": "parameter",
+                    "name": "angle"
+                  },
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "direction",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "transform",
+                      "x": 0,
+                      "y": 0,
+                      "rotate": 0,
+                      "scaleX": {
+                        "op": "select",
+                        "condition": {
+                          "op": "equal",
+                          "name": "facing",
+                          "value": "EAST"
+                        },
+                        "ifTrue": 1,
+                        "ifFalse": -1
+                      },
+                      "scaleY": 1,
+                      "child": {
+                        "id": "glyph",
+                        "when": null,
+                        "anchors": [
+                          {
+                            "id": "tip",
+                            "x": 16,
+                            "y": 8,
+                            "dx": 1,
+                            "dy": 0
+                          }
+                        ],
+                        "content": {
+                          "kind": "overlay",
+                          "children": [
+                            {
+                              "id": "outline",
+                              "when": null,
+                              "anchors": [],
+                              "content": {
+                                "kind": "geometry",
+                                "geometry": {
+                                  "kind": "rectangle",
+                                  "width": 16,
+                                  "height": 16,
+                                  "radius": 2
+                                },
+                                "fill": "#ffffff",
+                                "stroke": "#375b43",
+                                "strokeWidth": 1.3
+                              }
+                            },
+                            {
+                              "id": "arrow",
+                              "when": null,
+                              "anchors": [],
+                              "content": {
+                                "kind": "geometry",
+                                "geometry": {
+                                  "kind": "path",
+                                  "width": 16,
+                                  "height": 16,
+                                  "commands": [
+                                    {
+                                      "kind": "move",
+                                      "x": 3,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 12,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "move",
+                                      "x": 8,
+                                      "y": 4
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 12,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 8,
+                                      "y": 12
+                                    }
+                                  ]
+                                },
+                                "fill": "none",
+                                "stroke": "#375b43",
+                                "strokeWidth": 1.4
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "connectionAnchor": "tip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "acyclic authored size and measured slots",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": 240,
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "name": "unknown library field",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ],
+          "script": "ignored?"
+        }
+      ]
+    },
+    {
+      "name": "unknown library version",
+      "libraries": [
+        {
+          "schemaVersion": 2,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "duplicate library identity",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        },
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unqualified definition",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown role",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "sysmlRequirement",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bad parameter default",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "c"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "duplicate choice values",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "a"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown content slot",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "missing",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown content variant",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "rawSvg",
+                  "html": "<svg/>"
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown nested field",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        },
+                        "onclick": "code"
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "missing required nullable",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "raw URL paint",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": "url(https://example.invalid/x)",
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wrong paint parameter type",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "enabled"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "missing connection anchor",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "port",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": "missing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "port cannot own child slot",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "port",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text",
+                "children": "children"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "negative frame padding",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": -1,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nonfinite extent",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 1000001
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "duplicate authored part",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    },
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bad condition type",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": {
+                  "op": "parameter",
+                  "name": "ink"
+                },
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "self-reuse cycle",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "use",
+                  "definition": "fixture.base/card",
+                  "parameters": {},
+                  "slots": {
+                    "title": "title"
+                  }
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown forwarded slots both absent",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            },
+            {
+              "id": "fixture.base/reuse",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "reused",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "use",
+                  "definition": "fixture.base/card",
+                  "parameters": {
+                    "ink": {
+                      "kind": "parameter",
+                      "name": "ink"
+                    }
+                  },
+                  "slots": {
+                    "bogus": "absent"
+                  }
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wrong forwarded parameter",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            },
+            {
+              "id": "fixture.base/reuse",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "reused",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "use",
+                  "definition": "fixture.base/card",
+                  "parameters": {
+                    "ink": {
+                      "kind": "parameter",
+                      "name": "enabled"
+                    }
+                  },
+                  "slots": {
+                    "title": "title"
+                  }
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zero transform scale",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {},
+              "slots": {},
+              "connectionAnchor": "tip",
+              "root": {
+                "id": "rotate",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": 90,
+                  "scaleX": 0,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "pin",
+                    "when": null,
+                    "anchors": [
+                      {
+                        "id": "tip",
+                        "x": 16,
+                        "y": 8,
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "content": {
+                      "kind": "geometry",
+                      "geometry": {
+                        "kind": "path",
+                        "width": 16,
+                        "height": 16,
+                        "commands": [
+                          {
+                            "kind": "move",
+                            "x": 0,
+                            "y": 8
+                          },
+                          {
+                            "kind": "line",
+                            "x": 16,
+                            "y": 8
+                          }
+                        ]
+                      },
+                      "fill": "none",
+                      "stroke": "#345634",
+                      "strokeWidth": 1.5
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "measurement height cycle",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {},
+              "slots": {},
+              "connectionAnchor": "tip",
+              "root": {
+                "id": "rotate",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": 90,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "pin",
+                    "when": null,
+                    "anchors": [
+                      {
+                        "id": "tip",
+                        "x": 16,
+                        "y": 8,
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "content": {
+                      "kind": "geometry",
+                      "geometry": {
+                        "kind": "path",
+                        "width": 16,
+                        "height": {
+                          "op": "height"
+                        },
+                        "commands": [
+                          {
+                            "kind": "move",
+                            "x": 0,
+                            "y": 8
+                          },
+                          {
+                            "kind": "line",
+                            "x": 16,
+                            "y": 8
+                          }
+                        ]
+                      },
+                      "fill": "none",
+                      "stroke": "#345634",
+                      "strokeWidth": 1.5
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bad path start",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {},
+              "slots": {},
+              "connectionAnchor": "tip",
+              "root": {
+                "id": "rotate",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": 90,
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "pin",
+                    "when": null,
+                    "anchors": [
+                      {
+                        "id": "tip",
+                        "x": 16,
+                        "y": 8,
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "content": {
+                      "kind": "geometry",
+                      "geometry": {
+                        "kind": "path",
+                        "width": 16,
+                        "height": 16,
+                        "commands": [
+                          {
+                            "kind": "line",
+                            "x": 0,
+                            "y": 8
+                          },
+                          {
+                            "kind": "line",
+                            "x": 16,
+                            "y": 8
+                          }
+                        ]
+                      },
+                      "fill": "none",
+                      "stroke": "#345634",
+                      "strokeWidth": 1.5
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "missing library import",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [
+            "fixture.absent"
+          ],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "connectionAnchor": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "invalid Choice condition in numeric selection",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "harness.symbols",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "harness.symbols/terminal",
+              "version": "1",
+              "role": "port",
+              "parameters": {
+                "angle": {
+                  "kind": "number",
+                  "default": 0
+                },
+                "facing": {
+                  "kind": "choice",
+                  "values": [
+                    "WEST",
+                    "EAST"
+                  ],
+                  "default": "EAST"
+                }
+              },
+              "slots": {},
+              "root": {
+                "id": "orientation",
+                "when": null,
+                "anchors": [],
+                "content": {
+                  "kind": "transform",
+                  "x": 0,
+                  "y": 0,
+                  "rotate": {
+                    "op": "parameter",
+                    "name": "angle"
+                  },
+                  "scaleX": 1,
+                  "scaleY": 1,
+                  "child": {
+                    "id": "direction",
+                    "when": null,
+                    "anchors": [],
+                    "content": {
+                      "kind": "transform",
+                      "x": 0,
+                      "y": 0,
+                      "rotate": 0,
+                      "scaleX": {
+                        "op": "select",
+                        "condition": {
+                          "op": "equal",
+                          "name": "facing",
+                          "value": "NORTH"
+                        },
+                        "ifTrue": 1,
+                        "ifFalse": -1
+                      },
+                      "scaleY": 1,
+                      "child": {
+                        "id": "glyph",
+                        "when": null,
+                        "anchors": [
+                          {
+                            "id": "tip",
+                            "x": 16,
+                            "y": 8,
+                            "dx": 1,
+                            "dy": 0
+                          }
+                        ],
+                        "content": {
+                          "kind": "overlay",
+                          "children": [
+                            {
+                              "id": "outline",
+                              "when": null,
+                              "anchors": [],
+                              "content": {
+                                "kind": "geometry",
+                                "geometry": {
+                                  "kind": "rectangle",
+                                  "width": 16,
+                                  "height": 16,
+                                  "radius": 2
+                                },
+                                "fill": "#ffffff",
+                                "stroke": "#375b43",
+                                "strokeWidth": 1.3
+                              }
+                            },
+                            {
+                              "id": "arrow",
+                              "when": null,
+                              "anchors": [],
+                              "content": {
+                                "kind": "geometry",
+                                "geometry": {
+                                  "kind": "path",
+                                  "width": 16,
+                                  "height": 16,
+                                  "commands": [
+                                    {
+                                      "kind": "move",
+                                      "x": 3,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 12,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "move",
+                                      "x": 8,
+                                      "y": 4
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 12,
+                                      "y": 8
+                                    },
+                                    {
+                                      "kind": "line",
+                                      "x": 8,
+                                      "y": 12
+                                    }
+                                  ]
+                                },
+                                "fill": "none",
+                                "stroke": "#375b43",
+                                "strokeWidth": 1.4
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "connectionAnchor": "tip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wrapping width cycle",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": {
+                  "op": "slotHeight",
+                  "slot": "title"
+                },
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "local width cycle",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": {
+                  "op": "width"
+                },
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown measured slot",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": {
+                  "op": "slotWidth",
+                  "slot": "missing"
+                },
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inverted size constraints",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": 10,
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "invalid dash token",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "script"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": 240,
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "oversized frame stroke",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": 1,
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 101,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": 240,
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bad unused evaluated default",
+      "libraries": [
+        {
+          "schemaVersion": 1,
+          "id": "fixture.base",
+          "imports": [],
+          "definitions": [
+            {
+              "id": "fixture.base/card",
+              "version": "1",
+              "role": "node",
+              "parameters": {
+                "fill": {
+                  "kind": "string",
+                  "default": "#eef6ee"
+                },
+                "ink": {
+                  "kind": "string",
+                  "default": "#345634"
+                },
+                "enabled": {
+                  "kind": "bool",
+                  "default": true
+                },
+                "size": {
+                  "kind": "number",
+                  "default": 16
+                },
+                "mode": {
+                  "kind": "choice",
+                  "values": [
+                    "a",
+                    "b"
+                  ],
+                  "default": "a"
+                }
+              },
+              "slots": {
+                "title": "text"
+              },
+              "root": {
+                "id": "frame",
+                "when": null,
+                "anchors": [
+                  {
+                    "id": "measured",
+                    "x": {
+                      "op": "slotWidth",
+                      "slot": "title"
+                    },
+                    "y": {
+                      "op": "slotHeight",
+                      "slot": "title"
+                    },
+                    "dx": {
+                      "op": "divide",
+                      "left": 1,
+                      "right": 0
+                    },
+                    "dy": 0
+                  }
+                ],
+                "content": {
+                  "kind": "frame",
+                  "padding": 16,
+                  "radius": 8,
+                  "fill": {
+                    "parameter": "fill"
+                  },
+                  "stroke": {
+                    "parameter": "ink"
+                  },
+                  "strokeWidth": 1.5,
+                  "children": [
+                    {
+                      "id": "heading",
+                      "when": null,
+                      "anchors": [],
+                      "content": {
+                        "kind": "text",
+                        "slot": "title",
+                        "size": 14,
+                        "weight": 600,
+                        "italic": false,
+                        "align": "center",
+                        "wrap": true,
+                        "color": {
+                          "parameter": "ink"
+                        }
+                      }
+                    }
+                  ],
+                  "dash": "dashed"
+                }
+              },
+              "connectionAnchor": null,
+              "size": {
+                "minimumWidth": 80,
+                "preferredWidth": 240,
+                "minimumHeight": 20,
+                "preferredHeight": {
+                  "op": "max",
+                  "left": 20,
+                  "right": {
+                    "op": "slotHeight",
+                    "slot": "title"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

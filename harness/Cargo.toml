@@ -1,0 +1,34 @@
+[package]
+name = "intersect-view-harness"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+autotests = false
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[features]
+milestone-tests = []
+
+[dependencies]
+intersect-views.workspace = true
+intersect-view-host.workspace = true
+intersect-model.workspace = true
+intersect-text.workspace = true
+
+serde_json.workspace = true
+
+[[test]]
+name = "all"
+path = "tests/all.rs"
+
+[[example]]
+name = "query_gate"
+path = "examples/query_gate.rs"
+crate-type = ["cdylib"]
+[[example]]
+name = "region_gate"
+crate-type = ["cdylib"]

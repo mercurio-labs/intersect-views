@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 7,
+  "id": "fmea.structure",
+  "label": "Failure analysis",
+  "language": "urn:intersect:fmea:1",
+  "form": "graph",
+  "layout": {
+    "strategy": "layered",
+    "direction": "RIGHT"
+  },
+  "symbols": [
+    {
+      "id": "analysis",
+      "match": "Analysis",
+      "emit": "node",
+      "notation": "analysis",
+      "title": "analysisName",
+      "children": {
+        "select": "items"
+      }
+    },
+    {
+      "id": "item",
+      "match": "Item",
+      "emit": "node",
+      "notation": "item",
+      "title": "itemName",
+      "children": {
+        "select": "failures"
+      }
+    },
+    {
+      "id": "failure",
+      "match": "FailureMode",
+      "emit": "node",
+      "notation": "failure",
+      "title": "failureName",
+      "subtitle": {
+        "parts": [
+          {
+            "id": "risk",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "risk",
+            "edit": {
+              "tool": "rate",
+              "command": "fmea.setRatings",
+              "accepts": "canRate"
+            }
+          }
+        ]
+      },
+      "styleClass": "severityStyle",
+      "children": {
+        "select": "actions"
+      }
+    },
+    {
+      "id": "action",
+      "match": "Action",
+      "emit": "node",
+      "notation": "action",
+      "title": "actionName",
+      "subtitle": {
+        "parts": [
+          {
+            "id": "status",
+            "subject": {
+              "kind": "self"
+            },
+            "text": "actionStatus",
+            "edit": {
+              "tool": "action-status",
+              "command": "fmea.updateAction",
+              "accepts": "canUpdateAction"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [],
+  "projection": {
+    "kind": "nested"
+  }
+}

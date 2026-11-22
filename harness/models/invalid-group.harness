@@ -1,0 +1,1 @@
+space Invalid { box A { group G {} link bad { from s (group G) to t (part B) } box B {} } }
