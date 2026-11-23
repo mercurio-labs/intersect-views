@@ -288,10 +288,10 @@ export class DiagramCanvas {
         ? this.pendingArrangement
         : undefined;
       this.pendingArrangement = undefined;
-      const fail = (error: Error, message: string) => {
+      const fail = (error: Error, message: string, keepFrame = !!arrangement) => {
         this.settled(error);
-        this.stale = !arrangement;
-        if (arrangement) this.readyState = "ready";
+        this.stale = !keepFrame;
+        if (keepFrame) this.readyState = "ready";
         this.renderTools();
         this.status(message);
       };
@@ -317,7 +317,9 @@ export class DiagramCanvas {
       } catch (error) {
         this.layout = previous;
         const failure = error instanceof Error ? error : new Error(String(error));
-        fail(failure, `Drawing failed: ${failure.message}`);
+        // A partial draw can have changed the hit maps. Keep interactions
+        // disabled until a complete frame redraws them.
+        fail(failure, `Drawing failed: ${failure.message}`, false);
         return;
       }
       if (arrangement) {
@@ -650,6 +652,7 @@ export class DiagramCanvas {
     this.targetSequence++;
     this.targetIds.clear();
     this.paintTargets();
+    this.pendingArrangement = undefined;
     this.stale = true;
     this.selectedPart = undefined;
     this.labelEnabled = false;
