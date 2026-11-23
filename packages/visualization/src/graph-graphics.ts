@@ -1,3 +1,4 @@
+import {authoredPropertyKeys} from "./symbol-properties-contract.ts";
 /** Generic bound-content adapter. Semantic selection stays in the shared host. */
 import { GraphicDefinitions, type GraphicInstance, type PresentationContext } from "./graphics-contract.ts";
 import { layoutGraphic,measureBlock, type BoundGraphicContent, type MeasureText, type GraphicDrawing,type Matrix } from "./graphics-layout.ts";
@@ -51,7 +52,9 @@ export function drawGraphic(definitions: GraphicDefinitions, instance: GraphicIn
       contents[name] = { kind: "text", block, owner: owner.id, binding: owner.binding, slot: source.kind === "text" ? source.name : `${"title" in owner ? "node" : "source" in owner ? "edge" : "port"}.${source.kind}` };
     }
   }
-  try { return layoutGraphic(definitions, instance, owner.id, contents, width, measure,allocatedHeight,placements,instancePath); }
+  let keys:Set<string>|undefined;
+  if(Object.hasOwn(definitions.propertyOverrides,owner.id)&&"source"in owner){keys=new Set<string>();for(const side of ["start","end"] as const){const marker=owner[side==="start"?"startMarker":"endMarker"];if(marker)for(const key of authoredPropertyKeys(definitions,marker.definition,`edge.${side}Marker`))keys.add(key);}}
+  try { return layoutGraphic(definitions, instance, owner.id, contents, width, measure,allocatedHeight,placements,instancePath,keys); }
   catch(error) { throw Error(`Graphic ${instance.definition}, occurrence ${owner.id}: ${error instanceof Error ? error.message : String(error)}`); }
 }
 export function contentBoxes(node: Node, layout: Layout): Record<string, { width: number; height: number }> {
@@ -68,7 +71,7 @@ export function contentBoxes(node: Node, layout: Layout): Record<string, { width
 export const hasGraphics = (nodes: Node[]): boolean => nodes.some((n) => n.graphic !== null || n.ports.some((p) => p.graphic !== null) || hasGraphics(n.children) || (n.regions?.items.some((r) => hasGraphics(r.children)) ?? false));
 
 /** Keep existing allocations authoritative when source edits add an unsaved sibling. */
-export function separateUnsaved(nodes:{id:string}[],positions:Record<string,Geometry>,saved:Record<string,Geometry>,gap:number){
+export function separateUnsaved(nodes:{id:string}[],positions:Record<string,Geometry>,saved:Record<string,import("./protocol.ts").SavedPosition>,gap:number){
   const occupied=nodes.filter(n=>own(saved,n.id)).map(n=>positions[n.id]);
   for(const n of [...nodes].filter(n=>!own(saved,n.id)).sort((a,b)=>a.id<b.id?-1:1)){
     const g=positions[n.id];if(occupied.some(b=>g.x<b.x+b.width+gap&&g.x+g.width+gap>b.x&&g.y<b.y+b.height+gap&&g.y+g.height+gap>b.y))g.y=Math.max(...occupied.map(b=>b.y+b.height+gap));
@@ -78,7 +81,7 @@ export function separateUnsaved(nodes:{id:string}[],positions:Record<string,Geom
 
 /** Composition dimensions are measured before arranging siblings. No semantic queries. */
 export async function graphicGraphLayout(scene: GraphScene, presentation: Presentation, context: PresentationContext, measure: MeasureText, arrange: (nodes: { id: string; width: number; height: number }[], edges: Edge[]) => Promise<{ id: string; x?: number; y?: number }[]>): Promise<Layout> {
-  const definitions = new GraphicDefinitions(context.libraries), saved = graphPresentation(presentation, scene.view.key)?.positions ?? {};
+  const definitions = new GraphicDefinitions(context.libraries,graphPresentation(presentation,scene.view.key)?.symbolOverrides), saved = graphPresentation(presentation, scene.view.key)?.positions ?? {};
   const result: Layout = { revision: scene.revision, viewKey: scene.view.key, nodes: Object.create(null), ports: Object.create(null), edges: Object.create(null), regions: Object.create(null), minimum: Object.create(null) };
   const outsets:NonNullable<Layout["outsets"]>=Object.create(null);result.outsets=outsets;
   const padding=scene.routing.stubLength+scene.routing.clearance+8;
@@ -126,6 +129,10 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
       for (const r of n.regions?.items ?? []) { result.regions[r.id].x += 20; result.regions[r.id].y += 64 + rows; }
     }
     result.minimum[n.id] = { width:n.graphic && definitions.definition(n.graphic.definition).size ? drawGraphic(definitions,n.graphic,n,1,measure,boxes).width : Math.min(width,Math.max(240, boxes.children.width + 32, boxes.regions.width + 32)), height };
+    if(n.graphic&&definitions.definition(n.graphic.definition).properties?.length){
+      const min=drawGraphic(definitions,n.graphic,n,width,measure,boxes,1),preferred=drawGraphic(definitions,n.graphic,n,undefined,measure,boxes);
+      result.minimum[n.id].height=min.height;(result.preferred??={})[n.id]={width:preferred.width,height:preferred.height};
+    }
     result.nodes[n.id] = { x: 0, y: 0, width, height: Math.max(1, height, old?.height ?? 0) };
     const body=result.nodes[n.id],o={left:0,top:0,right:0,bottom:0};outsets[n.id]=o;
     // An ordinary box endpoint can attach on any free face. Reserve its lead
@@ -142,7 +149,7 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
     const include=(x:number,y:number,w:number,h:number)=>{o.left=Math.max(o.left,-x+scene.routing.clearance);o.top=Math.max(o.top,-y+scene.routing.clearance);o.right=Math.max(o.right,x+w-body.width+scene.routing.clearance);o.bottom=Math.max(o.bottom,y+h-body.height+scene.routing.clearance);};
     // Packing reserves authored defaults. Movable text affects routing/fit,
     // without shifting its owner or the owner's fixed port geometry.
-    if(n.graphic){const drawing=drawGraphic(definitions,n.graphic,n,body.width,measure,boxes,body.height);for(const f of drawing.fragments)include(f.rect.x,f.rect.y,f.rect.width,f.rect.height);}
+    if(n.graphic){const drawing=drawGraphic(definitions,n.graphic,n,body.width,measure,boxes,body.height);for(const f of drawing.fragments)include(f.rect.x,f.rect.y,f.rect.width,f.rect.height);if(drawing.propertyTargets.length)for(const ink of drawing.geometry)include(ink.x,ink.y,ink.width,ink.height);}
     for(const side of ["NORTH","SOUTH","WEST","EAST"]){const ps=n.ports.filter(p=>p.side===side);ps.forEach((p,i)=>{
       const t=(i+1)/(ps.length+1),point={x:side==="WEST"?0:side==="EAST"?body.width:body.width*t,y:side==="NORTH"?0:side==="SOUTH"?body.height:body.height*t};
       if(p.graphic){const d=drawGraphic(definitions,p.graphic,p,16,measure),definition=definitions.definition(p.graphic.definition),a=definition.connectionAnchor?d.anchors[definition.connectionAnchor]:{x:d.width/2,y:d.height/2,dx:1,dy:0};include(point.x-a.x+d.left,point.y-a.y+d.top,d.width,d.height);const magnitude=Math.hypot(a.dx,a.dy);include(point.x+a.dx/magnitude*scene.routing.stubLength,point.y+a.dy/magnitude*scene.routing.stubLength,1,1);}

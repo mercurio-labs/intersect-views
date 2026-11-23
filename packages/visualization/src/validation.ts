@@ -1,3 +1,4 @@
+import {validateSymbolOverrides} from "./symbol-properties-contract.ts";
 import { validateRoutingPolicy, validateRouteConstraint, validateLabelPlacement } from "./routing-contract.ts";
 import type { Binding } from "./protocol.ts";
 import { validateProjection } from "./rendering.ts";
@@ -591,7 +592,7 @@ export function validatePresentation(
   value: unknown,
 ): asserts value is Presentation {
   const presentation = object(value, ["schemaVersion", "views"]);
-  if (presentation.schemaVersion !== 4)
+  if (presentation.schemaVersion !== 5)
     throw Error(
       "Unsupported presentation version; export or reset the saved layout",
     );
@@ -607,7 +608,7 @@ export function validatePresentation(
     const view =
       (value as { form?: string })?.form === "laneGraph"
         ? object(value, ["form", "laneOrder", "viewport", "packageFingerprint", "projection"])
-        : object(value, ["form", "positions", "viewport", "packageFingerprint", "projection", "routeConstraints", "labelPlacements"]);
+        : object(value, ["form", "positions", "viewport", "packageFingerprint", "projection", "routeConstraints", "labelPlacements", "symbolOverrides"]);
     if (typeof view.packageFingerprint !== "string" || !/^[a-f0-9]{64}$/.test(view.packageFingerprint)) throw Error("Invalid saved package fingerprint");
     text(view.projection, true);
     if (view.form !== "graph" && view.form !== "laneGraph")
@@ -623,6 +624,7 @@ export function validatePresentation(
       }
     }
     if(view.form === "graph") {
+      validateSymbolOverrides(view.symbolOverrides);
       const routes=map(view.routeConstraints),labels=map(view.labelPlacements);
       if(Object.keys(routes).length>2048||Object.keys(labels).length>20000)throw Error("Saved routing or label placement budget exceeded");
       for(const [id,value]of Object.entries(routes)){text(id,true);validateRouteConstraint(value);}
@@ -632,13 +634,14 @@ export function validatePresentation(
     if (Object.keys(positions).length > 5000)
       throw new Error("Presentation position budget exceeded");
     for (const value of Object.values(positions)) {
-      const g = object(value, ["x", "y", "width", "height"]);
-      for (const key of ["x", "y", "width", "height"])
+      const g = object(value, ["x", "y"], ["width", "height"]);
+      if((g.width===undefined)!==(g.height===undefined))throw Error("Both allocation dimensions are required together");
+      for (const key of ["x", "y",...(g.width===undefined?[]:["width","height"])])
         if (typeof g[key] !== "number" || !Number.isFinite(g[key]))
           throw new Error("Invalid position number");
       if (
-        (g.width as number) < 1 ||
-        (g.height as number) < 1 ||
+        (g.width!==undefined&&((g.width as number)<1||(g.width as number)>1_000_000)) ||
+        (g.height!==undefined&&((g.height as number)<1||(g.height as number)>1_000_000)) ||
         Math.abs(g.x as number) > 1_000_000 ||
         Math.abs(g.y as number) > 1_000_000
       )

@@ -1,0 +1,793 @@
+{
+  "schemaVersion": 1,
+  "id": "fixture.properties",
+  "imports": [],
+  "definitions": [
+    {
+      "id": "fixture.properties/node",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fillEnabled": {
+          "kind": "bool",
+          "default": true
+        },
+        "fill": {
+          "kind": "string",
+          "default": "#edf5ef"
+        },
+        "stroke": {
+          "kind": "string",
+          "default": "#4a6b58"
+        },
+        "strokeWidth": {
+          "kind": "number",
+          "default": 1.2
+        },
+        "radius": {
+          "kind": "number",
+          "default": 8
+        },
+        "dash": {
+          "kind": "choice",
+          "default": "solid",
+          "values": [
+            "solid",
+            "dashed",
+            "dotted"
+          ]
+        },
+        "textColor": {
+          "kind": "string",
+          "default": "#263b30"
+        },
+        "fontSize": {
+          "kind": "number",
+          "default": 14
+        },
+        "fontWeight": {
+          "kind": "number",
+          "default": 600
+        },
+        "italic": {
+          "kind": "bool",
+          "default": false
+        },
+        "alignment": {
+          "kind": "choice",
+          "default": "start",
+          "values": [
+            "start",
+            "center",
+            "end"
+          ]
+        },
+        "wrap": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text"
+      },
+      "size": {
+        "minimumWidth": 140,
+        "preferredWidth": 360,
+        "minimumHeight": 64,
+        "preferredHeight": 220
+      },
+      "properties": [
+        {
+          "id": "fillEnabled",
+          "parameter": "fillEnabled",
+          "label": "Fill enabled",
+          "group": "Appearance",
+          "description": "Local visual override for fill enabled.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        },
+        {
+          "id": "fill",
+          "parameter": "fill",
+          "label": "Fill color",
+          "group": "Appearance",
+          "description": "Local visual override for fill color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "stroke",
+          "parameter": "stroke",
+          "label": "Line color",
+          "group": "Appearance",
+          "description": "Local visual override for line color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "strokeWidth",
+          "parameter": "strokeWidth",
+          "label": "Line width",
+          "group": "Appearance",
+          "description": "Local visual override for line width.",
+          "editor": {
+            "kind": "number",
+            "minimum": 0,
+            "maximum": 20
+          },
+          "editable": true
+        },
+        {
+          "id": "radius",
+          "parameter": "radius",
+          "label": "Corner radius",
+          "group": "Appearance",
+          "description": "Local visual override for corner radius.",
+          "editor": {
+            "kind": "number",
+            "minimum": 0,
+            "maximum": 128
+          },
+          "editable": true
+        },
+        {
+          "id": "dash",
+          "parameter": "dash",
+          "label": "Line style",
+          "group": "Appearance",
+          "description": "Local visual override for line style.",
+          "editor": {
+            "kind": "choice"
+          },
+          "editable": true
+        },
+        {
+          "id": "textColor",
+          "parameter": "textColor",
+          "label": "Text color",
+          "group": "Text",
+          "description": "Local visual override for text color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "fontSize",
+          "parameter": "fontSize",
+          "label": "Font size",
+          "group": "Text",
+          "description": "Local visual override for font size.",
+          "editor": {
+            "kind": "number",
+            "minimum": 6,
+            "maximum": 96
+          },
+          "editable": true
+        },
+        {
+          "id": "fontWeight",
+          "parameter": "fontWeight",
+          "label": "Font weight",
+          "group": "Text",
+          "description": "Local visual override for font weight.",
+          "editor": {
+            "kind": "number",
+            "minimum": 100,
+            "maximum": 900
+          },
+          "editable": true
+        },
+        {
+          "id": "italic",
+          "parameter": "italic",
+          "label": "Italic",
+          "group": "Text",
+          "description": "Local visual override for italic.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        },
+        {
+          "id": "alignment",
+          "parameter": "alignment",
+          "label": "Alignment",
+          "group": "Text",
+          "description": "Local visual override for alignment.",
+          "editor": {
+            "kind": "choice"
+          },
+          "editable": true
+        },
+        {
+          "id": "wrap",
+          "parameter": "wrap",
+          "label": "Wrap text",
+          "group": "Text",
+          "description": "Local visual override for wrap text.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        }
+      ],
+      "connectionAnchor": null,
+      "root": {
+        "id": "body",
+        "when": null,
+        "anchors": [],
+        "style": {
+          "fillEnabled": {
+            "parameter": "fillEnabled"
+          },
+          "fill": {
+            "parameter": "fill"
+          },
+          "stroke": {
+            "parameter": "stroke"
+          },
+          "strokeWidth": {
+            "parameter": "strokeWidth"
+          },
+          "radius": {
+            "parameter": "radius"
+          },
+          "dash": {
+            "parameter": "dash"
+          }
+        },
+        "content": {
+          "kind": "frame",
+          "padding": 12,
+          "radius": 8,
+          "fill": "#edf5ef",
+          "stroke": "#4a6b58",
+          "strokeWidth": 1.2,
+          "children": [
+            {
+              "id": "title",
+              "when": null,
+              "anchors": [],
+              "style": {
+                "textColor": {
+                  "parameter": "textColor"
+                },
+                "fontSize": {
+                  "parameter": "fontSize"
+                },
+                "fontWeight": {
+                  "parameter": "fontWeight"
+                },
+                "italic": {
+                  "parameter": "italic"
+                },
+                "alignment": {
+                  "parameter": "alignment"
+                },
+                "wrap": {
+                  "parameter": "wrap"
+                }
+              },
+              "content": {
+                "kind": "text",
+                "slot": "title",
+                "size": 14,
+                "weight": 600,
+                "italic": false,
+                "align": "start",
+                "wrap": true,
+                "color": "#263b30"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fixture.properties/terminal",
+      "version": "1",
+      "role": "port",
+      "parameters": {
+        "angle": {
+          "kind": "number",
+          "default": 0
+        },
+        "facing": {
+          "kind": "choice",
+          "values": [
+            "WEST",
+            "EAST"
+          ],
+          "default": "EAST"
+        },
+        "visualInk": {
+          "kind": "string",
+          "default": "#536759"
+        },
+        "visualText": {
+          "kind": "string",
+          "default": "#314a60"
+        },
+        "visualFont": {
+          "kind": "number",
+          "default": 12
+        }
+      },
+      "slots": {
+        "label": "text"
+      },
+      "root": {
+        "id": "port",
+        "when": null,
+        "anchors": [],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "orientation",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": 0,
+                "y": 0,
+                "rotate": 35,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "direction",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "transform",
+                    "x": 0,
+                    "y": 0,
+                    "rotate": 35,
+                    "scaleX": {
+                      "op": "select",
+                      "condition": {
+                        "op": "equal",
+                        "name": "facing",
+                        "value": "EAST"
+                      },
+                      "ifTrue": 1,
+                      "ifFalse": -1
+                    },
+                    "scaleY": 1,
+                    "child": {
+                      "id": "glyph",
+                      "when": null,
+                      "anchors": [
+                        {
+                          "id": "tip",
+                          "x": 16,
+                          "y": 8,
+                          "dx": 1,
+                          "dy": 0
+                        }
+                      ],
+                      "content": {
+                        "kind": "overlay",
+                        "children": [
+                          {
+                            "id": "outline",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "rectangle",
+                                "width": 16,
+                                "height": 16,
+                                "radius": 2
+                              },
+                              "fill": "#ffffff",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.3
+                            },
+                            "style": {
+                              "stroke": {
+                                "parameter": "visualInk"
+                              }
+                            }
+                          },
+                          {
+                            "id": "arrow",
+                            "when": null,
+                            "anchors": [],
+                            "content": {
+                              "kind": "geometry",
+                              "geometry": {
+                                "kind": "path",
+                                "width": 16,
+                                "height": 16,
+                                "commands": [
+                                  {
+                                    "kind": "move",
+                                    "x": 3,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "move",
+                                    "x": 8,
+                                    "y": 4
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 12,
+                                    "y": 8
+                                  },
+                                  {
+                                    "kind": "line",
+                                    "x": 8,
+                                    "y": 12
+                                  }
+                                ]
+                              },
+                              "fill": "none",
+                              "stroke": "#375b43",
+                              "strokeWidth": 1.4
+                            },
+                            "style": {
+                              "stroke": {
+                                "parameter": "visualInk"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "outsideLabel",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": {
+                  "op": "select",
+                  "condition": {
+                    "op": "equal",
+                    "name": "facing",
+                    "value": "EAST"
+                  },
+                  "ifTrue": 28,
+                  "ifFalse": {
+                    "op": "subtract",
+                    "left": -12,
+                    "right": {
+                      "op": "slotWidth",
+                      "slot": "label"
+                    }
+                  }
+                },
+                "y": -24,
+                "rotate": 35,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "labelText",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "text",
+                    "slot": "label",
+                    "size": 12,
+                    "weight": 400,
+                    "italic": false,
+                    "align": "start",
+                    "wrap": false,
+                    "color": "#375b43"
+                  },
+                  "style": {
+                    "textColor": {
+                      "parameter": "visualText"
+                    },
+                    "fontSize": {
+                      "parameter": "visualFont"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "connectionAnchor": "tip",
+      "properties": [
+        {
+          "id": "visualInk",
+          "parameter": "visualInk",
+          "label": "Stroke color",
+          "group": "Appearance",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "visualText",
+          "parameter": "visualText",
+          "label": "Text color",
+          "group": "Text",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "visualFont",
+          "parameter": "visualFont",
+          "label": "Font size",
+          "group": "Text",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "number",
+            "minimum": 6,
+            "maximum": 48
+          },
+          "editable": true
+        }
+      ]
+    },
+    {
+      "id": "fixture.properties/diamond",
+      "version": "1",
+      "role": "marker",
+      "parameters": {
+        "visualInk": {
+          "kind": "string",
+          "default": "#536759"
+        },
+        "visualText": {
+          "kind": "string",
+          "default": "#314a60"
+        },
+        "visualFont": {
+          "kind": "number",
+          "default": 12
+        }
+      },
+      "slots": {},
+      "root": {
+        "id": "diamond",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "geometry",
+          "geometry": {
+            "kind": "path",
+            "width": 16,
+            "height": 16,
+            "commands": [
+              {
+                "kind": "move",
+                "x": 0,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 3
+              },
+              {
+                "kind": "line",
+                "x": 16,
+                "y": 8
+              },
+              {
+                "kind": "line",
+                "x": 8,
+                "y": 13
+              },
+              {
+                "kind": "close"
+              }
+            ]
+          },
+          "fill": "#536759",
+          "stroke": "#536759",
+          "strokeWidth": 1.4
+        },
+        "style": {
+          "stroke": {
+            "parameter": "visualInk"
+          }
+        }
+      },
+      "connectionAnchor": "attachment",
+      "properties": [
+        {
+          "id": "visualInk",
+          "parameter": "visualInk",
+          "label": "Stroke color",
+          "group": "Appearance",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        }
+      ]
+    },
+    {
+      "id": "fixture.properties/captionMarker",
+      "version": "1",
+      "role": "marker",
+      "parameters": {
+        "visualInk": {
+          "kind": "string",
+          "default": "#536759"
+        },
+        "visualText": {
+          "kind": "string",
+          "default": "#314a60"
+        },
+        "visualFont": {
+          "kind": "number",
+          "default": 12
+        }
+      },
+      "slots": {
+        "caption": "text"
+      },
+      "connectionAnchor": "attachment",
+      "root": {
+        "id": "marker",
+        "when": null,
+        "anchors": [
+          {
+            "id": "attachment",
+            "x": 0,
+            "y": 8,
+            "dx": 1,
+            "dy": 0
+          }
+        ],
+        "content": {
+          "kind": "overlay",
+          "children": [
+            {
+              "id": "ink",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "geometry",
+                "geometry": {
+                  "kind": "polyline",
+                  "width": 16,
+                  "height": 16,
+                  "closed": true,
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 8
+                    },
+                    {
+                      "x": 8,
+                      "y": 3
+                    },
+                    {
+                      "x": 16,
+                      "y": 8
+                    },
+                    {
+                      "x": 8,
+                      "y": 13
+                    }
+                  ]
+                },
+                "fill": "none",
+                "stroke": "#536759",
+                "strokeWidth": 1.4
+              },
+              "style": {
+                "stroke": {
+                  "parameter": "visualInk"
+                }
+              }
+            },
+            {
+              "id": "caption-offset",
+              "when": null,
+              "anchors": [],
+              "content": {
+                "kind": "transform",
+                "x": -32,
+                "y": -34,
+                "rotate": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "child": {
+                  "id": "caption",
+                  "when": null,
+                  "anchors": [],
+                  "content": {
+                    "kind": "text",
+                    "slot": "caption",
+                    "size": 12,
+                    "weight": 400,
+                    "italic": false,
+                    "align": "start",
+                    "wrap": false,
+                    "color": "#536759"
+                  },
+                  "style": {
+                    "textColor": {
+                      "parameter": "visualText"
+                    },
+                    "fontSize": {
+                      "parameter": "visualFont"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "properties": [
+        {
+          "id": "visualInk",
+          "parameter": "visualInk",
+          "label": "Stroke color",
+          "group": "Appearance",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "visualText",
+          "parameter": "visualText",
+          "label": "Text color",
+          "group": "Text",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "visualFont",
+          "parameter": "visualFont",
+          "label": "Font size",
+          "group": "Text",
+          "description": "Local visual override; source direction and endpoints stay protected.",
+          "editor": {
+            "kind": "number",
+            "minimum": 6,
+            "maximum": 48
+          },
+          "editable": true
+        }
+      ]
+    }
+  ]
+}

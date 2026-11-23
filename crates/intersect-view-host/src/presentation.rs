@@ -57,10 +57,19 @@ impl Host {
         let mut registry = None;
         for (reference, resource) in resolved.resources {
             match reference.kind {
-                PresentationResourceKind::SymbolLibrary => libraries.push(
-                    serde_json::from_str::<SymbolLibrary>(&resource.content)
-                        .map_err(|e| format!("{}: {e}", reference.id))?,
-                ),
+                PresentationResourceKind::SymbolLibrary => {
+                    let library = serde_json::from_str::<SymbolLibrary>(&resource.content)
+                        .map_err(|e| format!("{}: {e}", reference.id))?;
+                    for manifest in &resolved.manifests {
+                        if manifest.resources.iter().any(|r| r.id == reference.id) {
+                            intersect_views::require_property_capability(
+                                &library,
+                                &manifest.requires,
+                            )?;
+                        }
+                    }
+                    libraries.push(library);
+                }
                 PresentationResourceKind::RuleSet => {
                     let rule: RuleSet = serde_json::from_str(&resource.content)
                         .map_err(|e| format!("{}: {e}", reference.id))?;
@@ -169,6 +178,14 @@ impl Host {
         ) -> Result<(), String> {
             if let Some(instance) = instance {
                 let d = definitions.definition(&instance.definition)?;
+                if definitions
+                    .definitions
+                    .values()
+                    .any(|d| !d.properties.is_empty())
+                {
+                    instance.source_parameters =
+                        Some(instance.parameters.keys().cloned().collect());
+                }
                 for (name, parameter) in &d.parameters {
                     instance
                         .parameters
@@ -243,6 +260,7 @@ fn validate_graphic_rule(
     definitions.instance(
         &GraphicInstance {
             definition: rule.definition.clone(),
+            source_parameters: None,
             parameters,
             slots: rule.slots.clone(),
         },

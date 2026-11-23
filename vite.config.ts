@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
     outDir: "target/harness-web",
     rollupOptions: {
-      input: ["harness/web/index.html", "harness/web/m12.html", "harness/web/m14.html", "languages/fmea/web/index.html", "previews/m12/index.html"],
+      input: ["harness/web/index.html", "harness/web/m12.html", "harness/web/m14.html", "harness/web/symbols.html", "languages/fmea/web/index.html", "previews/m12/index.html"],
     },
   },
 });

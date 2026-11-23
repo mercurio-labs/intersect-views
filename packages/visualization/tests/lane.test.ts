@@ -37,7 +37,7 @@ for (const [name, validate] of [
 import { validatePresentation } from "../src/validation.ts";
 test("strict tagged lane presentation has no semantic coordinates", () => {
   const p = {
-    schemaVersion:4,
+    schemaVersion:5,
     views: {
       lanes: {
         form: "laneGraph", packageFingerprint: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", projection: "fixture",

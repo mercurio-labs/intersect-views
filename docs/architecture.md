@@ -196,3 +196,34 @@ containing object extent. Among equally small extents it prefers objects with a
 configured non-empty name, preventing anonymous parser wrappers from hiding a
 named declaration with the same source span. Smaller anonymous declarations keep
 their own bindings. This rule uses language registration data, not class names.
+
+
+## Symbol properties and current presentation state
+
+Presentation v5 extends M14 v4 with qualified per-occurrence visual scalars and
+optional paired manual allocation dimensions. Position survives Auto size; style
+history restores allocation fields without undoing later position/label/route edits.
+The v4 schema and fixtures remain retained, and migration requires an explicit
+verified package/projection decision per view. v3 remains an explicit intermediate.
+
+A symbol definition opts in through typed property descriptors and closed
+`GraphicPart.style` parameter references. Parameters used by conditions, anchors,
+authored geometry/sizing or forwarding cannot become visual properties. Declare
+properties at the consuming definition; reusable occurrences qualify their keys
+by definition/version and authored reuse path. Source rules identify supplied
+parameters before defaults are materialized. Those values stay protected, including
+rule constants; legacy instances without provenance are conservatively protected.
+
+The language host only admits data/capabilities and emits source-backed scenes.
+The client resolves visual overrides, measures complete text and ink, reattaches
+endpoints and checks a detached candidate in the existing layout worker. Neither
+paint nor the editor makes semantic queries or prepares semantic edit targets.
+Failed or superseded previews publish no saved state; package/source replacement
+invalidates selection and the draft. Generic Symbol state has separate bounded
+history and explicit property/selection/view reset scopes. Conditional consumers
+that are not visible report that reason rather than claiming an active control.
+
+The actual WASM fixture loads a read-only dependency through SourceLoader and
+retains its original binding URI/ranges/context. The Symbol inspector distinguishes
+that source ownership from presentation-store write permission. Native/TS/shared
+schema and actual-browser qualification is recorded in evidence/symbol-properties.json.

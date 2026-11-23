@@ -19,7 +19,7 @@ export class PlacementEditor {
   }
   preview(view:GraphPresentation):GraphPresentation {
     this.check(view);const candidate={...structuredClone(view),...structuredClone(this.draft)};
-    validatePresentation({schemaVersion:4,views:{candidate}});return candidate;
+    validatePresentation({schemaVersion:5,views:{candidate}});return candidate;
   }
   private check(view:GraphPresentation){
     if(!this.active||view.packageFingerprint!==this.fingerprint||view.projection!==this.projection||JSON.stringify({routeConstraints:view.routeConstraints,labelPlacements:view.labelPlacements})!==this.original)throw Error("Placement gesture context changed");
@@ -39,7 +39,7 @@ export class PlacementEditor {
     const next=structuredClone(this.draft);delete (this.mode.kind==="route"?next.routeConstraints:next.labelPlacements)[this.mode.id];this.set(view,next);
   }
   private set(view:GraphPresentation,next:PlacementState){
-    this.check(view);validatePresentation({schemaVersion:4,views:{candidate:{...view,...next}}});this.draft=next;
+    this.check(view);validatePresentation({schemaVersion:5,views:{candidate:{...view,...next}}});this.draft=next;
   }
   accept(view:GraphPresentation,history:PresentationHistory){this.check(view);history.apply(view,this.draft);this.active=false;}
   cancel(){this.active=false;}

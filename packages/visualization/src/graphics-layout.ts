@@ -1,3 +1,4 @@
+import {applyGraphicStyle,resolveProperties,authoredPropertyKeys,propertyKey,type PropertyTarget} from "./symbol-properties-contract.ts";
 /** Pure, bounded M12 measurement/arrangement. The caller supplies measured text
  * and scene content; no semantic query or browser I/O occurs here. */
 import {
@@ -28,6 +29,7 @@ export interface GraphicDrawing extends GraphicContentLayout {
   commands: number;
   labels: Record<string,GraphicLabelFrame>;
   geometry:GraphicRect[];
+  propertyTargets:PropertyTarget[];
 }
 export interface GraphicLabelFrame {
   id:string;owner:string;slot:string;binding:Binding;rect:GraphicRect;
@@ -92,7 +94,7 @@ function paint(p: Paint, params: Record<string, GraphicValue>): string {
   if (typeof value !== "string" || !graphicColor(value)) throw Error("Invalid evaluated graphical paint");
   return value;
 }
-const blank = (): GraphicDrawing => ({ left:0, top:0, width: 0, height: 0, markup: "", fragments: [], anchors: Object.create(null), content: Object.create(null), labels:Object.create(null), geometry:[], parts: 0, commands: 0 });
+const blank = (): GraphicDrawing => ({ left:0, top:0, width: 0, height: 0, markup: "", fragments: [], anchors: Object.create(null), content: Object.create(null), labels:Object.create(null), geometry:[], propertyTargets:[], parts: 0, commands: 0 });
 export function compose(a:Matrix,b:Matrix):Matrix {
   return [a[0]*b[0]+a[2]*b[1],a[1]*b[0]+a[3]*b[1],a[0]*b[2]+a[2]*b[3],a[1]*b[2]+a[3]*b[3],a[0]*b[4]+a[2]*b[5]+a[4],a[1]*b[4]+a[3]*b[5]+a[5]];
 }
@@ -197,24 +199,26 @@ function allocation(d:SymbolDefinition,params:Record<string,GraphicValue>,conten
   if(minH<=0||preferredH<minH)throw Error("Unsatisfiable graphical height constraints");
   return{width:w,height:Math.max(height??preferredH,minH)};
 }
-export function layoutGraphic(definitions: GraphicDefinitions, instance: GraphicInstance, owner: string, slots: Record<string, BoundGraphicContent>, width: number | undefined, measure: MeasureText, allocatedHeight?: number,placements:Record<string,LabelPlacement>={},instancePath?:string): GraphicDrawing {
+export function layoutGraphic(definitions: GraphicDefinitions, instance: GraphicInstance, owner: string, slots: Record<string, BoundGraphicContent>, width: number | undefined, measure: MeasureText, allocatedHeight?: number,placements:Record<string,LabelPlacement>={},instancePath?:string,ownerKeys?:Set<string>): GraphicDrawing {
   const definition = definitions.definition(instance.definition);
   definitions.instance(instance, definition.role);
-  const assigned=allocation(definition,instance.parameters,slots,measure,width,allocatedHeight);width=assigned.width;allocatedHeight=assigned.height;
+  const propertyTargets:PropertyTarget[]=[],initialPath=instancePath?`${instancePath}/${definition.id}`:definition.id,source=new Set(instance.sourceParameters??Object.keys(instance.parameters));
+  const initialParameters=resolveProperties(definition,owner,initialPath,instance.parameters,source,definitions.propertyOverrides,propertyTargets);
+  const assigned=allocation(definition,initialParameters,slots,measure,width,allocatedHeight);width=assigned.width;allocatedHeight=assigned.height;
   graphicNumber(width);
   if (width <= 0) throw Error("Nonpositive symbol allocation");
   if(allocatedHeight!==undefined){graphicNumber(allocatedHeight);if(allocatedHeight<=0)throw Error("Nonpositive height allocation");}
-  let visited = 0, pathCommands = 0;
-  const evalPart = (part: GraphicPart, d: SymbolDefinition, params: Record<string, GraphicValue>, contents: Record<string, BoundGraphicContent>, available: number, prefix: string, heightAllocation?: number): GraphicDrawing => {
+  let visited = 0, pathCommands = 0;const visualConsumers=new Set<string>();
+  const evalPart = (part: GraphicPart, d: SymbolDefinition, params: Record<string, GraphicValue>, contents: Record<string, BoundGraphicContent>, available: number, prefix: string, heightAllocation?: number,sourceParameters:Set<string>=source,propertyPath:string=initialPath): GraphicDrawing => {
     const path = `${prefix}/${part.id}`;
     try {
     if (++visited > 50_000) throw Error("Expanded graphical part limit");
     if (!visible(part.when, params)) return blank();
     const result = blank();
     result.parts = 1;
-    const c = part.content;
+    let c = part.content;
     const number=(expr:NumericExpression,w:number,h:number)=>n(expr,params,w,h,(key,axis)=>slotMetric(contents[key],w,axis,measure));
-    const child = (p: GraphicPart, w = available) => evalPart(p, d, params, contents, w, path);
+    const child = (p: GraphicPart, w = available) => evalPart(p, d, params, contents, w, path,undefined,sourceParameters,propertyPath);
     const textSlot = (key: string): TextContent => {
       const slot = Object.hasOwn(contents, key) ? contents[key] : undefined;
       if (!slot || slot.kind !== "text") throw Error(`Missing text content ${key}`);
@@ -231,24 +235,36 @@ export function layoutGraphic(definitions: GraphicDefinitions, instance: Graphic
       result.labels[id]={id,owner,slot:content.slot,binding:content.binding,frame:[1,0,0,1,origin.x,origin.y],rect:{x:x+origin.x,y:y+origin.y,width:Math.max(x,...layout.fragments.map(f=>f.rect.x+f.rect.width))-x,height:Math.max(y,...layout.fragments.map(f=>f.rect.y+f.rect.height))-y}};
       return layout;
     };
+    let textParameters=params;
+    if(c.kind==="text"){
+      const content=textSlot(c.slot),id=logicalId("label",[owner,path,content.slot]),names=new Set(Object.values(part.style??{}).map(ref=>ref.parameter));
+      if(typeof c.color!=="string")names.add(c.color.parameter);
+      textParameters=resolveProperties(d,id,propertyPath,params,sourceParameters,definitions.propertyOverrides,propertyTargets,names,owner);
+    }
+    const visualNames=new Set(Object.values(part.style??{}).map(ref=>ref.parameter));
+    for(const field of ["fill","stroke","color"]){const paint=(c as unknown as Record<string,unknown>)[field];if(paint&&typeof paint==="object"&&"parameter"in paint)visualNames.add(String(paint.parameter));}
+    for(const p of d.properties??[])if(visualNames.has(p.parameter))visualConsumers.add(propertyKey(d,propertyPath,p));
+    c=applyGraphicStyle(part,textParameters);
     if (c.kind === "use") {
-      const target = definitions.definition(c.definition), forwarded: Record<string, GraphicValue> = Object.create(null), forwardedSlots: Record<string, BoundGraphicContent> = Object.create(null);
+      const target = definitions.definition(c.definition), forwardedSource=new Set<string>();let forwarded: Record<string, GraphicValue> = Object.create(null);const forwardedSlots: Record<string, BoundGraphicContent> = Object.create(null);
       for (const [name, p] of Object.entries(target.parameters)) forwarded[name] = p.default;
       for (const [key, value] of Object.entries(c.parameters)) {
         if (value.kind === "parameter" && !Object.hasOwn(params, value.name)) throw Error("Missing forwarded parameter");
         forwarded[key] = value.kind === "constant" ? value.value : params[value.name];
+        if(value.kind==="parameter"&&sourceParameters.has(value.name))forwardedSource.add(key);
         if (!accepts(target.parameters[key], forwarded[key])) throw Error("Invalid evaluated forwarded value");
       }
       for (const [name, source] of Object.entries(c.slots)) {
         if (!Object.hasOwn(contents, source)) throw Error("Missing forwarded slot");
         forwardedSlots[name] = contents[source];
       }
+      const nextPath=`${path}/${target.id}`;forwarded=resolveProperties(target,owner,nextPath,forwarded,forwardedSource,definitions.propertyOverrides,propertyTargets);
       const assigned=allocation(target,forwarded,forwardedSlots,measure,available,heightAllocation);
-      const reused = evalPart(target.root, target, forwarded, forwardedSlots, assigned.width, `${path}/${target.id}`,assigned.height);
+      const reused = evalPart(target.root, target, forwarded, forwardedSlots, assigned.width, nextPath,assigned.height,forwardedSource,nextPath);
       reused.anchors = Object.fromEntries(Object.entries(reused.anchors).map(([key, anchor]) => [`${part.id}/${key}`, anchor]));
       merge(result, reused); result.left=reused.left;result.top=reused.top;result.width = reused.width; result.height = reused.height;
     } else if (c.kind === "text") {
-      const layout = bindText(measureBlock(textSlot(c.slot), available, { size: c.size, weight: c.weight, italic: c.italic, align: c.align, wrap: c.wrap, color: paint(c.color, params) }, measure),textSlot(c.slot));
+      const layout = bindText(measureBlock(textSlot(c.slot), available, { size: c.size, weight: c.weight, italic: c.italic, align: c.align, wrap: c.wrap, color: paint(c.color, textParameters) }, measure),textSlot(c.slot));
       Object.assign(result, { ...layout, parts: result.parts + layout.fragments.length });
     } else if (c.kind === "content") {
       const value = Object.hasOwn(contents, c.slot) ? contents[c.slot] : undefined;
@@ -298,8 +314,8 @@ export function layoutGraphic(definitions: GraphicDefinitions, instance: Graphic
       result.height = Math.max(0, maxH + padding)-result.top;
       if(c.kind==="frame")result.height=Math.max(result.height,heightAllocation??0);
       if (c.kind === "frame") {
-        result.geometry.push({x:0,y:0,width:result.width,height:result.height});
-        result.markup = `<rect class="node-body" width="${result.width}" height="${result.height}" rx="${c.radius}" style="fill:${paint(c.fill, params)};stroke:${paint(c.stroke, params)};stroke-width:${c.strokeWidth};stroke-dasharray:${c.dash==="dashed"?"8 5":c.dash==="dotted"?"2 4":"none"}"/>${result.markup}`;
+        const ink=part.style?.strokeWidth?c.strokeWidth/2:0;result.geometry.push({x:-ink,y:-ink,width:result.width+ink*2,height:result.height+ink*2});
+        result.markup = `<rect class="node-body" width="${result.width}" height="${result.height}" rx="${c.radius}" style="fill:${paint(c.fill, params)};stroke:${paint(c.stroke, params)};stroke-width:${c.strokeWidth};stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:${c.dash==="dashed"?"8 5":c.dash==="dotted"?"2 4":"none"}"/>${result.markup}`;
       }
     } else if (c.kind === "transform") {
       const inner = child(c.child), angle = number(c.rotate, available, inner.height) * Math.PI / 180;
@@ -324,8 +340,8 @@ export function layoutGraphic(definitions: GraphicDefinitions, instance: Graphic
       const g = c.geometry, w = number(g.width, available, 0), h = number(g.height, available, 0);
       if (w <= 0 || h <= 0) throw Error("Nonpositive evaluated geometry");
       result.width = w; result.height = h;
-      result.geometry.push({x:0,y:0,width:w,height:h});
-      const style = `style="fill:${paint(c.fill, params)};stroke:${paint(c.stroke, params)};stroke-width:${c.strokeWidth};stroke-dasharray:${c.dash==="dashed"?"8 5":c.dash==="dotted"?"2 4":"none"}"`;
+      const ink=part.style?.strokeWidth?c.strokeWidth/2:0;result.geometry.push({x:-ink,y:-ink,width:w+ink*2,height:h+ink*2});
+      const style = `style="fill:${paint(c.fill, params)};stroke:${paint(c.stroke, params)};stroke-width:${c.strokeWidth};stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:${c.dash==="dashed"?"8 5":c.dash==="dotted"?"2 4":"none"}"`;
       if (g.kind === "rectangle") result.markup = `<rect width="${w}" height="${h}" rx="${g.radius}" ${style}/>`;
       else if (g.kind === "ellipse") result.markup = `<ellipse cx="${w / 2}" cy="${h / 2}" rx="${w / 2}" ry="${h / 2}" ${style}/>`;
       else if (g.kind === "polyline") {
@@ -358,7 +374,13 @@ export function layoutGraphic(definitions: GraphicDefinitions, instance: Graphic
     return result;
     } catch(error) { throw Error(`Definition ${d.id}, part ${path}: ${error instanceof Error?error.message:String(error)}`); }
   };
-  let result = evalPart(definition.root, definition, instance.parameters, slots, width, instancePath?`${instancePath}/${definition.id}`:definition.id,allocatedHeight);
+  let result = evalPart(definition.root, definition, initialParameters, slots, width, initialPath,allocatedHeight,source,initialPath);
+  for(const t of propertyTargets)if(t.target===owner&&t.editable&&!visualConsumers.has(t.key)){t.editable=false;t.reason="Visual consumer is not visible in this occurrence";}
+  result.propertyTargets=propertyTargets;
+  const localOwner=Object.hasOwn(definitions.propertyOverrides,owner)?definitions.propertyOverrides[owner]:undefined;
+  if(localOwner){const keys=ownerKeys??authoredPropertyKeys(definitions,definition.id,instancePath);for(const key of Object.keys(localOwner))if(!keys.has(key))throw Error('Property identity is unavailable on this occurrence');}
+  for(const id of Object.keys(result.labels)){const local=Object.hasOwn(definitions.propertyOverrides,id)?definitions.propertyOverrides[id]:undefined;if(local){const keys=new Set(propertyTargets.filter(t=>t.target===id).map(t=>t.key));for(const key of Object.keys(local))if(!keys.has(key))throw Error('Property identity is unavailable on this bound text block');}}
+
   if(result.left||result.top)result=move(result,-result.left,-result.top);
   if(definition.size){result.width=Math.max(result.width,width);result.height=Math.max(result.height,allocatedHeight??0);}
   if (definition.connectionAnchor && !Object.hasOwn(result.anchors, definition.connectionAnchor)) throw Error("Connection anchor was hidden by a condition");

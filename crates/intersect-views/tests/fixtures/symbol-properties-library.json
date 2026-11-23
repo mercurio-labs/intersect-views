@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "id": "fixture.properties",
+  "imports": [],
+  "definitions": [
+    {
+      "id": "fixture.properties/node",
+      "version": "1",
+      "role": "node",
+      "parameters": {
+        "fillEnabled": {
+          "kind": "bool",
+          "default": true
+        },
+        "fill": {
+          "kind": "string",
+          "default": "#edf5ef"
+        },
+        "stroke": {
+          "kind": "string",
+          "default": "#4a6b58"
+        },
+        "strokeWidth": {
+          "kind": "number",
+          "default": 1.2
+        },
+        "radius": {
+          "kind": "number",
+          "default": 8
+        },
+        "dash": {
+          "kind": "choice",
+          "default": "solid",
+          "values": [
+            "solid",
+            "dashed",
+            "dotted"
+          ]
+        },
+        "textColor": {
+          "kind": "string",
+          "default": "#263b30"
+        },
+        "fontSize": {
+          "kind": "number",
+          "default": 14
+        },
+        "fontWeight": {
+          "kind": "number",
+          "default": 600
+        },
+        "italic": {
+          "kind": "bool",
+          "default": false
+        },
+        "alignment": {
+          "kind": "choice",
+          "default": "start",
+          "values": [
+            "start",
+            "center",
+            "end"
+          ]
+        },
+        "wrap": {
+          "kind": "bool",
+          "default": true
+        }
+      },
+      "slots": {
+        "title": "text"
+      },
+      "size": {
+        "minimumWidth": 140,
+        "preferredWidth": 280,
+        "minimumHeight": 64,
+        "preferredHeight": 80
+      },
+      "properties": [
+        {
+          "id": "fillEnabled",
+          "parameter": "fillEnabled",
+          "label": "Fill enabled",
+          "group": "Appearance",
+          "description": "Local visual override for fill enabled.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        },
+        {
+          "id": "fill",
+          "parameter": "fill",
+          "label": "Fill color",
+          "group": "Appearance",
+          "description": "Local visual override for fill color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "stroke",
+          "parameter": "stroke",
+          "label": "Line color",
+          "group": "Appearance",
+          "description": "Local visual override for line color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "strokeWidth",
+          "parameter": "strokeWidth",
+          "label": "Line width",
+          "group": "Appearance",
+          "description": "Local visual override for line width.",
+          "editor": {
+            "kind": "number",
+            "minimum": 0,
+            "maximum": 20
+          },
+          "editable": true
+        },
+        {
+          "id": "radius",
+          "parameter": "radius",
+          "label": "Corner radius",
+          "group": "Appearance",
+          "description": "Local visual override for corner radius.",
+          "editor": {
+            "kind": "number",
+            "minimum": 0,
+            "maximum": 128
+          },
+          "editable": true
+        },
+        {
+          "id": "dash",
+          "parameter": "dash",
+          "label": "Line style",
+          "group": "Appearance",
+          "description": "Local visual override for line style.",
+          "editor": {
+            "kind": "choice"
+          },
+          "editable": true
+        },
+        {
+          "id": "textColor",
+          "parameter": "textColor",
+          "label": "Text color",
+          "group": "Text",
+          "description": "Local visual override for text color.",
+          "editor": {
+            "kind": "color"
+          },
+          "editable": true
+        },
+        {
+          "id": "fontSize",
+          "parameter": "fontSize",
+          "label": "Font size",
+          "group": "Text",
+          "description": "Local visual override for font size.",
+          "editor": {
+            "kind": "number",
+            "minimum": 6,
+            "maximum": 96
+          },
+          "editable": true
+        },
+        {
+          "id": "fontWeight",
+          "parameter": "fontWeight",
+          "label": "Font weight",
+          "group": "Text",
+          "description": "Local visual override for font weight.",
+          "editor": {
+            "kind": "number",
+            "minimum": 100,
+            "maximum": 900
+          },
+          "editable": true
+        },
+        {
+          "id": "italic",
+          "parameter": "italic",
+          "label": "Italic",
+          "group": "Text",
+          "description": "Local visual override for italic.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        },
+        {
+          "id": "alignment",
+          "parameter": "alignment",
+          "label": "Alignment",
+          "group": "Text",
+          "description": "Local visual override for alignment.",
+          "editor": {
+            "kind": "choice"
+          },
+          "editable": true
+        },
+        {
+          "id": "wrap",
+          "parameter": "wrap",
+          "label": "Wrap text",
+          "group": "Text",
+          "description": "Local visual override for wrap text.",
+          "editor": {
+            "kind": "bool"
+          },
+          "editable": true
+        }
+      ],
+      "connectionAnchor": null,
+      "root": {
+        "id": "body",
+        "when": null,
+        "anchors": [],
+        "style": {
+          "fillEnabled": {
+            "parameter": "fillEnabled"
+          },
+          "fill": {
+            "parameter": "fill"
+          },
+          "stroke": {
+            "parameter": "stroke"
+          },
+          "strokeWidth": {
+            "parameter": "strokeWidth"
+          },
+          "radius": {
+            "parameter": "radius"
+          },
+          "dash": {
+            "parameter": "dash"
+          }
+        },
+        "content": {
+          "kind": "frame",
+          "padding": 12,
+          "radius": 8,
+          "fill": "#edf5ef",
+          "stroke": "#4a6b58",
+          "strokeWidth": 1.2,
+          "children": [
+            {
+              "id": "title",
+              "when": null,
+              "anchors": [],
+              "style": {
+                "textColor": {
+                  "parameter": "textColor"
+                },
+                "fontSize": {
+                  "parameter": "fontSize"
+                },
+                "fontWeight": {
+                  "parameter": "fontWeight"
+                },
+                "italic": {
+                  "parameter": "italic"
+                },
+                "alignment": {
+                  "parameter": "alignment"
+                },
+                "wrap": {
+                  "parameter": "wrap"
+                }
+              },
+              "content": {
+                "kind": "text",
+                "slot": "title",
+                "size": 14,
+                "weight": 600,
+                "italic": false,
+                "align": "start",
+                "wrap": true,
+                "color": "#263b30"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

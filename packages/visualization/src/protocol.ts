@@ -165,11 +165,13 @@ export interface Viewport {
   y: number;
   zoom: number;
 }
+export interface SavedPosition {x:number;y:number;width?:number;height?:number}
 export interface GraphPresentation {
   packageFingerprint: string;
   projection: string;
   form: "graph";
-  positions: Record<string, Geometry>;
+  positions: Record<string, SavedPosition>;
+  symbolOverrides: import("./symbol-properties-contract.ts").SymbolOverrides;
   routeConstraints: Record<string, RouteConstraint>;
   labelPlacements: Record<string, LabelPlacement>;
   viewport: Viewport;
@@ -182,7 +184,7 @@ export interface LanePresentation {
   viewport: Viewport;
 }
 export interface Presentation {
-  schemaVersion: 4;
+  schemaVersion: 5;
   views: Record<string, GraphPresentation | LanePresentation>;
 }
 export function graphPresentation(
@@ -202,6 +204,7 @@ export interface Layout {
   edges: Record<string, Point[]>;
   regions: Record<string, Geometry>;
   minimum: Record<string, { width: number; height: number }>;
+  preferred?:Record<string,{width:number;height:number}>;
   routing?: import("./routing.ts").RoutingResult;
   outsets?:Record<string,{left:number;top:number;right:number;bottom:number}>;
 }

@@ -35,7 +35,7 @@ const svg = (tag: string, attrs: Record<string, string | number> = {}) => {
 export class LaneCanvas {
   private response?: SceneResponse & { scene: LaneGraphScene };
   private layout?: LaneLayout;
-  private presentation: Presentation = { schemaVersion:4, views: {} };
+  private presentation: Presentation = { schemaVersion:5, views: {} };
   private notation = defaultNotation;
   private stale = true;
   private busy = false;

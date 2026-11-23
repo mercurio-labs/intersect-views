@@ -533,14 +533,14 @@
         },
         {
           "type": "object",
-          "required": [
-            "sourceText"
-          ],
           "properties": {
             "sourceText": {
               "const": true
             }
           },
+          "required": [
+            "sourceText"
+          ],
           "additionalProperties": false
         }
       ]

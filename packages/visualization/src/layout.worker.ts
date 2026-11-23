@@ -155,8 +155,8 @@ scope.onmessage = async ({
       if (previous) {
         g.x = previous.x;
         g.y = previous.y;
-        g.width = Math.max(g.width, previous.width);
-        g.height = Math.max(g.height, previous.height);
+        g.width = Math.max(g.width, previous.width??0);
+        g.height = Math.max(g.height, previous.height??0);
       }
       if (
         ![g.x, g.y, g.width, g.height, parentX + g.x, parentY + g.y].every(

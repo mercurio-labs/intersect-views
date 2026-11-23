@@ -128,13 +128,13 @@ their own layouts.
 
 ### Wire versions and saved layouts
 
-M14 reads rule-set v8, emits scene v7, uses protocol v2, and saves presentation v4.
+M14 reads rule-set v8, emits scene v7, uses protocol v2, and saves presentation v5.
 The initialization response advertises the scene and presentation versions
 used by the Rust contracts.
 Use the [scene schema](crates/intersect-views/graph.schema.json), [rule schema](crates/intersect-views/graph-rule-set.schema.json),
 [routing schema](crates/intersect-views/routing.schema.json), and
 [presentation schema](crates/intersect-views/presentation.schema.json) alongside
-the code reference. Presentation v4 tracks layout, manual routes, and movable
+the code reference. Presentation v5 tracks layout, manual routes, and movable
 bound labels by occurrence. Preview compatible v3 data through
 [`previewPresentationV3`](packages/visualization/src/presentation-state.ts).
 Export or reset older or incompatible layouts. The [v6-to-v7 rule preview tool](tools/migrate_rules_v7.mjs)
@@ -199,3 +199,24 @@ machine with `RUST_TEST_THREADS=1`.
 - [M13 rendering selection](docs/view-engine-m13-spec.md)
 - [Cross-language boundary](docs/decisions/0001-cross-language-models.md)
 - [Renderer provenance](packages/visualization/PROVENANCE.json) and [license](LICENSE)
+
+## Symbol properties
+
+The shared canvas now has an opt-in Symbol inspector for exact node, port, edge
+and logical bound-text occurrences. It provides typed appearance/text controls,
+package/owner/local origins, mixed-selection eligibility, checked worker previews,
+Apply/Cancel, scoped reset, independent style undo/redo, and manual/automatic sizing.
+Read-only model dependencies may be styled; a read-only presentation store cannot
+be saved. Styles never rewrite source or grant semantic command authority.
+
+Run `npm run build:symbols` and open `/harness/web/symbols.html` to inspect the
+actual WASM fixture with two inherited read-only occurrences, transformed ports
+and captioned markers. It is also in the shared capability navigator.
+`npm run test:symbols` exercises the actual browser and layout worker.
+
+Presentation v5 retains M14 routes, logical label placements, positions and
+viewport, adding bounded qualified style values. `previewPresentationV4` produces
+a detached compatibility preview; v3 first uses `previewPresentationV3`. Original
+files are never upgraded silently. A changed package needs an explicit reset until
+a checked cross-package mapping exists. Language-specific display toggles and
+project/global defaults remain separate work. See [the contract](docs/symbol-properties-spec.md).

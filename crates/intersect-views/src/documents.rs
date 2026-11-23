@@ -4,7 +4,7 @@ use super::{DOCUMENT_VERSION, LayoutHints, identity};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
-pub const PRESENTATION_VERSION: u32 = 4;
+pub const PRESENTATION_VERSION: u32 = 5;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -113,7 +113,9 @@ pub enum ViewPresentation {
         #[serde(rename = "packageFingerprint")]
         package_fingerprint: String,
         projection: String,
-        positions: BTreeMap<String, Geometry>,
+        positions: BTreeMap<String, SavedPosition>,
+        #[serde(rename = "symbolOverrides")]
+        symbol_overrides: super::SymbolOverrides,
         #[serde(rename = "routeConstraints")]
         route_constraints: BTreeMap<String, super::RouteConstraint>,
         #[serde(rename = "labelPlacements")]
@@ -128,6 +130,16 @@ pub enum ViewPresentation {
         lane_order: Vec<String>,
         viewport: Viewport,
     },
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SavedPosition {
+    pub x: f64,
+    pub y: f64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub width: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub height: Option<f64>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -158,9 +170,11 @@ impl Presentation {
             if let ViewPresentation::Graph {
                 route_constraints,
                 label_placements,
+                symbol_overrides,
                 ..
             } = view
             {
+                super::validate_symbol_overrides(symbol_overrides)?;
                 if route_constraints.len() > super::MAX_ROUTED_EDGES
                     || label_placements.len() > 20000
                 {
@@ -223,9 +237,12 @@ impl Presentation {
                 return Err("Presentation exceeds 5000 positions".into());
             }
             for g in positions.into_iter().flat_map(|p| p.values()) {
-                if ![g.x, g.y, g.width, g.height].iter().all(|n| n.is_finite())
-                    || g.width < 1.0
-                    || g.height < 1.0
+                if ![g.x, g.y].iter().all(|n| n.is_finite())
+                    || g.width.is_some() != g.height.is_some()
+                    || [g.width, g.height]
+                        .into_iter()
+                        .flatten()
+                        .any(|n| !n.is_finite() || !(1.0..=1_000_000.0).contains(&n))
                     || g.x.abs() > 1_000_000.0
                     || g.y.abs() > 1_000_000.0
                 {

@@ -1,6 +1,6 @@
 {
   "name": "@intersect/visualization",
-  "version": "0.1.0-m14.2",
+  "version": "0.1.0-m14.3",
   "private": true,
   "type": "module",
   "engines": {
@@ -85,7 +85,20 @@
     },
     "./outline.css": "./dist/outline.css",
     "./sequence.css": "./dist/sequence.css",
-    "./graph.schema.json": "./crates/intersect-views/graph.schema.json"
+    "./graph.schema.json": "./crates/intersect-views/graph.schema.json",
+    "./symbol-properties": {
+      "types": "./dist/symbol-properties-contract.d.ts",
+      "default": "./dist/symbol-properties-contract.js"
+    },
+    "./symbol-editor": {
+      "types": "./dist/symbol-editor.d.ts",
+      "default": "./dist/symbol-editor.js"
+    },
+    "./symbol-inspector": {
+      "types": "./dist/symbol-inspector.d.ts",
+      "default": "./dist/symbol-inspector.js"
+    },
+    "./presentation-v4.schema.json": "./crates/intersect-views/presentation-v4.schema.json"
   },
   "files": [
     "dist",
@@ -110,6 +123,8 @@
     "build:fmea": "node tools/build_fmea.mjs",
     "test:fmea": "node languages/fmea/web/browser.test.mjs",
     "test:lanes": "node harness/web/lanes.test.mjs",
+    "build:symbols": "node tools/build_symbol_harness.mjs",
+    "test:symbols": "node tools/qualify_symbol_properties.mjs",
     "build:sdk": "tsc --project packages/visualization/tsconfig.sdk.json && node tools/copy_sdk_styles.mjs",
     "prepare": "npm run build:sdk"
   },

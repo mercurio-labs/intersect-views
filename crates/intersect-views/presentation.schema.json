@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "urn:intersect:presentation:v4",
-  "title": "Intersect presentation, version 4",
+  "$id": "urn:intersect:presentation:v5",
+  "title": "Intersect presentation, version 5",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,7 +10,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 4
+      "const": 5
     },
     "views": {
       "type": "object",
@@ -27,7 +27,8 @@
               "packageFingerprint",
               "projection",
               "routeConstraints",
-              "labelPlacements"
+              "labelPlacements",
+              "symbolOverrides"
             ],
             "properties": {
               "positions": {
@@ -38,9 +39,7 @@
                   "additionalProperties": false,
                   "required": [
                     "x",
-                    "y",
-                    "width",
-                    "height"
+                    "y"
                   ],
                   "properties": {
                     "x": {
@@ -55,12 +54,22 @@
                     },
                     "width": {
                       "type": "number",
-                      "minimum": 1
+                      "minimum": 1,
+                      "maximum": 1000000
                     },
                     "height": {
                       "type": "number",
-                      "minimum": 1
+                      "minimum": 1,
+                      "maximum": 1000000
                     }
+                  },
+                  "dependencies": {
+                    "width": [
+                      "height"
+                    ],
+                    "height": [
+                      "width"
+                    ]
                   }
                 }
               },
@@ -119,6 +128,40 @@
                 },
                 "additionalProperties": {
                   "$ref": "routing.schema.json#/$defs/labelPlacement"
+                }
+              },
+              "symbolOverrides": {
+                "type": "object",
+                "maxProperties": 20000,
+                "additionalProperties": {
+                  "type": "object",
+                  "maxProperties": 32,
+                  "propertyNames": {
+                    "pattern": "^property:[a-f0-9]{64}$"
+                  },
+                  "additionalProperties": {
+                    "oneOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 4096,
+                        "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]*$"
+                      }
+                    ]
+                  }
+                },
+                "propertyNames": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]*$"
                 }
               }
             }

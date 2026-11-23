@@ -10,7 +10,7 @@ export interface PresentationManifest {
 export type ResourceKind = "symbolLibrary" | "ruleSet" | "palette" | "notation" | "renderingRegistry";
 export interface PresentationResource { id: string; content: string }
 export interface ResolvedPresentation { fingerprint: string; manifests: PresentationManifest[]; resources: { reference: PresentationManifest["resources"][number]; resource: PresentationResource }[] }
-export const PRESENTATION_CAPABILITIES = ["graphics.composition.v1", "graphics.text.v1", "graphics.anchors.v1", "rules.graph.v6", "rules.graph.v7", "views.rendering.v1", "rules.graph.v8", "views.routing.v1", "views.labelPlacement.v1"];
+export const PRESENTATION_CAPABILITIES = ["graphics.composition.v1", "graphics.text.v1", "graphics.anchors.v1", "rules.graph.v6", "rules.graph.v7", "views.rendering.v1", "rules.graph.v8", "views.routing.v1", "views.labelPlacement.v1", "views.symbolProperties.v1"];
 const encoder = new TextEncoder();
 export function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;

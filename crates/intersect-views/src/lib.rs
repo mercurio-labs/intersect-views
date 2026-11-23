@@ -8,6 +8,8 @@ mod routing;
 pub use routing::*;
 mod graph;
 pub use graph::*;
+mod symbol_properties;
+pub use symbol_properties::*;
 mod graphics;
 mod graphics_values;
 pub use graphics::*;

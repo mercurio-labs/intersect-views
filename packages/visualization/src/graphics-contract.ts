@@ -1,3 +1,4 @@
+import {validateProperties,validateStyle,evaluatedStyle,checkPropertyValue,type SymbolProperty,type GraphicStyle,type SymbolOverrides,validateSymbolOverrides} from "./symbol-properties-contract.ts";
 import { slot as validateStringSlot } from "./validation.ts";
 /** M12 checked graphical vocabulary, mirrored by intersect-views/graphics.rs. */
 export type GraphicValue = boolean | number | string;
@@ -16,6 +17,7 @@ export type ContentSource = { kind: "title" | "subtitle" | "label" | "compartmen
 export interface GraphicInstance {
   definition: string;
   parameters: Record<string, GraphicValue>;
+  sourceParameters?:string[];
   slots: Record<string, ContentSource>;
 }
 export interface SymbolLibrary { schemaVersion: 1; id: string; imports: string[]; definitions: SymbolDefinition[] }
@@ -26,12 +28,13 @@ export interface SymbolDefinition {
   parameters: Record<string, ParameterType>;
   slots: Record<string, ContentType>;
   size?: GraphicSize;
+  properties?:SymbolProperty[];
   root: GraphicPart;
   connectionAnchor: string | null;
 }
 export interface GraphicSize { minimumWidth:NumericExpression; preferredWidth:NumericExpression; minimumHeight:NumericExpression; preferredHeight:NumericExpression }
 export type GraphicDash = "solid" | "dashed" | "dotted";
-export interface GraphicPart { id: string; when: BooleanExpression | null; anchors: GraphicAnchor[]; content: GraphicContent }
+export interface GraphicPart { id: string; when: BooleanExpression | null; anchors: GraphicAnchor[]; content: GraphicContent; style?:GraphicStyle }
 export interface GraphicAnchor { id: string; x: NumericExpression; y: NumericExpression; dx: NumericExpression; dy: NumericExpression }
 export type Alignment = "start" | "center" | "end";
 export type GraphicContent =
@@ -67,9 +70,10 @@ export interface GraphicRule {
 export const BUILTIN_PRESENTATION = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 export const builtinPresentation = (): PresentationContext => ({ fingerprint: BUILTIN_PRESENTATION, libraries: [] });
 export function validateGraphicInstance(value: unknown): asserts value is GraphicInstance {
-  const v=graphicObject(value,["definition","parameters","slots"]);graphicId(v.definition);
+  const v=optionalObject(value,["definition","parameters","slots"],["sourceParameters"]);graphicId(v.definition);
   const parameters=graphicObject(v.parameters),slots=graphicObject(v.slots);
   if(Object.keys(parameters).length>32||Object.keys(slots).length>32)throw Error("Graphic instance argument limit");
+  if(v.sourceParameters!==undefined){const source=graphicArray(v.sourceParameters,32);source.forEach(graphicId);if(new Set(source).size!==source.length||source.some(n=>typeof n!=="string"||!Object.hasOwn(parameters,n)))throw Error("Invalid source parameter provenance");}
   for(const [key,v] of Object.entries(parameters)){graphicId(key);scalar(v);if(typeof v==="string"&&!accepts({kind:"string",default:""},v))throw Error("Invalid graphical String value");}
   for(const [key,v] of Object.entries(slots)){graphicId(key);validateContentSource(v);}
 }
@@ -257,7 +261,9 @@ export function addGraphicCost(a: GraphicCost, b: GraphicCost): void {
 }
 export class GraphicDefinitions {
   readonly definitions = new Map<string, SymbolDefinition>();
-  constructor(input: unknown) {
+  readonly propertyOverrides:SymbolOverrides;
+  constructor(input: unknown,overrides:SymbolOverrides={}) {
+    validateSymbolOverrides(overrides);this.propertyOverrides=overrides;
     const libraries = graphicArray(input, 64), ids = new Set<string>();
     for (const item of libraries) {
       const lib = graphicObject(item, ["schemaVersion", "id", "imports", "definitions"]);
@@ -266,7 +272,7 @@ export class GraphicDefinitions {
       ids.add(lib.id);
       const imports = graphicArray(lib.imports, 64); imports.forEach(graphicId);
       for (const value of graphicArray(lib.definitions, 256)) {
-        const def = optionalObject(value, ["id", "version", "role", "parameters", "slots", "root", "connectionAnchor"],["size"]);
+        const def = optionalObject(value, ["id", "version", "role", "parameters", "slots", "root", "connectionAnchor"],["size","properties"]);
         graphicId(def.id); graphicId(def.version);
         if (!def.id.startsWith(`${lib.id}/`) || !def.id.slice(lib.id.length + 1) || def.id.slice(lib.id.length + 1).includes("/") || this.definitions.has(def.id)) throw Error("Duplicate/unqualified definition");
         if (!["node", "port", "marker"].includes(def.role as string)) throw Error("Invalid graphical role");
@@ -313,7 +319,7 @@ export class GraphicDefinitions {
       }
     }
     for (const [id, d] of this.definitions) {
-      this.cost(id);
+      this.cost(id);validateProperties(d);
       const defaults=Object.fromEntries(Object.entries(d.parameters).map(([name,p])=>[name,p.default]));
       this.evaluatedPaints(d.root,defaults);this.evaluatedSize(d,defaults);this.evaluatedGeometry(d.root,defaults);
       const anchors = this.anchorNames(d.root);
@@ -327,7 +333,7 @@ export class GraphicDefinitions {
   }
   private part(input: unknown, d: SymbolDefinition, lib: SymbolLibrary, ids: Set<string>, anchors: Set<string>, depth: number): void {
     if (depth > 16) throw Error("Graphical part depth limit");
-    const p = graphicObject(input, ["id", "when", "anchors", "content"]); graphicId(p.id);
+    const p = optionalObject(input, ["id", "when", "anchors", "content"],["style"]); graphicId(p.id);validateStyle(p as unknown as GraphicPart,d);
     if (ids.has(p.id)) throw Error("Duplicate graphical part ID"); ids.add(p.id);
     if (p.when !== null) condition(p.when, d);
     for (const v of graphicArray(p.anchors, 32)) {
@@ -405,9 +411,10 @@ export class GraphicDefinitions {
   }
   instance(input: unknown, role: GraphicRole): GraphicInstance {
     validateGraphicInstance(input);
-    const v = graphicObject(input, ["definition", "parameters", "slots"]); graphicId(v.definition);
+    const v = optionalObject(input, ["definition", "parameters", "slots"],["sourceParameters"]); graphicId(v.definition);
     const d = this.definition(v.definition), parameters = graphicObject(v.parameters), slots = graphicObject(v.slots);
     if (d.role !== role || Object.keys(parameters).length !== Object.keys(d.parameters).length || Object.keys(slots).length !== Object.keys(d.slots).length) throw Error("Graphic instance role/arguments mismatch");
+    for(const p of d.properties??[])checkPropertyValue(d,p,parameters[p.parameter] as GraphicValue);
     for (const [name, v] of Object.entries(parameters)) { scalar(v); if (!accepts(parameter(d, name), v)) throw Error(`Invalid graphical parameter ${name}`); }
     const contentOwners=new Set<string>();
     for (const [name, v] of Object.entries(slots)) {
@@ -421,6 +428,7 @@ export class GraphicDefinitions {
     return input as GraphicInstance;
   }
   private evaluatedPaints(part: GraphicPart, values: Record<string, GraphicValue>): void {
+    evaluatedStyle(part,values);
     const check = (paint: Paint) => {
       const value = typeof paint === "string" ? paint : Object.hasOwn(values, paint.parameter) ? values[paint.parameter] : undefined;
       if (typeof value !== "string" || !graphicColor(value)) throw Error("Invalid evaluated graphical paint");
@@ -437,6 +445,7 @@ export class GraphicDefinitions {
         const value = expr.kind === "constant" ? expr.value : values[expr.name];
         if (!accepts(d.parameters[name], value)) throw Error("Invalid forwarded graphical value"); forwarded[name] = value;
       }
+      for(const p of d.properties??[])checkPropertyValue(d,p,forwarded[p.parameter]);
       this.evaluatedPaints(d.root, forwarded);
     }
   }

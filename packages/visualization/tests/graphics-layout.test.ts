@@ -99,13 +99,13 @@ test("authored flat containment edges constrain real layered geometry",async()=>
  scene.nodes=[node("a"),node("b"),node("c")];scene.edges=[edge("ab","a","b"),edge("bc","b","c")];scene.layout.direction="DOWN";
  const elk=new ELK(),groups:{nodes:string[];edges:string[]}[]=[];
  const arrange=async(nodes:any[],edges:any[])=>{groups.push({nodes:nodes.map(n=>n.id),edges:edges.map(e=>e.id)});const g=await elk.layout({id:"root",children:nodes,edges:edges.map(e=>({id:e.id,sources:[e.source],targets:[e.target]})),layoutOptions:{"elk.algorithm":"layered","elk.direction":"DOWN"}});return g.children??[];};
- const result=await graphicGraphLayout(scene,{schemaVersion:4,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
+ const result=await graphicGraphLayout(scene,{schemaVersion:5,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
  for(const e of scene.edges)assert.ok(result.nodes[e.target].y>=result.nodes[e.source].y+result.nodes[e.source].height);
  assert.deepEqual(groups.find(g=>g.nodes.length===3)?.edges,["ab","bc"]);
  // A root container and its child are separate composition levels. A crossing
  // edge must not be handed to ELK with an endpoint absent from that level.
  const a=node("a");a.graphic=null;a.children=[node("b")];scene.nodes=[a,node("c")];scene.edges=[edge("ac","a","c"),edge("bc","b","c")];groups.length=0;
- await graphicGraphLayout(scene,{schemaVersion:4,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
+ await graphicGraphLayout(scene,{schemaVersion:5,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
  assert.deepEqual(groups.find(g=>g.nodes.includes("a"))?.edges,["ac"]);
  assert.deepEqual(groups.find(g=>g.nodes.includes("b"))?.edges,[]);
 });

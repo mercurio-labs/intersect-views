@@ -1,0 +1,153 @@
+[
+  {
+    "name": "scope at operation limit",
+    "kind": "scope",
+    "pointer": "/ops",
+    "repeat": 4096,
+    "value": {
+      "op": "hide",
+      "element": "x"
+    },
+    "accept": true
+  },
+  {
+    "name": "scope beyond operation limit",
+    "kind": "scope",
+    "pointer": "/ops",
+    "repeat": 4097,
+    "value": {
+      "op": "hide",
+      "element": "x"
+    },
+    "accept": false
+  },
+  {
+    "name": "maximum hops",
+    "kind": "scope",
+    "pointer": "/ops/1/hops",
+    "value": 8,
+    "accept": true
+  },
+  {
+    "name": "empty scope",
+    "kind": "scope",
+    "pointer": "/ops",
+    "value": [],
+    "accept": true
+  },
+  {
+    "name": "minimum zoom",
+    "kind": "presentation",
+    "pointer": "/views/structure-1/viewport/zoom",
+    "value": 0.05,
+    "accept": true
+  },
+  {
+    "name": "maximum zoom",
+    "kind": "presentation",
+    "pointer": "/views/structure-1/viewport/zoom",
+    "value": 4,
+    "accept": true
+  },
+  {
+    "name": "presentation 128 views",
+    "kind": "presentation",
+    "pointer": "/views",
+    "repeatMap": 128,
+    "value": {
+      "positions": {
+        "port:left": {
+          "x": 0,
+          "y": 45,
+          "width": 12,
+          "height": 12
+        }
+      },
+      "viewport": {
+        "x": 5,
+        "y": 10,
+        "zoom": 0.7
+      },
+      "form": "graph",
+      "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "projection": "fixture",
+      "routeConstraints": {},
+      "labelPlacements": {},
+      "symbolOverrides": {}
+    },
+    "accept": true
+  },
+  {
+    "name": "presentation 129 views",
+    "kind": "presentation",
+    "pointer": "/views",
+    "repeatMap": 129,
+    "value": {
+      "positions": {
+        "port:left": {
+          "x": 0,
+          "y": 45,
+          "width": 12,
+          "height": 12
+        }
+      },
+      "viewport": {
+        "x": 5,
+        "y": 10,
+        "zoom": 0.7
+      },
+      "form": "graph",
+      "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "projection": "fixture",
+      "routeConstraints": {},
+      "labelPlacements": {},
+      "symbolOverrides": {}
+    },
+    "accept": false
+  },
+  {
+    "name": "presentation 5000 positions",
+    "kind": "presentation",
+    "pointer": "/views/structure-1/positions",
+    "repeatMap": 5000,
+    "value": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "accept": true
+  },
+  {
+    "name": "presentation 5001 positions",
+    "kind": "presentation",
+    "pointer": "/views/structure-1/positions",
+    "repeatMap": 5001,
+    "value": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "accept": false
+  },
+  {
+    "name": "scene 500 nodes",
+    "kind": "scene",
+    "nodeCount": 500,
+    "accept": true
+  },
+  {
+    "name": "scene 501 nodes",
+    "kind": "scene",
+    "nodeCount": 501,
+    "accept": false
+  },
+  {
+    "name": "missing scene v3 layout",
+    "kind": "scene",
+    "pointer": "/layout",
+    "remove": true,
+    "accept": false
+  }
+]

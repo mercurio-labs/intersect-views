@@ -17,7 +17,7 @@ try {
   const status=await page.locator("#status").textContent();assert.match(status,/Accepted classic package/,status);
   const ready=()=>page.evaluate(()=>window.m12.active.canvas.whenReady());await ready();
   const snapshot=()=>page.evaluate(()=>({source:document.querySelector("#model").value,scene:window.m12.scene,layout:window.m12.active.canvas.graph.layout,presentation:window.m12.active.canvas.graph.presentation}));
-  const initial=await snapshot();assert.equal(initial.scene.scene.schemaVersion,7);assert.equal(initial.presentation.schemaVersion,4);
+  const initial=await snapshot();assert.equal(initial.scene.scene.schemaVersion,7);assert.equal(initial.presentation.schemaVersion,5);
   assert.equal(Object.keys(initial.layout.routing.paths).length,initial.scene.scene.edges.length);
   receipt.checks.push("Actual WASM scene v7 and v4 presentation render complete worker routes with their source bindings");
   const block=page.locator(".diagram-node").first().locator("[data-bound-label-block]").first(),id=await block.getAttribute("data-bound-label-block");

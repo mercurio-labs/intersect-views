@@ -12,6 +12,7 @@ crate-type = ["rlib", "cdylib"]
 
 [features]
 milestone-tests = []
+symbol-properties-gate = []
 
 [dependencies]
 intersect-views.workspace = true

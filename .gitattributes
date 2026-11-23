@@ -13,3 +13,5 @@ docs/evidence/m14-measured-behaviors/*.log -text
 
 docs/evidence/m14-label-frames/* -text
 docs/evidence/m14-client/* -text
+
+docs/evidence/symbol-properties/* -text

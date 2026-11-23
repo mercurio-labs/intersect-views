@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 8,
+  "id": "harness.properties",
+  "label": "Symbol properties",
+  "language": "urn:intersect:harness:1",
+  "form": "graph",
+  "layout": {
+    "strategy": "layered",
+    "direction": "RIGHT"
+  },
+  "symbols": [
+    {
+      "id": "box",
+      "emit": "node",
+      "notation": "box",
+      "title": "boxTitle",
+      "subtitle": "boxKind",
+      "compartments": [],
+      "ports": {
+        "select": "boxPins",
+        "rule": "pin"
+      },
+      "graphic": {
+        "definition": "fixture.properties/node",
+        "parameters": {},
+        "slots": {
+          "title": {
+            "kind": "text",
+            "name": "description"
+          }
+        },
+        "text": {
+          "description": {
+            "runs": [
+              {
+                "id": "doc",
+                "label": "m12Documentation"
+              }
+            ]
+          }
+        }
+      },
+      "match": "Box"
+    },
+    {
+      "id": "pin",
+      "emit": "port",
+      "label": "pinLabel",
+      "side": "pinSide",
+      "graphic": {
+        "definition": "fixture.properties/terminal",
+        "parameters": {
+          "facing": {
+            "kind": "string",
+            "value": "pinSide"
+          }
+        },
+        "slots": {
+          "label": {
+            "kind": "label"
+          }
+        },
+        "text": {}
+      },
+      "match": "Pin"
+    }
+  ],
+  "edges": [
+    {
+      "kind": "element",
+      "id": "wire",
+      "per": "box",
+      "select": "boxLinks",
+      "notation": "link",
+      "label": "linkLabel",
+      "sourcePath": "linkSourcePath",
+      "targetPath": "linkTargetPath",
+      "anchor": "owner",
+      "endMarker": {
+        "definition": "fixture.properties/captionMarker",
+        "parameters": {},
+        "slots": {
+          "caption": {
+            "kind": "label"
+          }
+        },
+        "text": {}
+      },
+      "startMarker": {
+        "definition": "fixture.properties/captionMarker",
+        "parameters": {},
+        "slots": {
+          "caption": {
+            "kind": "label"
+          }
+        },
+        "text": {}
+      }
+    }
+  ],
+  "projection": {
+    "kind": "nested"
+  },
+  "routing": {
+    "algorithm": "orthogonal",
+    "clearance": 8,
+    "stubLength": 18,
+    "trunks": "none"
+  }
+}

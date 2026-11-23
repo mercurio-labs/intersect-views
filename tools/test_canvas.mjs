@@ -105,7 +105,7 @@ try {
         "Complete compartment heading: " + "Wide caption ".repeat(9);
       response.scene.palette.groups[0].entries[0].icon = "constructor";
       window.savedPresentation = undefined;
-      canvas.reset({ schemaVersion: 4, views: {} });
+      canvas.reset({ schemaVersion: 5, views: {} });
       canvas.views([response.scene.view], key);
       canvas.setScene(response);
     }, key);
@@ -152,7 +152,7 @@ try {
   // Restore the ordinary smoke fixture before capturing evidence.
   await page.evaluate(() => {
     const { canvas, response } = window.smoke;
-    canvas.reset({ schemaVersion: 4, views: {} });
+    canvas.reset({ schemaVersion: 5, views: {} });
     canvas.views([response.scene.view], response.scene.view.key);
     canvas.setScene(response);
   });
