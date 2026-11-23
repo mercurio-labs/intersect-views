@@ -287,8 +287,21 @@ test("explicit v4 migration preserves all M14 placement fields and v3 chains thr
           },
         })),
       ),
-    /reset/,
+    /explicit compatibility decision/,
   );
+  const upgraded = previewPresentationV4(old, mapping(old).map((m) => ({
+    ...m,
+    decision: {
+      kind: "compatible-package-upgrade",
+      fingerprint: "f".repeat(64),
+      projection: m.oldProjection,
+    },
+  }))).candidate;
+  for (const [key, view] of Object.entries(upgraded.views))
+    assert.deepEqual(view, {
+      ...result.candidate.views[key],
+      packageFingerprint: "f".repeat(64),
+    });
   const malformed = structuredClone(old);
   Object.values<any>(malformed.views)[0].surprise = true;
   assert.throws(() =>
