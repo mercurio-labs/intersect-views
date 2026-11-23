@@ -15,6 +15,10 @@ export async function partitionLayout(
   scene: GraphScene,
   presentation: Presentation,
   measure: (s: string) => number,
+  placement: Record<string, string> = {
+    "elk.algorithm": "layered",
+    "elk.direction": scene.layout.direction,
+  },
 ): Promise<Layout> {
   const elk = new ELK(),
     result: Layout = {
@@ -35,8 +39,7 @@ export async function partitionLayout(
       id: `layout:${nodes[0].id}`,
       children: nodes.map((n) => ({ id: n.id, ...sizes.get(n.id)! })),
       layoutOptions: {
-        "elk.algorithm": "layered",
-        "elk.direction": scene.layout.direction,
+        ...placement,
         "elk.spacing.nodeNode": "55",
         "elk.padding": "[top=0,left=0,bottom=0,right=0]",
       },

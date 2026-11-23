@@ -1,3 +1,4 @@
+import { autoLayouts, type AutoLayout } from "./layout-options.ts";
 import { logicalId } from "./logical-id.ts";
 import { PlacementEditor } from "./placement-editor.ts";
 import { PresentationHistory } from "./presentation-state.ts";
@@ -87,6 +88,9 @@ export interface Callbacks {
   redo?(): void;
 }
 export class DiagramCanvas {
+  private readonly layoutPicker: HTMLSelectElement;
+  private readonly viewLayouts = new Map<string, AutoLayout>();
+  private pendingArrangement?: { sequence: number; choice: AutoLayout };
   private readyState: "pending" | "ready" | Error = "pending";
   private readyWaiters: { resolve(): void; reject(error: Error): void }[] = [];
   whenReady(): Promise<void> {
@@ -174,8 +178,13 @@ export class DiagramCanvas {
     private callbacks: Callbacks,
   ) {
     root.classList.add("diagram-workbench");
-    root.innerHTML = `<div class="diagram-heading"><span class="diagram-badge">VIEW</span><select aria-label="Diagram view"></select><span class="diagram-kind"></span><button class="diagram-button" data-reveal-view title="Reveal view declaration">↗ Source</button><button class="diagram-button" data-save-layout>Save layout</button></div><div class="diagram-status" role="status"></div><div class="diagram-body"><aside class="diagram-palette" aria-label="Diagram palette"></aside><div class="diagram-viewport" tabindex="0" aria-label="Diagram canvas"><svg role="img" aria-label="Model diagram"><defs><pattern id="diagram-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" class="grid-dot"/></pattern><marker id="general-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" class="general-arrow"/></marker><marker id="diagram-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11" fill="none" stroke="context-stroke"/></marker><marker id="diagram-triangle" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="var(--bg,white)" stroke="context-stroke"/></marker></defs><rect width="100%" height="100%" fill="url(#diagram-grid)"/><g class="diagram-world"></g></svg><div class="diagram-hint">Drag symbols to arrange · drag background to pan · scroll to zoom</div><div class="diagram-zoom"><button aria-label="Zoom out">−</button><span>100%</span><button aria-label="Zoom in">+</button><button aria-label="Fit diagram">⛶</button></div></div></div><form class="diagram-command" hidden></form>`;
+    root.innerHTML = `<div class="diagram-heading"><span class="diagram-badge">VIEW</span><select aria-label="Diagram view"></select><select aria-label="Auto layout" disabled>${autoLayouts.map(({ id, label }) => `<option value="${id}">${label}</option>`).join("")}</select><span class="diagram-kind"></span><button class="diagram-button" data-reveal-view title="Reveal view declaration">↗ Source</button><button class="diagram-button" data-save-layout>Save layout</button></div><div class="diagram-status" role="status"></div><div class="diagram-body"><aside class="diagram-palette" aria-label="Diagram palette"></aside><div class="diagram-viewport" tabindex="0" aria-label="Diagram canvas"><svg role="img" aria-label="Model diagram"><defs><pattern id="diagram-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" class="grid-dot"/></pattern><marker id="general-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" class="general-arrow"/></marker><marker id="diagram-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11" fill="none" stroke="context-stroke"/></marker><marker id="diagram-triangle" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="var(--bg,white)" stroke="context-stroke"/></marker></defs><rect width="100%" height="100%" fill="url(#diagram-grid)"/><g class="diagram-world"></g></svg><div class="diagram-hint">Drag symbols to arrange · drag background to pan · scroll to zoom</div><div class="diagram-zoom"><button aria-label="Zoom out">−</button><span>100%</span><button aria-label="Zoom in">+</button><button aria-label="Fit diagram">⛶</button></div></div></div><form class="diagram-command" hidden></form>`;
     this.graph = root.querySelector("svg")!;
+    this.layoutPicker = root.querySelector('[aria-label="Auto layout"]')!;
+    this.layoutPicker.onchange = () => {
+      const choice = autoLayouts.find(({ id }) => id === this.layoutPicker.value);
+      if (choice) this.arrange(true, choice.id);
+    };
     const placementTools=document.createElement("div");placementTools.className="diagram-placement-tools";
     placementTools.innerHTML=`<button data-placement="route">Edit route</button><button data-placement="label">Move label</button><button data-placement="reset">Reset placement</button><button data-placement="accept">Accept placement</button><button data-placement="cancel">Cancel placement</button><button data-placement="undo">Undo placement</button><button data-placement="redo">Redo placement</button>`;
     root.querySelector(".diagram-heading")!.after(placementTools);
@@ -275,11 +284,19 @@ export class DiagramCanvas {
     });
     this.worker.onmessage = ({ data }) => {
       if (data.id !== this.sequence) return;
-      if (data.error) {
-        this.settled(new Error(data.error));
-        this.stale = true;
+      const arrangement = this.pendingArrangement?.sequence === this.sequence
+        ? this.pendingArrangement
+        : undefined;
+      this.pendingArrangement = undefined;
+      const fail = (error: Error, message: string) => {
+        this.settled(error);
+        this.stale = !arrangement;
+        if (arrangement) this.readyState = "ready";
         this.renderTools();
-        this.status(`Layout failed: ${data.error}`);
+        this.status(message);
+      };
+      if (data.error) {
+        fail(new Error(data.error), `Layout failed: ${data.error}`);
         return;
       }
       const candidate=data.result as Layout;
@@ -288,11 +305,30 @@ export class DiagramCanvas {
         const c=candidate.routing.context;
         if(!this.response || c.generation!==this.sequence || c.scopeIdentity!==`layout:${this.sequence}` || c.revision!==this.response.scene.revision || c.viewKey!==this.response.scene.view.key || c.packageFingerprint!==this.response.presentation.fingerprint)throw Error("Stale routing context");
         if(Object.keys(candidate.routing.paths).length!==this.response.scene.edges.length || this.response.scene.edges.some(e=>!Object.hasOwn(candidate.routing!.paths,e.id)))throw Error("Incomplete routing frame");
-      }catch(error){this.stale=true;this.settled(error instanceof Error?error:new Error(String(error)));this.status("Routing result refused");return;}
+      } catch (error) {
+        fail(error instanceof Error ? error : new Error(String(error)), "Routing result refused");
+        return;
+      }
+      const previous = this.layout;
       this.layout = candidate;
-      this.stale=false;
+      this.stale = false;
+      try {
+        this.draw();
+      } catch (error) {
+        this.layout = previous;
+        const failure = error instanceof Error ? error : new Error(String(error));
+        fail(failure, `Drawing failed: ${failure.message}`);
+        return;
+      }
+      if (arrangement) {
+        this.viewLayouts.set(candidate.viewKey, arrangement.choice);
+        const saved = this.state();
+        if (saved) saved.positions = {};
+        this.fit(false);
+        this.persist();
+        this.status(this.response!.scene.problems.join(" · "));
+      }
       this.renderTools();
-      try { this.draw(); } catch (error) { this.settled(error instanceof Error ? error : new Error(String(error))); this.stale = true; this.renderTools(); this.status(`Drawing failed: ${error instanceof Error ? error.message : String(error)}`); return; }
       this.settled();
       this.renderPlacementTools();
       this.finishPlacement();
@@ -300,6 +336,7 @@ export class DiagramCanvas {
         this.fit(false);
     };
     this.worker.onerror = () => {
+      this.pendingArrangement = undefined;
       this.settled(new Error("Layout worker failed"));
       this.stale = true; this.renderTools();
       this.status("The layout worker failed. Reopen this view to retry.");
@@ -493,6 +530,9 @@ export class DiagramCanvas {
     this.response = undefined;
     this.layout = undefined;
     this.presentation = presentation;
+    this.viewLayouts.clear();
+    this.pendingArrangement = undefined;
+    this.layoutPicker.disabled = true;
     this.tool = undefined;
     this.selected = undefined;
     this.viewList = [];
@@ -525,6 +565,8 @@ export class DiagramCanvas {
     this.placing = undefined;
     this.response = undefined;
     this.layout = undefined;
+    this.pendingArrangement = undefined;
+    this.layoutPicker.disabled = true;
     this.tool = undefined;
     this.graph.querySelector(".diagram-world")!.replaceChildren();
     this.paletteElement.replaceChildren();
@@ -726,27 +768,45 @@ export class DiagramCanvas {
     this.transform();
     if (save) this.persist();
   }
-  private arrange(clear = true) {
-    if (!this.response) return;
+  private currentLayout(viewKey: string): AutoLayout {
+    return this.viewLayouts.get(viewKey) ?? "layered";
+  }
+  private arrange(clear = true, choice?: AutoLayout) {
+    if (!this.response || (clear && (this.stale || this.busy || this.editor))) return;
     if (this.readyWaiters.length) this.settled(new Error("Layout superseded"));
     this.readyState = "pending";
-    this.stale=true;this.targetSequence++;this.targetIds.clear();this.paintTargets();this.renderTools();
+    const scene = this.response.scene;
+    const autoLayout = choice ?? this.currentLayout(scene.view.key);
+    const id = ++this.sequence;
+    let presentation = this.previewPresentation();
+    this.pendingArrangement = clear ? { sequence: id, choice: autoLayout } : undefined;
     if (clear) {
-      const state = this.state();
-      if (state) state.positions = {};
-      this.persist();
+      presentation = structuredClone(presentation);
+      const saved = graphPresentation(presentation, scene.view.key);
+      if (saved) saved.positions = {};
+      this.status("Arranging diagram…");
     }
+    this.stale = true;
+    this.targetSequence++;
+    this.targetIds.clear();
+    this.paintTargets();
+    this.renderTools();
     this.worker.postMessage({
-      id: ++this.sequence,
-      scene: this.response.scene,
+      id,
+      scene,
       context: this.response.presentation,
-      notation:this.notation,
-      presentation: this.previewPresentation(),
+      notation: this.notation,
+      presentation,
+      autoLayout,
     });
   }
   private renderTools() {
     this.renderPlacementTools();
     const response = this.response;
+    this.layoutPicker.disabled = !response || this.busy || this.stale || !!this.editor;
+    this.layoutPicker.value = response
+      ? this.pendingArrangement?.choice ?? this.currentLayout(response.scene.view.key)
+      : "layered";
     if (!response) return;
     this.paletteElement.innerHTML = `<label class="palette-heading">PALETTE<select data-palette-file aria-label="Palette definition"><option value="">Standard structure</option>${this.palettePaths.map((path) => `<option value="${esc(path)}" ${path === this.palettePath ? "selected" : ""}>${esc(path)}</option>`).join("")}</select></label>${response.scene.palette.groups
       .map(

@@ -1,6 +1,6 @@
 {
   "name": "@intersect/visualization",
-  "version": "0.1.0-m14.1",
+  "version": "0.1.0-m14.2",
   "private": true,
   "type": "module",
   "engines": {

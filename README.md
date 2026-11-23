@@ -81,7 +81,7 @@ In a separate Vite application, install the resulting tarball and import the
 shared surface. The Vite build resolves the packaged layout worker and styles.
 
 ```sh
-npm install /path/to/intersect-visualization-0.1.0-m14.1.tgz
+npm install /path/to/intersect-visualization-0.1.0-m14.2.tgz
 ```
 
 ```ts
@@ -117,6 +117,14 @@ Model/Text git patches in [Cargo.toml](Cargo.toml) to the root of your Cargo
 workspace when using the host, so the language and host share one set of
 runtime types. Fetch the locked dependencies before invoking the compiler
 build wrapper.
+
+### Arrange graph views
+
+Choose **Layered** to follow the view's direction, **Top to bottom** for a
+vertical layered layout, or **Compact packing** to group symbols by size.
+Edges are routed against the resulting geometry. The choice is kept per view
+while the workspace is open. Sequence, outline, grid and lane views retain
+their own layouts.
 
 ### Wire versions and saved layouts
 

@@ -1,3 +1,4 @@
+import type { AutoLayout } from "./layout-options.ts";
 import {validateNotation,type NotationProfile} from "./notation.ts";
 import { own } from "./records.ts";
 import { graphPresentation } from "./protocol.ts";
@@ -22,8 +23,13 @@ const elk = new ELK();
 const scope = self as unknown as DedicatedWorkerGlobalScope;
 scope.onmessage = async ({
   data,
-}: MessageEvent<{ id: number; scene: Scene; presentation: Presentation; context: PresentationContext;notation?:NotationProfile }>) => {
-  const { id, scene, presentation, context: presentationContext,notation } = data;
+}: MessageEvent<{ id: number; scene: Scene; presentation: Presentation; context: PresentationContext;notation?:NotationProfile; autoLayout?: AutoLayout }>) => {
+  const { id, scene, presentation, context: presentationContext,notation, autoLayout } = data;
+  const packed = autoLayout === "packed";
+  const placement = {
+    "elk.algorithm": packed ? "box" : "layered",
+    "elk.direction": autoLayout === "top-down" ? "DOWN" : scene.layout.direction,
+  };
   try {
     if(notation)validateNotation(notation);
     const canvas = new OffscreenCanvas(1, 1),
@@ -44,7 +50,7 @@ scope.onmessage = async ({
     };
     if (hasGraphics(scene.nodes)) {
       const result = await graphicGraphLayout(scene, presentation, presentationContext, measureGraphic, async (nodes, edges) => {
-        const graph = await elk.layout({ id: "graphic-root", children: nodes, edges: edges.map((e) => ({ id: e.id, sources: [e.source], targets: [e.target] })), layoutOptions: { "elk.algorithm": "layered", "elk.direction": scene.layout.direction, "elk.spacing.nodeNode": "65", "elk.padding": "[top=35,left=35,bottom=35,right=35]" } });
+        const graph = await elk.layout({ id: "graphic-root", children: nodes, edges: packed ? [] : edges.map((e) => ({ id: e.id, sources: [e.source], targets: [e.target] })), layoutOptions: { ...placement, "elk.spacing.nodeNode": "65", "elk.padding": "[top=35,left=35,bottom=35,right=35]" } });
         return graph.children ?? [];
       });
       publish(result); return;
@@ -54,7 +60,7 @@ scope.onmessage = async ({
         (n) => (n.regions?.items.length ?? 0) > 0 || hasRegions(n.children),
       );
     if (hasRegions(scene.nodes)) {
-      publish(await partitionLayout(scene, presentation, measure));
+      publish(await partitionLayout(scene, presentation, measure, placement));
       return;
     }
     const saved =
@@ -108,8 +114,7 @@ scope.onmessage = async ({
           },
         })),
         layoutOptions: {
-          "elk.algorithm": "layered",
-          "elk.direction": scene.layout?.direction ?? "RIGHT",
+          ...placement,
           "elk.padding": `[top=${64 + rows},left=28,bottom=38,right=28]`,
           "elk.portConstraints": "FIXED_SIDE",
           "elk.spacing.nodeNode": "55",
@@ -119,11 +124,10 @@ scope.onmessage = async ({
     const graph = await elk.layout({
       id: "root",
       children: scene.nodes.map(toElk),
-      edges: edgeList,
+      edges: packed ? [] : edgeList,
       layoutOptions: {
-        "elk.algorithm": "layered",
-        "elk.direction": scene.layout?.direction ?? "RIGHT",
-        "elk.hierarchyHandling": "INCLUDE_CHILDREN",
+        ...placement,
+        "elk.hierarchyHandling": packed ? "SEPARATE_CHILDREN" : "INCLUDE_CHILDREN",
         "elk.edgeRouting": "ORTHOGONAL",
         "elk.spacing.nodeNode": "65",
         "elk.layered.spacing.nodeNodeBetweenLayers": "85",
