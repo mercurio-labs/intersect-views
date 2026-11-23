@@ -371,13 +371,24 @@ impl GraphScene {
         self.view.validate()?;
         self.palette.validate()?;
         identity(&self.rule_set)?;
-        if self.form != "graph" || self.layout.strategy != "layered" {
+        let outline = self.layout.strategy == "outline";
+        let sequence = self.layout.strategy == "sequence";
+        if self.form != "graph" || !(outline || sequence || self.layout.strategy == "layered") {
             return Err("Unsupported scene form or layout strategy".into());
         }
         if !["RIGHT", "LEFT", "UP", "DOWN"].contains(&self.layout.direction.as_str()) {
             return Err("Unsupported layout direction".into());
         }
+        if outline && (!self.edges.is_empty() || !self.endpoint_proxies.is_empty()) {
+            return Err("Outline scenes contain only nested nodes".into());
+        }
+        if sequence && (!self.endpoint_proxies.is_empty() || self.nodes.len() != 1) {
+            return Err("Sequence scenes require one scenario without endpoint proxies".into());
+        }
         struct Audit {
+            nested_labels: bool,
+            sequence: bool,
+            events: std::collections::BTreeSet<String>,
             limits: SceneLimits,
             counts: [usize; 3],
             regions: usize,
@@ -459,6 +470,28 @@ impl GraphScene {
                 self.counts[0] += 1;
                 if depth > self.limits.depth || self.counts[0] > self.limits.nodes {
                     return Err("Scene node or nesting budget exceeded".into());
+                }
+                if self.nested_labels
+                    && (!node.ports.is_empty()
+                        || node.regions.is_some()
+                        || !node.compartments.is_empty()
+                        || !node.expand.is_empty()
+                        || node.graphic.is_some()
+                        || !node.text.is_empty())
+                {
+                    return Err(
+                        "Outline and sequence nodes contain only labels and nested nodes".into(),
+                    );
+                }
+                if self.sequence {
+                    if depth > 2 || node.collapsed {
+                        return Err(
+                            "Sequence hierarchy requires scenario, lifelines, and events".into(),
+                        );
+                    }
+                    if depth == 2 {
+                        self.events.insert(node.id.clone());
+                    }
                 }
                 self.add(&node.id, true)?;
                 identity(&node.rule)?;
@@ -561,6 +594,9 @@ impl GraphScene {
         }
         let mut audit = Audit {
             limits,
+            nested_labels: outline || sequence,
+            sequence,
+            events: Default::default(),
             counts: [0; 3],
             regions: 0,
             parts: 0,
@@ -623,6 +659,17 @@ impl GraphScene {
             return Err("Scene edge budget exceeded".into());
         }
         for edge in &self.edges {
+            if sequence
+                && (!matches!(edge.notation.as_str(), "message" | "precedence")
+                    || !audit.events.contains(&edge.source)
+                    || !audit.events.contains(&edge.target)
+                    || edge.branch_group.is_some()
+                    || edge.start_marker.is_some()
+                    || edge.end_marker.is_some()
+                    || !edge.text.is_empty())
+            {
+                return Err("Sequence edges must bind events as messages or precedence".into());
+            }
             audit.add(&edge.id, false)?;
             identity(&edge.rule)?;
             if let Some(group) = &edge.branch_group {

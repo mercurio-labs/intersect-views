@@ -1,0 +1,50 @@
+.sequence-workbench {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.sequence-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.sequence-viewport svg {
+  display: block;
+  color: var(--text, #173145);
+  font: 13px system-ui;
+}
+.sequence-viewport text {
+  fill: currentColor;
+  paint-order: stroke;
+  stroke: var(--panel, #fff);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.sequence-lifeline {
+  stroke: var(--muted, #678);
+  stroke-dasharray: 5 4;
+  pointer-events: none;
+}
+.sequence-head {
+  fill: var(--toolbar, #f0f4f7);
+  stroke: currentColor;
+}
+.sequence-event {
+  fill: var(--panel, #fff);
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.sequence-message {
+  stroke: var(--accent, #275d90);
+  stroke-width: 1.6;
+}
+.sequence-hit {
+  stroke: transparent;
+  stroke-width: 14;
+}
+.sequence-viewport g[role="button"] {
+  cursor: pointer;
+}
+.sequence-selected text {
+  font-weight: bold;
+}

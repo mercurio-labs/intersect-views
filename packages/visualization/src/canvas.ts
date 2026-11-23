@@ -21,7 +21,7 @@ import "./canvas.css";
 import { validateSceneResponse } from "./protocol";
 /** Intersect visualization client.
  * SVG/ELK adapter. It consumes presentation DTOs and emits intents, never source. */
-import LayoutWorker from "./layout.worker?worker";
+import LayoutWorker from "./layout.worker.js?worker";
 import {
   defaultNotation,
   type Binding,

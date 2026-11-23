@@ -177,11 +177,18 @@ export function validateScene(value: unknown): asserts value is Scene {
   if (scene.form !== "graph") throw new Error("Unsupported scene form");
   validateSceneEnvelope(scene);
   const layout = object(scene.layout, ["strategy", "direction"]);
+  const outline = layout.strategy === "outline";
+  const sequence = layout.strategy === "sequence";
   if (
-    layout.strategy !== "layered" ||
+    !(outline || sequence || layout.strategy === "layered") ||
     !["RIGHT", "LEFT", "UP", "DOWN"].includes(layout.direction as string)
   )
     throw new Error("Unsupported layout hints");
+  if (outline && (list(scene.edges).length || list(scene.endpointProxies).length))
+    throw new Error("Outline scenes contain only nested nodes");
+  if (sequence && (list(scene.nodes).length !== 1 || list(scene.endpointProxies).length))
+    throw new Error("Sequence scenes require one scenario without endpoint proxies");
+  const events = new Set<unknown>();
   const ids = new Set<string>(),
     endpoints = new Set<string>();
   const collapsedOwners = new Map<string, Binding>();
@@ -240,6 +247,21 @@ export function validateScene(value: unknown): asserts value is Scene {
       "regions",
       "ports", "graphic", "text",
     ]);
+    if (
+      (outline || sequence) &&
+      (list(n.ports).length ||
+        n.regions !== null ||
+        list(n.compartments).length ||
+        list(n.expand).length ||
+        n.graphic !== null ||
+        Object.keys(n.text as object).length)
+    )
+      throw new Error("Outline and sequence nodes contain only labels and nested nodes");
+    if (sequence) {
+      if (depth > 2 || n.collapsed)
+        throw new Error("Sequence hierarchy requires scenario, lifelines, and events");
+      if (depth === 2) events.add(n.id);
+    }
     add(n.id, true);
     text(n.rule, true);
     text(n.styleClass);
@@ -373,6 +395,17 @@ export function validateScene(value: unknown): asserts value is Scene {
       "target",
       "binding", "startMarker", "endMarker", "text", "branchGroup",
     ]);
+    if (
+      sequence &&
+      (!["message", "precedence"].includes(edge.notation as string) ||
+        !events.has(edge.source) ||
+        !events.has(edge.target) ||
+        edge.branchGroup !== null ||
+        edge.startMarker !== null ||
+        edge.endMarker !== null ||
+        Object.keys(edge.text as object).length)
+    )
+      throw new Error("Sequence edges must bind events as messages or precedence");
     add(edge.id, false);
     text(edge.rule, true);
     if(edge.branchGroup!==null) {
@@ -656,9 +689,11 @@ export function validateRuleSet(value: unknown): asserts value is RuleSet {
   validateProjection(rules.projection, true);
   for (const key of ["id", "label", "language"]) text(rules[key], true);
   const layout = object(rules.layout, ["strategy", "direction"]);
+  const outline = layout.strategy === "outline";
+  const sequence = layout.strategy === "sequence";
   if (
     rules.form !== "graph" ||
-    layout.strategy !== "layered" ||
+    !(outline || sequence || layout.strategy === "layered") ||
     !["RIGHT", "LEFT", "UP", "DOWN"].includes(layout.direction as string)
   )
     throw new Error("Unsupported rule form or layout");
@@ -687,6 +722,20 @@ export function validateRuleSet(value: unknown): asserts value is RuleSet {
       ),
     );
   const projection = rules.projection as import("./rendering.ts").ProjectionPolicy;
+  if (
+    (outline || sequence) &&
+    (projection.kind !== "nested" ||
+      (outline && list(rules.edges).length) ||
+      symbols.some(
+        (symbol) =>
+          symbol.emit !== "node" ||
+          ["ports", "regions", "graphic"].some((key) => symbol[key] != null) ||
+          ["compartments", "expand", "create"].some(
+            (key) => Array.isArray(symbol[key]) && (symbol[key] as unknown[]).length > 0,
+          ),
+      ))
+  )
+    throw new Error("Specialized view rules define only labels and nested nodes");
   if (projection.kind === "containmentTree" && (symbols.some(s=>s.regions!==undefined || s.id===projection.edgeRole) || list(rules.edges).some(e=>(e as {id?:unknown} | null)?.id===projection.edgeRole))) throw Error("Containment tree role collision or unsupported regions");
   function add(id: unknown) {
     text(id, true);

@@ -513,11 +513,28 @@ impl GraphRuleSet {
         for text in [&self.id, &self.label, &self.language] {
             identity(text)?;
         }
+        let outline = self.layout.strategy == "outline";
+        let sequence = self.layout.strategy == "sequence";
         if self.form != "graph"
-            || self.layout.strategy != "layered"
+            || !(outline || sequence || self.layout.strategy == "layered")
             || !["RIGHT", "LEFT", "UP", "DOWN"].contains(&self.layout.direction.as_str())
         {
             return Err("Unsupported rule form or layout".into());
+        }
+        if (outline || sequence)
+            && (!matches!(self.projection, crate::ProjectionPolicy::Nested)
+                || (outline && !self.edges.is_empty())
+                || self.symbols.iter().any(|symbol| {
+                    symbol.emit != "node"
+                        || symbol.ports.is_some()
+                        || symbol.regions.is_some()
+                        || !symbol.compartments.is_empty()
+                        || !symbol.expand.is_empty()
+                        || !symbol.create.is_empty()
+                        || symbol.graphic.is_some()
+                }))
+        {
+            return Err("Specialized view rules define only labels and nested nodes".into());
         }
         if let crate::ProjectionPolicy::ContainmentTree { edge_role, .. } = &self.projection
             && (self

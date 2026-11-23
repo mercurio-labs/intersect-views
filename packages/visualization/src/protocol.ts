@@ -247,7 +247,7 @@ export interface ExpandOption {
   label: string;
 }
 export interface LayoutHints {
-  strategy: "layered";
+  strategy: "layered" | "outline" | "sequence";
   direction: "RIGHT" | "LEFT" | "UP" | "DOWN";
 }
 export interface Scope {
