@@ -81,7 +81,7 @@ In a separate Vite application, install the resulting tarball and import the
 shared surface. The Vite build resolves the packaged layout worker and styles.
 
 ```sh
-npm install /path/to/intersect-visualization-0.1.0-m14.2.tgz
+npm install /path/to/intersect-visualization-0.1.0-m14.3.tgz
 ```
 
 ```ts
@@ -105,7 +105,7 @@ export default defineConfig({
 
 Pass your application's source and editing callbacks to `ViewCanvas`, and your
 language host and buffer adapter to `ViewSession`. The client accepts M14 scene
-v7, rules v8, protocol v2 and presentation v4. It adds outline and sequence
+v7, rules v8, protocol v2 and presentation v5. It adds outline and sequence
 layout strategies to the graph form. The language host and its WASM module are
 built separately. Use the [FMEA example](languages/fmea/README.md) for adapter
 registration and Mercurio's SysML examples for the read-only GridView,
@@ -217,6 +217,7 @@ and captioned markers. It is also in the shared capability navigator.
 Presentation v5 retains M14 routes, logical label placements, positions and
 viewport, adding bounded qualified style values. `previewPresentationV4` produces
 a detached compatibility preview; v3 first uses `previewPresentationV3`. Original
-files are never upgraded silently. A changed package needs an explicit reset until
-a checked cross-package mapping exists. Language-specific display toggles and
+files are never upgraded silently. Use a verified package upgrade mapping to
+carry geometry into a new package fingerprint, or explicitly reset the view.
+Language-specific display toggles and
 project/global defaults remain separate work. See [the contract](docs/symbol-properties-spec.md).
