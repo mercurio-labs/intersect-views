@@ -89,6 +89,20 @@ import { ViewCanvas } from "@intersect/visualization/view-canvas";
 import { ViewSession } from "@intersect/visualization/session";
 ```
 
+For the Vite development server, keep the SDK's worker import visible to
+Vite and prebundle the CommonJS layout dependency. Add this to `vite.config.ts`.
+
+```ts
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  optimizeDeps: {
+    exclude: ["@intersect/visualization"],
+    include: ["@intersect/visualization > elkjs/lib/elk.bundled.js"],
+  },
+});
+```
+
 Pass your application's source and editing callbacks to `ViewCanvas`, and your
 language host and buffer adapter to `ViewSession`. The client accepts M14 scene
 v7, rules v8, protocol v2 and presentation v4. It adds outline and sequence
