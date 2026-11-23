@@ -47,7 +47,7 @@ impl SourceLoader for Loader {
             intersect_view_host::load_prepared(d, &crate::definition().bindings, &all)
         })?;
         Ok(LoadedSources {
-            load,
+            load: load.into(),
             reference_sources: BTreeMap::from([(URI.into(), TEXT.into())]),
             metadata: ProjectMetadata {
                 dependency_uris: vec![URI.into()],
