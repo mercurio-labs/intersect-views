@@ -66,6 +66,44 @@ Open `target/doc/intersect_views/index.html` or
 look in its `doc/` directory. The wrapper generates the host reference at
 `target/doc/intersect_view_host/index.html` with a fresh loader build context.
 
+### Install the M14 SDK preview
+
+The npm preview contains ESM JavaScript, TypeScript declarations, CSS, JSON
+schemas and the graph layout worker. Build the tarball from a clean SDK checkout
+with Node 22.15 or newer.
+
+```sh
+npm ci
+npm pack
+```
+
+In a separate Vite application, install the resulting tarball and import the
+shared surface. The Vite build resolves the packaged layout worker and styles.
+
+```sh
+npm install /path/to/intersect-visualization-0.1.0-m14.1.tgz
+```
+
+```ts
+import { ViewCanvas } from "@intersect/visualization/view-canvas";
+import { ViewSession } from "@intersect/visualization/session";
+```
+
+Pass your application's source and editing callbacks to `ViewCanvas`, and your
+language host and buffer adapter to `ViewSession`. The client accepts M14 scene
+v7, rules v8, protocol v2 and presentation v4. It adds outline and sequence
+layout strategies to the graph form. The language host and its WASM module are
+built separately. Use the [FMEA example](languages/fmea/README.md) for adapter
+registration and Mercurio's SysML examples for the read-only GridView,
+BrowserView and SequenceView profiles.
+
+For Rust embedding, use the immutable preview Git revision for
+`intersect-views`, `intersect-view-engine` and `intersect-view-host`. Copy the
+Model/Text git patches in [Cargo.toml](Cargo.toml) to the root of your Cargo
+workspace when using the host, so the language and host share one set of
+runtime types. Fetch the locked dependencies before invoking the compiler
+build wrapper.
+
 ### Wire versions and saved layouts
 
 M14 reads rule-set v8, emits scene v7, uses protocol v2, and saves presentation v4.

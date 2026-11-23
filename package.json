@@ -111,7 +111,7 @@
     "test:fmea": "node languages/fmea/web/browser.test.mjs",
     "test:lanes": "node harness/web/lanes.test.mjs",
     "build:sdk": "tsc --project packages/visualization/tsconfig.sdk.json && node tools/copy_sdk_styles.mjs",
-    "prepack": "npm run build:sdk"
+    "prepare": "npm run build:sdk"
   },
   "dependencies": {
     "elkjs": "0.12.1"
