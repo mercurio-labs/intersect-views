@@ -1,41 +1,107 @@
 {
   "name": "@intersect/visualization",
-  "version": "0.1.0",
+  "version": "0.1.0-m14.3",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.15"
   },
   "exports": {
-    ".": "./packages/visualization/src/protocol.ts",
-    "./canvas": "./packages/visualization/src/canvas.ts",
-    "./canvas.css": "./packages/visualization/src/canvas.css",
+    ".": {
+      "types": "./dist/protocol.d.ts",
+      "default": "./dist/protocol.js"
+    },
+    "./canvas": {
+      "types": "./dist/canvas.d.ts",
+      "default": "./dist/canvas.js"
+    },
+    "./canvas.css": "./dist/canvas.css",
     "./palette.schema.json": "./crates/intersect-views/palette.schema.json",
     "./presentation.schema.json": "./crates/intersect-views/presentation.schema.json",
-    "./session": "./packages/visualization/src/session.ts",
-    "./scope": "./packages/visualization/src/scope.ts",
+    "./session": {
+      "types": "./dist/session.d.ts",
+      "default": "./dist/session.js"
+    },
+    "./scope": {
+      "types": "./dist/scope.d.ts",
+      "default": "./dist/scope.js"
+    },
     "./notation.schema.json": "./crates/intersect-views/notation.schema.json",
-    "./grid": "./packages/visualization/src/grid.ts",
-    "./view-canvas": "./packages/visualization/src/view-canvas.ts",
-    "./grid.css": "./packages/visualization/src/grid.css",
-    "./worker-host": "./packages/visualization/src/worker-host.ts",
-    "./wasm-worker": "./packages/visualization/src/wasm-worker.ts",
-    "./graphics": "./packages/visualization/src/graphics-contract.ts",
-    "./graphics-layout": "./packages/visualization/src/graphics-layout.ts",
-    "./presentation-package": "./packages/visualization/src/presentation-package.ts",
+    "./grid": {
+      "types": "./dist/grid.d.ts",
+      "default": "./dist/grid.js"
+    },
+    "./outline": {
+      "types": "./dist/outline.d.ts",
+      "default": "./dist/outline.js"
+    },
+    "./sequence": {
+      "types": "./dist/sequence.d.ts",
+      "default": "./dist/sequence.js"
+    },
+    "./view-canvas": {
+      "types": "./dist/view-canvas.d.ts",
+      "default": "./dist/view-canvas.js"
+    },
+    "./grid.css": "./dist/grid.css",
+    "./worker-host": {
+      "types": "./dist/worker-host.d.ts",
+      "default": "./dist/worker-host.js"
+    },
+    "./wasm-worker": {
+      "types": "./dist/wasm-worker.d.ts",
+      "default": "./dist/wasm-worker.js"
+    },
+    "./graphics": {
+      "types": "./dist/graphics-contract.d.ts",
+      "default": "./dist/graphics-contract.js"
+    },
+    "./graphics-layout": {
+      "types": "./dist/graphics-layout.d.ts",
+      "default": "./dist/graphics-layout.js"
+    },
+    "./presentation-package": {
+      "types": "./dist/presentation-package.d.ts",
+      "default": "./dist/presentation-package.js"
+    },
     "./graphics.schema.json": "./crates/intersect-views/graphics.schema.json",
     "./presentation-package.schema.json": "./crates/intersect-views/presentation-package.schema.json",
     "./graph-rule-set.schema.json": "./crates/intersect-views/graph-rule-set.schema.json",
-    "./lane": "./packages/visualization/src/lane.ts",
-    "./lane.css": "./packages/visualization/src/lane.css",
-    "./rendering": "./packages/visualization/src/rendering.ts",
+    "./lane": {
+      "types": "./dist/lane.d.ts",
+      "default": "./dist/lane.js"
+    },
+    "./lane.css": "./dist/lane.css",
+    "./rendering": {
+      "types": "./dist/rendering.d.ts",
+      "default": "./dist/rendering.js"
+    },
     "./rendering-registry.schema.json": "./crates/intersect-views/rendering-registry.schema.json",
     "./rendering-resolution.schema.json": "./crates/intersect-views/rendering-resolution.schema.json",
     "./routing.schema.json": "./crates/intersect-views/routing.schema.json",
-    "./presentation-state": "./packages/visualization/src/presentation-state.ts"
+    "./presentation-state": {
+      "types": "./dist/presentation-state.d.ts",
+      "default": "./dist/presentation-state.js"
+    },
+    "./outline.css": "./dist/outline.css",
+    "./sequence.css": "./dist/sequence.css",
+    "./graph.schema.json": "./crates/intersect-views/graph.schema.json",
+    "./symbol-properties": {
+      "types": "./dist/symbol-properties-contract.d.ts",
+      "default": "./dist/symbol-properties-contract.js"
+    },
+    "./symbol-editor": {
+      "types": "./dist/symbol-editor.d.ts",
+      "default": "./dist/symbol-editor.js"
+    },
+    "./symbol-inspector": {
+      "types": "./dist/symbol-inspector.d.ts",
+      "default": "./dist/symbol-inspector.js"
+    },
+    "./presentation-v4.schema.json": "./crates/intersect-views/presentation-v4.schema.json"
   },
   "files": [
-    "packages/visualization/src",
+    "dist",
     "crates/intersect-views/*.schema.json"
   ],
   "sideEffects": [
@@ -56,7 +122,11 @@
     "test:workbench": "node harness/web/workbench.test.mjs",
     "build:fmea": "node tools/build_fmea.mjs",
     "test:fmea": "node languages/fmea/web/browser.test.mjs",
-    "test:lanes": "node harness/web/lanes.test.mjs"
+    "test:lanes": "node harness/web/lanes.test.mjs",
+    "build:symbols": "node tools/build_symbol_harness.mjs",
+    "test:symbols": "node tools/qualify_symbol_properties.mjs",
+    "build:sdk": "tsc --project packages/visualization/tsconfig.sdk.json && node tools/copy_sdk_styles.mjs",
+    "prepare": "npm run build:sdk"
   },
   "dependencies": {
     "elkjs": "0.12.1"

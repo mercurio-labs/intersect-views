@@ -67,7 +67,7 @@
       "type": "object",
       "properties": {
         "strategy": {
-          "const": "layered"
+          "enum": ["layered", "outline", "sequence"]
         },
         "direction": {
           "enum": [
@@ -533,14 +533,14 @@
         },
         {
           "type": "object",
-          "required": [
-            "sourceText"
-          ],
           "properties": {
             "sourceText": {
               "const": true
             }
           },
+          "required": [
+            "sourceText"
+          ],
           "additionalProperties": false
         }
       ]

@@ -1,0 +1,354 @@
+[
+  {
+    "name": "typed styles and automatic size preserve placement",
+    "accepted": true,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "#123456",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "unqualified property key",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "#123456",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24,
+              "fill": "red"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "object callback is not a scalar",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": {
+                "callback": "alert"
+              },
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "unbounded scalar",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": 1000001,
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "control characters",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "a\nb",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "allocation dimensions are paired",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20,
+              "width": 100
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "#123456",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "allocation dimensions bounded",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20,
+              "width": 1000001,
+              "height": 100
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "#123456",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "missing styles is old v4",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {}
+        }
+      }
+    }
+  },
+  {
+    "name": "unknown style envelope field",
+    "accepted": false,
+    "value": {
+      "schemaVersion": 5,
+      "views": {
+        "structure-1": {
+          "positions": {
+            "port:left": {
+              "x": 0.0,
+              "y": 45.0,
+              "width": 12.0,
+              "height": 12.0
+            },
+            "automatic": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "viewport": {
+            "x": 5.0,
+            "y": 10.0,
+            "zoom": 0.7
+          },
+          "form": "graph",
+          "packageFingerprint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "projection": "structure-1",
+          "routeConstraints": {},
+          "labelPlacements": {},
+          "symbolOverrides": {
+            "owner": {
+              "property:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "#123456",
+              "property:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 24
+            }
+          },
+          "style": true
+        }
+      }
+    }
+  }
+]

@@ -71,6 +71,9 @@ try {
   await page
     .getByRole("textbox", { name: "Name", exact: true })
     .fill("browserLink");
+  // The command form reduces the canvas height. Fit into the new viewport
+  // before targeting an SVG port with screen coordinates.
+  await page.locator('.diagram-zoom button[aria-label="Fit diagram"]').click();
   await expect(source).toHaveClass(/diagram-legal-target/);
   await expect(target).not.toHaveClass(/diagram-legal-target/);
   const a = await source.locator(":scope > rect").boundingBox();

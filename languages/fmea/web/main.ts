@@ -55,7 +55,7 @@ let revision = 1,
   restored = false,
   loaded = false,
   analysis: Analysis & { nodes?: ElementNode[] },
-  presentation: Presentation = { schemaVersion:4, views: {} };
+  presentation: Presentation = { schemaVersion:5, views: {} };
 type ElementNode = { id: string; name: string; class: string };
 let analyzing = true;
 let chosen = "structure";

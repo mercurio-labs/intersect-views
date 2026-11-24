@@ -113,7 +113,7 @@
       "type": "object",
       "properties": {
         "strategy": {
-          "const": "layered"
+          "enum": ["layered", "outline", "sequence"]
         },
         "direction": {
           "enum": [

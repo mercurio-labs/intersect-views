@@ -340,6 +340,16 @@
             "$ref": "#/$defs/source"
           },
           "maxProperties": 32
+        },
+        "sourceParameters": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "maxItems": 32,
+          "uniqueItems": true
         }
       },
       "required": [
@@ -1009,6 +1019,9 @@
         },
         "content": {
           "$ref": "#/$defs/content"
+        },
+        "style": {
+          "$ref": "#/$defs/style"
         }
       },
       "required": [
@@ -1075,6 +1088,13 @@
         },
         "size": {
           "$ref": "#/$defs/size"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/symbolProperty"
+          },
+          "maxItems": 32
         }
       },
       "required": [
@@ -1236,14 +1256,14 @@
         },
         {
           "type": "object",
-          "required": [
-            "sourceText"
-          ],
           "properties": {
             "sourceText": {
               "const": true
             }
           },
+          "required": [
+            "sourceText"
+          ],
           "additionalProperties": false
         }
       ]
@@ -1479,6 +1499,294 @@
         "slots",
         "text"
       ],
+      "additionalProperties": false
+    },
+    "editor": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "color"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "bool"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "choice"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "number"
+            },
+            "minimum": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            },
+            "maximum": {
+              "type": "number",
+              "minimum": -1000000,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "minimum",
+            "maximum"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "symbolProperty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parameter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]*$"
+        },
+        "group": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]*$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]*$"
+        },
+        "editor": {
+          "$ref": "#/$defs/editor"
+        },
+        "editable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "parameter",
+        "label",
+        "group",
+        "description",
+        "editor",
+        "editable"
+      ],
+      "additionalProperties": false
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "fillEnabled": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "fill": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "stroke": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "strokeWidth": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "dash": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "radius": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "textColor": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "fontSize": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "fontWeight": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "italic": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "alignment": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        "wrap": {
+          "type": "object",
+          "properties": {
+            "parameter": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "parameter"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
       "additionalProperties": false
     }
   }

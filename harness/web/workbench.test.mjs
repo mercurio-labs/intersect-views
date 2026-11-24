@@ -10,8 +10,8 @@ try{
  const page=await browser.newPage({viewport:{width:1700,height:1050}});page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'harness/web/');
  await expect(page.locator('.diagram-node')).toHaveCount(6,{timeout:60000});
- assert.equal(await page.locator('.example-link').count(),16);
- checks.push('One navigator exposes all 16 current capability examples');
+ assert.equal(await page.locator('.example-link').count(),17);
+ checks.push('One navigator exposes all 17 current capability examples');
  for(const [id,title,selector]of [['regions','Nested regions','.diagram-region'],['table','Query table','.grid-row-header'],['matrix','Traceability matrix','.grid-cell.relation'],['derived','Derived matrix','.grid-cell.derived'],['lanes','Ordered lanes','.lane-step']]){
   await page.locator(`[data-example="${id}"]`).click();
   await expect(page.locator('.workbench-context h1')).toHaveText(title,{timeout:60000});

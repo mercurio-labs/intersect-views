@@ -8,3 +8,5 @@ mod lane;
 
 mod m14;
 mod rendering;
+
+mod symbol_properties;

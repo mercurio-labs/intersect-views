@@ -73,7 +73,7 @@ fn shared_documents_accept_and_round_trip() -> Result {
     }
     round_trip!("scope", Scope);
     round_trip!("view-document", ViewDocument);
-    let value = fixture("presentation-v4.json")?;
+    let value = fixture("presentation-v5.json")?;
     let typed: Presentation = serde_json::from_value(value.clone())?;
     typed.validate()?;
     assert_eq!(serde_json::to_value(typed)?, value);
@@ -127,7 +127,7 @@ fn shared_documents_reject_invalid_vectors() -> Result {
                 if kind == "rule-set" {
                     "v7-m14"
                 } else if kind == "presentation" {
-                    "v4"
+                    "v5"
                 } else {
                     "v1"
                 }
@@ -140,7 +140,7 @@ fn shared_documents_reject_invalid_vectors() -> Result {
 }
 #[test]
 fn shared_document_boundaries() -> Result {
-    let cases: Vec<Value> = serde_json::from_value(fixture("document-boundaries-v4.json")?)?;
+    let cases: Vec<Value> = serde_json::from_value(fixture("document-boundaries-v5.json")?)?;
     for case in cases {
         let kind = case["kind"].as_str().ok_or("Missing kind")?;
         let mut value = fixture(&format!(
@@ -150,7 +150,7 @@ fn shared_document_boundaries() -> Result {
             } else if kind == "scene" {
                 "v6-m14"
             } else if kind == "presentation" {
-                "v4"
+                "v5"
             } else {
                 "v1"
             }

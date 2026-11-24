@@ -309,7 +309,7 @@ impl<'a> Functions<'a> {
         rules: &intersect_views::GridRuleSet,
     ) -> Result<(), String> {
         use intersect_model::core::query::ScalarType;
-        let label = |role: &str, name: &str| -> Result<(), String> {
+        let label = |role: &str, name: &str, allow_optional: bool| -> Result<(), String> {
             let q = &self.queries[&(rules.id.clone(), role.into())];
             let i = q
                 .plan
@@ -318,20 +318,25 @@ impl<'a> Functions<'a> {
                 .position(|c| c.name == name)
                 .ok_or("Missing axis label projection")?;
             let ty = q.types.get(i).ok_or("Invalid label projection")?;
-            if ty.scalar != ScalarType::String || ty.many || ty.optional {
-                return Err("Grid axis label must be a required singular String".into());
+            if ty.scalar != ScalarType::String || ty.many {
+                return Err("Grid axis label must be a singular String".into());
+            }
+            if ty.optional && !allow_optional {
+                return Err("Grid matrix axis label must be a required String".into());
             }
             Ok(())
         };
         match &rules.grid {
-            GridDefinition::Table { row_label, .. } => label("table", row_label)?,
+            // A table may use an optional source attribute such as declaredName.
+            // Evaluation requires a present string on each admitted row.
+            GridDefinition::Table { row_label, .. } => label("table", row_label, true)?,
             GridDefinition::Matrix {
                 rows,
                 columns,
                 cells,
             } => {
-                label("rows", &rows.label)?;
-                label("columns", &columns.label)?;
+                label("rows", &rows.label, false)?;
+                label("columns", &columns.label, false)?;
                 let row = self.queries[&(rules.id.clone(), "rows".into())]
                     .plan
                     .from

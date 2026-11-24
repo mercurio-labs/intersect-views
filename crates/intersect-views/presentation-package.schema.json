@@ -48,7 +48,8 @@
                 "views.rendering.v1",
                 "rules.graph.v8",
                 "views.routing.v1",
-                "views.labelPlacement.v1"
+                "views.labelPlacement.v1",
+                "views.symbolProperties.v1"
               ]
             },
             "maxItems": 64

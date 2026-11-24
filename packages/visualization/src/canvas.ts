@@ -1,3 +1,7 @@
+import { autoLayouts, type AutoLayout } from "./layout-options.ts";
+import {SymbolInspector} from "./symbol-inspector.ts";
+import {SymbolHistory} from "./symbol-editor.ts";
+import type {PropertyTarget} from "./symbol-properties-contract.ts";
 import { logicalId } from "./logical-id.ts";
 import { PlacementEditor } from "./placement-editor.ts";
 import { PresentationHistory } from "./presentation-state.ts";
@@ -18,10 +22,10 @@ import {
 } from "./protocol.ts";
 import { color, validateNotation, type NotationProfile } from "./notation.ts";
 import "./canvas.css";
-import { validateSceneResponse } from "./protocol";
+import { validateSceneResponse,validatePresentation } from "./protocol";
 /** Intersect visualization client.
  * SVG/ELK adapter. It consumes presentation DTOs and emits intents, never source. */
-import LayoutWorker from "./layout.worker?worker";
+import LayoutWorker from "./layout.worker.js?worker";
 import {
   defaultNotation,
   type Binding,
@@ -63,6 +67,7 @@ export interface Callbacks {
     before: string | null,
     end: string | null,
   ): Promise<import("./protocol.ts").LaneTargetResponse | null>;
+  presentationWritable?():boolean;
   copy?(text: string): Promise<void>;
   labelTargets?(tool: Tool, part: string): Promise<LabelTargetResponse | null>;
   targets?(tool: Tool, source?: string): Promise<string[]>;
@@ -87,6 +92,9 @@ export interface Callbacks {
   redo?(): void;
 }
 export class DiagramCanvas {
+  private readonly layoutPicker: HTMLSelectElement;
+  private readonly viewLayouts = new Map<string, AutoLayout>();
+  private pendingArrangement?: { sequence: number; choice: AutoLayout };
   private readyState: "pending" | "ready" | Error = "pending";
   private readyWaiters: { resolve(): void; reject(error: Error): void }[] = [];
   whenReady(): Promise<void> {
@@ -99,17 +107,27 @@ export class DiagramCanvas {
     for (const waiter of this.readyWaiters.splice(0)) error ? waiter.reject(error) : waiter.resolve();
   }
   destroy() {
+    this.discardSymbols(false);
     this.settled(new Error("Canvas destroyed"));
     this.sequence++; this.targetSequence++;
     this.worker.onmessage = null; this.worker.onerror = null;
     this.worker.terminate(); this.resize.disconnect();
     this.root.replaceChildren();
   }
+  private symbolInspector?:SymbolInspector;
+  private symbolSelection=new Set<string>();
+  private symbolTargets:PropertyTarget[]=[];
+  private symbolPreview?:import("./protocol.ts").GraphPresentation;
+  private symbolBaseLayout?:Layout;
+  private symbolWorker?:Worker;
+  private symbolReject?: (error:Error)=>void;
+  private symbolGeneration=0;
+  private symbolHistories=new Map<string,SymbolHistory>();
   private worker = new LayoutWorker();
   private notation: NotationProfile = defaultNotation;
   private response?: SceneResponse;
   private layout?: Layout;
-  private presentation: Presentation = { schemaVersion:4, views: {} };
+  private presentation: Presentation = { schemaVersion:5, views: {} };
   private editor?:PlacementEditor;
   private placementBase?: import("./protocol.ts").GraphPresentation;
   private selectedEdge?:string;
@@ -174,8 +192,17 @@ export class DiagramCanvas {
     private callbacks: Callbacks,
   ) {
     root.classList.add("diagram-workbench");
-    root.innerHTML = `<div class="diagram-heading"><span class="diagram-badge">VIEW</span><select aria-label="Diagram view"></select><span class="diagram-kind"></span><button class="diagram-button" data-reveal-view title="Reveal view declaration">↗ Source</button><button class="diagram-button" data-save-layout>Save layout</button></div><div class="diagram-status" role="status"></div><div class="diagram-body"><aside class="diagram-palette" aria-label="Diagram palette"></aside><div class="diagram-viewport" tabindex="0" aria-label="Diagram canvas"><svg role="img" aria-label="Model diagram"><defs><pattern id="diagram-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" class="grid-dot"/></pattern><marker id="general-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" class="general-arrow"/></marker><marker id="diagram-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11" fill="none" stroke="context-stroke"/></marker><marker id="diagram-triangle" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="var(--bg,white)" stroke="context-stroke"/></marker></defs><rect width="100%" height="100%" fill="url(#diagram-grid)"/><g class="diagram-world"></g></svg><div class="diagram-hint">Drag symbols to arrange · drag background to pan · scroll to zoom</div><div class="diagram-zoom"><button aria-label="Zoom out">−</button><span>100%</span><button aria-label="Zoom in">+</button><button aria-label="Fit diagram">⛶</button></div></div></div><form class="diagram-command" hidden></form>`;
+    root.innerHTML = `<div class="diagram-heading"><span class="diagram-badge">VIEW</span><select aria-label="Diagram view"></select><select aria-label="Auto layout" disabled>${autoLayouts.map(({ id, label }) => `<option value="${id}">${label}</option>`).join("")}</select><span class="diagram-kind"></span><button class="diagram-button" data-reveal-view title="Reveal view declaration">↗ Source</button><button class="diagram-button" data-save-layout>Save layout</button></div><div class="diagram-status" role="status"></div><div class="diagram-body"><aside class="diagram-palette" aria-label="Diagram palette"></aside><div class="diagram-viewport" tabindex="0" aria-label="Diagram canvas"><svg role="img" aria-label="Model diagram"><defs><pattern id="diagram-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" class="grid-dot"/></pattern><marker id="general-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" class="general-arrow"/></marker><marker id="diagram-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11" fill="none" stroke="context-stroke"/></marker><marker id="diagram-triangle" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="var(--bg,white)" stroke="context-stroke"/></marker></defs><rect width="100%" height="100%" fill="url(#diagram-grid)"/><g class="diagram-world"></g></svg><div class="diagram-hint">Drag symbols to arrange · drag background to pan · scroll to zoom</div><div class="diagram-zoom"><button aria-label="Zoom out">−</button><span>100%</span><button aria-label="Zoom in">+</button><button aria-label="Fit diagram">⛶</button></div></div></div><form class="diagram-command" hidden></form>`;
     this.graph = root.querySelector("svg")!;
+    this.layoutPicker = root.querySelector('[aria-label="Auto layout"]')!;
+    this.layoutPicker.onchange = () => {
+      const choice = autoLayouts.find(({ id }) => id === this.layoutPicker.value);
+      if (choice) this.arrange(true, choice.id);
+    };
+    const symbolTools=document.createElement("div");symbolTools.className="diagram-symbol-tools";
+    symbolTools.innerHTML='<button data-symbol-open title="Alt+Enter on a focused occurrence">Symbol properties</button><button data-symbol-undo>Undo style</button><button data-symbol-redo>Redo style</button><span>Ctrl-click to select occurrences</span>';
+    root.querySelector(".diagram-heading")!.after(symbolTools);
+    symbolTools.onclick=e=>{const target=e.target as Element;try{if(target.closest('[data-symbol-open]'))this.openSymbols();else if(target.closest('[data-symbol-undo]'))void this.symbolHistoryAction("undo");else if(target.closest('[data-symbol-redo]'))void this.symbolHistoryAction("redo");}catch(error){this.status(error instanceof Error?error.message:String(error));}};
     const placementTools=document.createElement("div");placementTools.className="diagram-placement-tools";
     placementTools.innerHTML=`<button data-placement="route">Edit route</button><button data-placement="label">Move label</button><button data-placement="reset">Reset placement</button><button data-placement="accept">Accept placement</button><button data-placement="cancel">Cancel placement</button><button data-placement="undo">Undo placement</button><button data-placement="redo">Redo placement</button>`;
     root.querySelector(".diagram-heading")!.after(placementTools);
@@ -275,11 +302,19 @@ export class DiagramCanvas {
     });
     this.worker.onmessage = ({ data }) => {
       if (data.id !== this.sequence) return;
-      if (data.error) {
-        this.settled(new Error(data.error));
-        this.stale = true;
+      const arrangement = this.pendingArrangement?.sequence === this.sequence
+        ? this.pendingArrangement
+        : undefined;
+      this.pendingArrangement = undefined;
+      const fail = (error: Error, message: string, keepFrame = !!arrangement) => {
+        this.settled(error);
+        this.stale = !keepFrame;
+        if (keepFrame) this.readyState = "ready";
         this.renderTools();
-        this.status(`Layout failed: ${data.error}`);
+        this.status(message);
+      };
+      if (data.error) {
+        fail(new Error(data.error), `Layout failed: ${data.error}`);
         return;
       }
       const candidate=data.result as Layout;
@@ -288,11 +323,32 @@ export class DiagramCanvas {
         const c=candidate.routing.context;
         if(!this.response || c.generation!==this.sequence || c.scopeIdentity!==`layout:${this.sequence}` || c.revision!==this.response.scene.revision || c.viewKey!==this.response.scene.view.key || c.packageFingerprint!==this.response.presentation.fingerprint)throw Error("Stale routing context");
         if(Object.keys(candidate.routing.paths).length!==this.response.scene.edges.length || this.response.scene.edges.some(e=>!Object.hasOwn(candidate.routing!.paths,e.id)))throw Error("Incomplete routing frame");
-      }catch(error){this.stale=true;this.settled(error instanceof Error?error:new Error(String(error)));this.status("Routing result refused");return;}
+      } catch (error) {
+        fail(error instanceof Error ? error : new Error(String(error)), "Routing result refused");
+        return;
+      }
+      const previous = this.layout;
       this.layout = candidate;
-      this.stale=false;
+      this.stale = false;
+      try {
+        this.draw();
+      } catch (error) {
+        this.layout = previous;
+        const failure = error instanceof Error ? error : new Error(String(error));
+        // A partial draw can have changed the hit maps. Keep interactions
+        // disabled until a complete frame redraws them.
+        fail(failure, `Drawing failed: ${failure.message}`, false);
+        return;
+      }
+      if (arrangement) {
+        this.viewLayouts.set(candidate.viewKey, arrangement.choice);
+        const saved = this.state();
+        if (saved) saved.positions = {};
+        this.fit(false);
+        this.persist();
+        this.status(this.response!.scene.problems.join(" · "));
+      }
       this.renderTools();
-      try { this.draw(); } catch (error) { this.settled(error instanceof Error ? error : new Error(String(error))); this.stale = true; this.renderTools(); this.status(`Drawing failed: ${error instanceof Error ? error.message : String(error)}`); return; }
       this.settled();
       this.renderPlacementTools();
       this.finishPlacement();
@@ -300,6 +356,7 @@ export class DiagramCanvas {
         this.fit(false);
     };
     this.worker.onerror = () => {
+      this.pendingArrangement = undefined;
       this.settled(new Error("Layout worker failed"));
       this.stale = true; this.renderTools();
       this.status("The layout worker failed. Reopen this view to retry.");
@@ -435,6 +492,10 @@ export class DiagramCanvas {
           this.renderTools();
         }
         if(this.stale)return;
+        if(event.altKey&&event.key==="Enter"){
+          const el=(event.target as Element).closest<SVGElement>('[data-bound-label-block],[data-port],[data-edge],[data-symbol]'),id=el?.dataset.boundLabelBlock??el?.dataset.port??el?.dataset.edge??el?.dataset.symbol;
+          if(id){event.preventDefault();this.symbolSelection=new Set([id]);this.paintSymbolSelection();this.openSymbols();return;}
+        }
         if (
           (event.ctrlKey || event.metaKey) &&
           ["z", "y"].includes(event.key.toLowerCase())
@@ -486,13 +547,18 @@ export class DiagramCanvas {
     );
   }
   reset(presentation: Presentation) {
-    this.discardPlacement();this.histories.clear();
+    validatePresentation(presentation);
+    this.discardSymbols(false);this.symbolSelection.clear();
+    this.discardPlacement();this.histories.clear();this.symbolHistories.clear();
     this.sequence++;
     this.cancelGesture();
     this.placing = undefined;
     this.response = undefined;
     this.layout = undefined;
     this.presentation = presentation;
+    this.viewLayouts.clear();
+    this.pendingArrangement = undefined;
+    this.layoutPicker.disabled = true;
     this.tool = undefined;
     this.selected = undefined;
     this.viewList = [];
@@ -518,6 +584,7 @@ export class DiagramCanvas {
     }
   }
   requestView(key: string) {
+    this.discardSymbols(false);this.symbolSelection.clear();
     if (this.response?.scene.view.key === key) return;
     this.sequence++;
     this.discardPlacement();
@@ -525,6 +592,8 @@ export class DiagramCanvas {
     this.placing = undefined;
     this.response = undefined;
     this.layout = undefined;
+    this.pendingArrangement = undefined;
+    this.layoutPicker.disabled = true;
     this.tool = undefined;
     this.graph.querySelector(".diagram-world")!.replaceChildren();
     this.paletteElement.replaceChildren();
@@ -562,14 +631,17 @@ export class DiagramCanvas {
     this.callbacks.scope?.({ op: "addSeed", element });
   }
   setScene(response: SceneResponse) {
+    this.discardSymbols(false);this.symbolSelection.clear();
     this.discardPlacement();
     if(this.response?.presentation.fingerprint!==response.presentation.fingerprint)this.histories.clear();
+    this.symbolHistories.clear();
     this.targetSequence++;
     this.targetIds.clear();
     validateSceneResponse(response);
     const saved = graphPresentation(this.presentation, response.scene.view.key);
     if (saved && (saved.packageFingerprint !== response.presentation.fingerprint || saved.projection !== response.scene.ruleSet))
       throw Error("Saved layout package or projection changed; export or reset its layout");
+    this.root.querySelector<HTMLButtonElement>("[data-save-layout]")!.disabled=this.callbacks.presentationWritable?.()===false;
     this.checkNotation(this.notation, response.scene.nodes);
     this.selectedPart = undefined;
     const changed = this.response?.scene.view.key !== response.scene.view.key;
@@ -604,10 +676,12 @@ export class DiagramCanvas {
     this.arrange(false);
   }
   setStale() {
+    this.discardSymbols(false);this.symbolSelection.clear();
     this.discardPlacement();
     this.targetSequence++;
     this.targetIds.clear();
     this.paintTargets();
+    this.pendingArrangement = undefined;
     this.stale = true;
     this.selectedPart = undefined;
     this.labelEnabled = false;
@@ -620,7 +694,10 @@ export class DiagramCanvas {
       );
   }
   setPresentation(value: Presentation) {
-    this.discardPlacement();this.histories.clear();
+    validatePresentation(value);
+    if(this.response){const saved=graphPresentation(value,this.response.scene.view.key);if(saved&&(saved.packageFingerprint!==this.response.presentation.fingerprint||saved.projection!==this.response.scene.ruleSet))throw Error("Saved layout package or projection changed; export or reset its layout");}
+    this.discardSymbols(false);this.symbolSelection.clear();
+    this.discardPlacement();this.histories.clear();this.symbolHistories.clear();
     this.presentation = value;
     if (this.response) {
       const saved = graphPresentation(value, this.response.scene.view.key);
@@ -665,13 +742,14 @@ export class DiagramCanvas {
       form: "graph" as const,
       positions: {} as Record<string, Geometry>,
       routeConstraints: {},
-      labelPlacements: {},
+      labelPlacements: {},symbolOverrides:{},
       viewport: { ...this.viewport },
     };
     put(this.presentation.views, key, created);
     return created;
   }
   private persist() {
+    if(this.callbacks.presentationWritable?.()===false)return;
     const s = this.state();
     if (s) {
       s.viewport = { ...this.viewport };
@@ -726,27 +804,45 @@ export class DiagramCanvas {
     this.transform();
     if (save) this.persist();
   }
-  private arrange(clear = true) {
-    if (!this.response) return;
+  private currentLayout(viewKey: string): AutoLayout {
+    return this.viewLayouts.get(viewKey) ?? "layered";
+  }
+  private arrange(clear = true, choice?: AutoLayout) {
+    if (!this.response || (clear && (this.stale || this.busy || this.editor))) return;
     if (this.readyWaiters.length) this.settled(new Error("Layout superseded"));
     this.readyState = "pending";
-    this.stale=true;this.targetSequence++;this.targetIds.clear();this.paintTargets();this.renderTools();
+    const scene = this.response.scene;
+    const autoLayout = choice ?? this.currentLayout(scene.view.key);
+    const id = ++this.sequence;
+    let presentation = this.previewPresentation();
+    this.pendingArrangement = clear ? { sequence: id, choice: autoLayout } : undefined;
     if (clear) {
-      const state = this.state();
-      if (state) state.positions = {};
-      this.persist();
+      presentation = structuredClone(presentation);
+      const saved = graphPresentation(presentation, scene.view.key);
+      if (saved) saved.positions = {};
+      this.status("Arranging diagram…");
     }
+    this.stale = true;
+    this.targetSequence++;
+    this.targetIds.clear();
+    this.paintTargets();
+    this.renderTools();
     this.worker.postMessage({
-      id: ++this.sequence,
-      scene: this.response.scene,
+      id,
+      scene,
       context: this.response.presentation,
-      notation:this.notation,
-      presentation: this.previewPresentation(),
+      notation: this.notation,
+      presentation,
+      autoLayout,
     });
   }
   private renderTools() {
     this.renderPlacementTools();
     const response = this.response;
+    this.layoutPicker.disabled = !response || this.busy || this.stale || !!this.editor;
+    this.layoutPicker.value = response
+      ? this.pendingArrangement?.choice ?? this.currentLayout(response.scene.view.key)
+      : "layered";
     if (!response) return;
     this.paletteElement.innerHTML = `<label class="palette-heading">PALETTE<select data-palette-file aria-label="Palette definition"><option value="">Standard structure</option>${this.palettePaths.map((path) => `<option value="${esc(path)}" ${path === this.palettePath ? "selected" : ""}>${esc(path)}</option>`).join("")}</select></label>${response.scene.palette.groups
       .map(
@@ -855,7 +951,11 @@ export class DiagramCanvas {
   private pointerDown(e: PointerEvent) {
     if (e.button !== 0) return;
     if (this.busy || this.stale) return;
+    if(this.symbolInspector)this.discardSymbols(true);
     if(this.editor){this.placementPointer(e);return;}
+    const symbolElement=(e.target as Element).closest<SVGElement>('[data-bound-label-block],[data-port],[data-edge],[data-symbol]'),symbolId=symbolElement?.dataset.boundLabelBlock??symbolElement?.dataset.port??symbolElement?.dataset.edge??symbolElement?.dataset.symbol;
+    if(!e.ctrlKey&&!e.metaKey)this.symbolSelection.clear();if(symbolId){if(this.symbolSelection.has(symbolId)&&(e.ctrlKey||e.metaKey))this.symbolSelection.delete(symbolId);else this.symbolSelection.add(symbolId);}this.paintSymbolSelection();
+    if(e.ctrlKey||e.metaKey){e.preventDefault();return;}
     this.selectedEdge=(e.target as Element).closest<SVGElement>("[data-edge]")?.dataset.edge;
     this.selectedBlock=(e.target as Element).closest<SVGElement>("[data-bound-label-block]")?.dataset.boundLabelBlock;
     this.renderPlacementTools();
@@ -1078,7 +1178,7 @@ export class DiagramCanvas {
   }
   private draw() {
     if (!this.response || !this.layout) return;
-    const definitions = new GraphicDefinitions(this.response.presentation.libraries);
+    const definitions = new GraphicDefinitions(this.response.presentation.libraries,graphPresentation(this.previewPresentation(),this.response.scene.view.key)?.symbolOverrides);
     const labelPlacements=graphPresentation(this.previewPresentation(),this.response.scene.view.key)?.labelPlacements??{};
     const textContext = document.createElement("canvas").getContext("2d");
     const measureGraphic = (s: string, size: number, weight: number, italic: boolean) => {
@@ -1086,7 +1186,9 @@ export class DiagramCanvas {
       return textContext?.measureText(s).width ?? s.length * size * .65;
     };
     let graphicalParts = 0, graphicalCommands = 0;
+    this.symbolTargets=[];let propertyBytes=0;
     const register = (drawing: GraphicDrawing) => {
+      for(const target of drawing.propertyTargets){propertyBytes+=new TextEncoder().encode(target.target+target.key+target.path+target.definition+target.descriptor.label+target.descriptor.group+target.descriptor.description+String(target.current)+String(target.inherited)).length+128;if(this.symbolTargets.length>=64000||propertyBytes>16*1024*1024)throw Error("Scene property metadata budget exceeded");this.symbolTargets.push(target);}
       graphicalParts += drawing.parts; graphicalCommands += drawing.commands;
       if (graphicalParts > 50_000 || graphicalCommands > 65_536) throw Error("Scene graphical rendering budget exceeded");
       for (const f of drawing.fragments) this.parts.set(f.part.id, { part: f.part, owner: f.owner, binding: f.binding, slot: f.slot });
@@ -1281,7 +1383,7 @@ export class DiagramCanvas {
     this.graph.querySelector(".diagram-world")!.innerHTML = nodes + edges + shared + proxies + this.placementMarkup();
     if(restoreFocus)viewport.focus();
     this.transform();
-    this.highlight(this.selected ?? null);
+    this.highlight(this.selected ?? null);this.paintSymbolSelection();
     this.paintTargets();
   }
   private chooseBranch(index:number,origin:SVGElement) {
@@ -1303,7 +1405,63 @@ export class DiagramCanvas {
     dialog.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();close();}if(e.key==="Tab"){const buttons=[...dialog.querySelectorAll("button")],current=buttons.indexOf(document.activeElement as HTMLButtonElement);e.preventDefault();buttons[(current+(e.shiftKey?-1:1)+buttons.length)%buttons.length].focus();}};
     this.root.append(dialog);dialog.querySelector("button")!.focus();
   }
+
+  private paintSymbolSelection(){
+    const history=this.response?this.symbolHistories.get(this.response.scene.view.key):undefined,writable=this.callbacks.presentationWritable?.()!==false;
+    this.root.querySelector<HTMLButtonElement>('[data-symbol-open]')!.disabled=this.stale||!this.symbolSelection.size;
+    this.root.querySelector<HTMLButtonElement>('[data-symbol-undo]')!.disabled=this.stale||!writable||!history?.canUndo;
+    this.root.querySelector<HTMLButtonElement>('[data-symbol-redo]')!.disabled=this.stale||!writable||!history?.canRedo;
+    for(const el of this.graph.querySelectorAll<SVGElement>('[data-symbol],[data-port],[data-edge],[data-bound-label-block]')){
+      const id=el.dataset.boundLabelBlock??el.dataset.port??el.dataset.edge??el.dataset.symbol;el.classList.toggle('symbol-occurrence-selected',!!id&&this.symbolSelection.has(id));
+    }
+  }
+  private discardSymbols(restore:boolean){
+    this.symbolInspector?.close();this.symbolInspector=undefined;this.symbolGeneration++;this.symbolWorker?.terminate();this.symbolWorker=undefined;this.symbolReject?.(new Error('Symbol preview cancelled'));this.symbolReject=undefined;
+    const base=this.symbolBaseLayout;this.symbolBaseLayout=undefined;this.symbolPreview=undefined;
+    if(restore&&base&&this.response){this.layout=base;this.draw();}
+  }
+  private symbolHistory(view=this.state()){
+    if(!view||!this.response)throw Error('No active graph');const key=this.response.scene.view.key;let history=this.symbolHistories.get(key);if(!history){history=new SymbolHistory(view.packageFingerprint,view.projection);this.symbolHistories.set(key,history);}return history;
+  }
+  private openSymbols(){
+    if(!this.response||!this.layout||this.stale||this.busy||!this.symbolSelection.size)throw Error('Select a current node, port, edge or bound text block first');
+    this.discardPlacement();this.discardSymbols(true);this.cancelGesture();this.tool=undefined;
+    const view=structuredClone(this.placementView()!);
+    // Retain automatic positions without turning them into manual allocations.
+    for(const selected of this.symbolSelection){const id=this.layout.nodes[selected]?selected:this.layout.routing?.labelFrames[selected]?.owner,g=id?this.layout.nodes[id]:undefined;if(id&&g&&!own(view.positions,id))put(view.positions,id,{x:g.x,y:g.y});}
+    const names:Record<string,string>=Object.create(null),collect=(nodes:Node[])=>{for(const n of nodes){names[n.id]=labelText(n.title);for(const p of n.ports)names[p.id]=`${names[n.id]} · ${labelText(p.label)}`;collect(n.children);for(const r of n.regions?.items??[])collect(r.children);}};collect(this.response.scene.nodes);for(const edge of this.response.scene.edges)names[edge.id]=labelText(edge.label);
+    this.symbolBaseLayout=this.layout;const response=this.response,sequence=this.sequence;
+    this.symbolInspector=new SymbolInspector(this.root.querySelector('.diagram-body')!,view,[...this.symbolSelection],this.symbolTargets,this.layout,this.callbacks.presentationWritable?.()!==false,{
+      preview:candidate=>this.previewSymbols(candidate),
+      apply:candidate=>{
+        if(this.response!==response||this.sequence!==sequence||!this.symbolPreview||this.stale||this.callbacks.presentationWritable?.()===false)throw Error('Symbol preview context is stale or read only');
+        const state=this.state()!;for(const [id,p]of Object.entries(candidate.positions))if(!own(state.positions,id))put(state.positions,id,{x:p.x,y:p.y});
+        this.symbolHistory(state).apply(state,candidate);this.symbolBaseLayout=undefined;this.symbolPreview=undefined;this.symbolInspector=undefined;this.symbolWorker?.terminate();this.symbolWorker=undefined;this.persist();this.draw();this.status('Symbol display applied · source unchanged');
+      },cancel:()=>this.discardSymbols(true),
+    },names);
+  }
+  private async previewSymbols(candidate:import("./protocol.ts").GraphPresentation){
+    if(!this.response||this.stale||this.callbacks.presentationWritable?.()===false)throw Error('No current writable presentation');
+    this.symbolWorker?.terminate();this.symbolReject?.(new Error('Symbol preview superseded'));const worker=new LayoutWorker();this.symbolWorker=worker;
+    const generation=++this.symbolGeneration,response=this.response,sequence=this.sequence,presentation=structuredClone(this.presentation);put(presentation.views,response.scene.view.key,candidate);
+    const result=await new Promise<Layout>((resolve,reject)=>{this.symbolReject=reject;worker.onerror=()=>reject(new Error('Symbol measurement worker failed'));worker.onmessage=({data})=>{if(data.id!==generation)return;if(data.error)reject(new Error(data.error));else resolve(data.result);};worker.postMessage({id:generation,scene:response.scene,context:response.presentation,notation:this.notation,presentation});});
+    if(generation!==this.symbolGeneration||response!==this.response||sequence!==this.sequence)throw Error('Symbol preview context changed');this.symbolReject=undefined;
+    validateRoutingResult(result.routing);const c=result.routing.context;if(c.generation!==generation||c.scopeIdentity!==`layout:${generation}`||c.revision!==response.scene.revision||c.viewKey!==response.scene.view.key||c.packageFingerprint!==response.presentation.fingerprint||Object.keys(result.routing.paths).length!==response.scene.edges.length||response.scene.edges.some(e=>!Object.hasOwn(result.routing!.paths,e.id)))throw Error('Symbol routing preview context changed');
+    const previous=this.layout,oldPreview=this.symbolPreview;this.symbolPreview=structuredClone(candidate);this.layout=result;
+    try{this.draw();}catch(error){this.layout=previous;this.symbolPreview=oldPreview;this.draw();throw error;}return {targets:this.symbolTargets,layout:result};
+  }
+  private async symbolHistoryAction(action:'undo'|'redo'){
+    try{
+      if(!this.response||this.stale||this.callbacks.presentationWritable?.()===false)throw Error('No current writable presentation');this.discardSymbols(true);
+      const state=this.state()!,candidate=structuredClone(state),history=this.symbolHistory(state);if(!(action==='undo'?history.canUndo:history.canRedo))return;
+      // Move history only after the detached geometry candidate has succeeded.
+      action==='undo'?history.undo(candidate):history.redo(candidate);
+      try{await this.previewSymbols(candidate);}catch(error){action==='undo'?history.redo(candidate):history.undo(candidate);throw error;}
+      state.symbolOverrides=candidate.symbolOverrides;state.positions=candidate.positions;this.symbolPreview=undefined;this.symbolWorker?.terminate();this.symbolWorker=undefined;this.persist();this.draw();this.status(`Symbol style ${action}`);
+    }catch(error){this.status(error instanceof Error?error.message:String(error));}
+  }
   private previewPresentation():Presentation {
+    if(this.symbolPreview&&this.response){const result=structuredClone(this.presentation);put(result.views,this.response.scene.view.key,this.symbolPreview);return result;}
     if(!this.editor||!this.response)return this.presentation;
     const result=structuredClone(this.presentation),key=this.response.scene.view.key,view=graphPresentation(result,key)??this.placementBase;
     if(!view)throw Error("Missing placement view");put(result.views,key,this.editor.preview(view));return result;
@@ -1311,7 +1469,7 @@ export class DiagramCanvas {
   private placementView(){
     if(!this.response)return undefined;
     const saved=graphPresentation(this.presentation,this.response.scene.view.key);if(saved)return saved;
-    return this.placementBase??={form:"graph",packageFingerprint:this.response.presentation.fingerprint,projection:this.response.scene.ruleSet,positions:{},routeConstraints:{},labelPlacements:{},viewport:{...this.viewport}};
+    return this.placementBase??={form:"graph",packageFingerprint:this.response.presentation.fingerprint,projection:this.response.scene.ruleSet,positions:{},routeConstraints:{},labelPlacements:{},symbolOverrides:{},viewport:{...this.viewport}};
   }
   private history(view=this.placementView()) {
     const key=this.response?.scene.view.key;if(!view||!key)throw Error("No active placement view");
@@ -1319,6 +1477,7 @@ export class DiagramCanvas {
   }
   private discardPlacement(){this.editor?.cancel();this.editor=undefined;this.placementBase=undefined;this.placementDrag=undefined;}
   private placementAction(action?:string) {
+    this.discardSymbols(true);
     const view=this.placementView();if(!view)return;
     if(action==="cancel"){this.discardPlacement();this.cancelGesture();this.arrange(false);return;}
     if(action==="undo"||action==="redo"){
@@ -1851,11 +2010,11 @@ export class DiagramCanvas {
           childGeometry = own(state.positions,child)??this.layout.nodes[child];
         current.width = Math.max(
           current.width,
-          childGeometry.x + childGeometry.width + 28,
+          childGeometry.x + (childGeometry.width??this.layout.nodes[child].width) + 28,
         );
         current.height = Math.max(
           current.height,
-          childGeometry.y + childGeometry.height + 38,
+          childGeometry.y + (childGeometry.height??this.layout.nodes[child].height) + 38,
         );
         put(state.positions, container.id, { ...current });
         child = container.id;

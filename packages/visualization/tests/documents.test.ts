@@ -71,24 +71,24 @@ for (const kind of [
   test(`${kind}: shared accepted document`, () =>
     validators[kind](
       fixture(
-        `${kind}-${kind === "rule-set" ? "v7-m14" : kind === "presentation" ? "v4" : "v1"}.json`,
+        `${kind}-${kind === "rule-set" ? "v7-m14" : kind === "presentation" ? "v5" : "v1"}.json`,
       ),
     ));
   for (const c of fixture(
-    `${kind}-${kind === "rule-set" ? "v7" : kind === "presentation" ? "v4" : "v1"}-rejections.json`,
+    `${kind}-${kind === "rule-set" ? "v7" : kind === "presentation" ? "v5" : "v1"}-rejections.json`,
   ))
     test(`${kind}: ${c.name}`, () => {
       const value = fixture(
-        `${kind}-${kind === "rule-set" ? "v7-m14" : kind === "presentation" ? "v4" : "v1"}.json`,
+        `${kind}-${kind === "rule-set" ? "v7-m14" : kind === "presentation" ? "v5" : "v1"}.json`,
       );
       mutate(value, c);
       assert.throws(() => validators[kind](value));
     });
 }
-for (const c of fixture("document-boundaries-v4.json"))
+for (const c of fixture("document-boundaries-v5.json"))
   test(c.name, () => {
     const value = fixture(
-      `${c.kind}-${c.kind === "scene" ? "v6-m14" : c.kind === "rule-set" ? "v7-m14" : c.kind === "presentation" ? "v4" : "v1"}.json`,
+      `${c.kind}-${c.kind === "scene" ? "v6-m14" : c.kind === "rule-set" ? "v7-m14" : c.kind === "presentation" ? "v5" : "v1"}.json`,
     );
     if (c.nodeCount !== undefined) {
       value.nodes = Array.from({ length: c.nodeCount }, (_, i) => ({
@@ -112,11 +112,11 @@ for (const key of ["__proto__", "constructor", "toString"])
   test(`opaque view key ${key} does not resolve an inherited presentation entry`, async () => {
     const { graphPresentation } = await import("../src/protocol.ts");
     assert.equal(
-      graphPresentation({ schemaVersion:4, views: {} }, key),
+      graphPresentation({ schemaVersion:5, views: {} }, key),
       undefined,
     );
     const p = JSON.parse(
-      `{"schemaVersion":4,"views":{${JSON.stringify(key)}:{"form":"graph","packageFingerprint":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","projection":"fixture","routeConstraints":{},"labelPlacements":{},"positions":{},"viewport":{"x":0,"y":0,"zoom":1}}}}`,
+      `{"schemaVersion":5,"views":{${JSON.stringify(key)}:{"form":"graph","packageFingerprint":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","projection":"fixture","routeConstraints":{},"labelPlacements":{},"symbolOverrides":{},"positions":{},"viewport":{"x":0,"y":0,"zoom":1}}}}`,
     );
     validatePresentation(p);
     assert.equal(graphPresentation(p, key)?.form, "graph");

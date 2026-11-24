@@ -21,7 +21,7 @@ function border(at:Point,b:Geometry):Point&{normal:Point} {
 }
 export function measuredRoutingRequest(scene:GraphScene,layout:Layout,presentation:Presentation,graphics:PresentationContext,context:RouteContext,measure:MeasureText,labelFrames:Record<string,RoutedLabelFrame>=Object.create(null)):RoutingRequest {
   const request:RoutingRequest={schemaVersion:1,context,policy:scene.routing,endpoints:[],obstacles:[],edges:scene.edges.map(e=>({id:e.id,source:e.source,target:e.target,branchGroup:e.branchGroup,styleKey:logicalId("routeStyle",[e.notation,e.styleClass,e.startMarker??null,e.endMarker??null])})),frames:Object.assign(Object.create(null),{[ROOT_ROUTE_FRAME]:{x:0,y:0}}),constraints:{}};
-  const definitions=new GraphicDefinitions(graphics.libraries),saved=graphPresentation(presentation,scene.view.key),absolute=new Map<string,Geometry>(),chains=new Map<string,string[]>();
+  const definitions=new GraphicDefinitions(graphics.libraries,graphPresentation(presentation,scene.view.key)?.symbolOverrides),saved=graphPresentation(presentation,scene.view.key),absolute=new Map<string,Geometry>(),chains=new Map<string,string[]>();
   const placements=saved?.labelPlacements??{};
   const addDrawing=(drawing:GraphicDrawing,at:Point,owner:string)=>{
     // Bound text is measured by the exact same composition implementation as paint.
@@ -115,7 +115,7 @@ export function measuredRoutingRequest(scene:GraphScene,layout:Layout,presentati
 export function routeMeasuredLayout(scene:GraphScene,layout:Layout,presentation:Presentation,graphics:PresentationContext,context:RouteContext,measure:MeasureText,notation:NotationProfile=defaultNotation):Layout {
   const ownerFrames:Record<string,RoutedLabelFrame>=Object.create(null),request=measuredRoutingRequest(scene,layout,presentation,graphics,context,measure,ownerFrames),placements=graphPresentation(presentation,scene.view.key)?.labelPlacements??{};
   const paintedLabels=new Set(scene.edges.filter(edge=>labelText(edge.label).trim().length>0).map(edge=>logicalId("label",[edge.id,"edge.label"])));
-  const definitions=new GraphicDefinitions(graphics.libraries);
+  const definitions=new GraphicDefinitions(graphics.libraries,graphPresentation(presentation,scene.view.key)?.symbolOverrides);
   // An automatic box attachment shares its owning symbol with fixed ports.
   // Reserve the measured decoration plus their outward stub before choosing a
   // face/offset; changing a nearby port's authored direction is not a remedy.

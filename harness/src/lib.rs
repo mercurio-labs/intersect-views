@@ -21,6 +21,7 @@ pub const VIEW_FUNCTIONS: &str = include_str!("../language/views.rcore");
 mod commands;
 mod lane_commands;
 pub use commands::HarnessCommands;
+#[cfg(not(feature = "symbol-properties-gate"))]
 intersect_view_host::export_host!(|| intersect_view_host::Host::new(
     crate::definition(),
     Box::new(crate::HarnessCommands)
@@ -172,3 +173,8 @@ pub fn selection(
     }
 }
 pub mod probe;
+
+#[cfg(all(feature = "symbol-properties-gate", target_arch = "wasm32"))]
+mod symbol_properties;
+#[cfg(feature = "symbol-properties-gate")]
+intersect_view_host::export_host!(crate::symbol_properties::host);

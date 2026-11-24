@@ -92,7 +92,7 @@ fn lane_scene_count_limits_and_required_nullable_targets_are_literal() -> Result
 
 #[test]
 fn lane_presentation_is_strictly_tagged_and_has_no_semantic_geometry() -> Result {
-    let p = serde_json::json!({"schemaVersion":4,"views":{"lanes":{"form":"laneGraph","packageFingerprint":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","projection":"fixture","laneOrder":["a","b"],"viewport":{"x":0,"y":0,"zoom":1}}}});
+    let p = serde_json::json!({"schemaVersion":5,"views":{"lanes":{"form":"laneGraph","packageFingerprint":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","projection":"fixture","laneOrder":["a","b"],"viewport":{"x":0,"y":0,"zoom":1}}}});
     serde_json::from_value::<intersect_views::Presentation>(p.clone())?.validate()?;
     for (key, value) in [
         ("positions", serde_json::json!({})),

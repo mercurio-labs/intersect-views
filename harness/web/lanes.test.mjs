@@ -186,7 +186,7 @@ try {
   const saved = await page.evaluate(() =>
     JSON.parse(localStorage.getItem("intersect.views.harness.v1")),
   );
-  assert.equal(saved.presentation.schemaVersion, 4);
+  assert.equal(saved.presentation.schemaVersion, 5);
   const layout = saved.presentation.views["lanes-horizontal"];
   assert.equal(layout.form, "laneGraph");
   assert.deepEqual(Object.keys(layout).sort(), [

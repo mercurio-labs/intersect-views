@@ -4,3 +4,4 @@
 /.vite/
 __pycache__/
 /harness/web/public/
+/dist/

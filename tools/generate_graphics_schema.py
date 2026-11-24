@@ -1,8 +1,10 @@
 """Generate the M12 structural schemas; runtime validators also check semantics/budgets."""
 import json
+import os
 from pathlib import Path
 
-DEST = Path(__file__).resolve().parents[1] / 'crates/intersect-views'
+DEST = Path(os.environ.get('INTERSECT_SCHEMA_OUTPUT', Path(__file__).resolve().parents[1] / 'crates/intersect-views'))
+DEST.mkdir(parents=True, exist_ok=True)
 def obj(properties, required=None):
     return dict(type='object', properties=properties, required=list(properties) if required is None else required, additionalProperties=False)
 def arr(items, limit):
@@ -61,16 +63,27 @@ D['library'] = obj({'schemaVersion': {'const': 1}, 'id': ID, 'imports': arr(ID, 
 D['context'] = obj({'fingerprint': HASH, 'libraries': arr(ref('library'), 64)})
 D['textPart'] = obj({'id': ID, 'text': {'type': 'string', 'maxLength': 4096, 'pattern': '^[^\\r\\t]*$'}, 'binding': either(NULL, {'$ref': 'graph.schema.json#/$defs/binding'}), 'editTool': NULL})
 D['textBlock'] = obj({'runs': arr(obj({'id': ID, 'parts': arr(ref('textPart'), 32)}), 64)})
-D['slot'] = either(ID, obj({'text': STRING}))
+D['slot'] = either(ID, obj({'text': STRING}), obj({'sourceText': {'const': True}}))
 D['labelRule'] = either(ref('slot'), obj({'parts': arr(obj({'id': ID, 'subject': either(tagged('self'), tagged('none'), tagged('select', select=ID)), 'text': ref('slot'), 'when': ID, 'edit': obj({'tool': ID, 'command': ID, 'accepts': ID})}, ['id', 'subject', 'text']), 32)}))
 D['rule'] = obj({'definition': ID, 'parameters': mapping(either(tagged('constant', value=ref('value')), tagged('string', value=ref('slot')), tagged('bool', function=ID))), 'slots': mapping(ref('source')), 'text': mapping(obj({'runs': arr(obj({'id': ID, 'label': ref('labelRule')}), 64)}))})
+# Symbol properties are an opt-in, typed extension, never arbitrary JSON paths.
+D['editor'] = either(tagged('color'), tagged('bool'), tagged('choice'), tagged('number', minimum=NUM, maximum=NUM))
+def property_text(limit):
+    return dict(type='string', minLength=1, maxLength=limit, pattern='^[^\\u0000-\\u001f\\u007f-\\u009f]*$')
+D['symbolProperty'] = obj({'id':ID, 'parameter':ID, 'label':property_text(256), 'group':property_text(128), 'description':property_text(2048), 'editor':ref('editor'), 'editable':BOOL})
+D['style'] = obj({key:obj({'parameter':ID}) for key in ['fillEnabled','fill','stroke','strokeWidth','dash','radius','textColor','fontSize','fontWeight','italic','alignment','wrap']}, [])
+D['definition']['properties']['properties'] = arr(ref('symbolProperty'),32)
+D['part']['properties']['style'] = ref('style')
+D['instance']['properties']['sourceParameters'] = dict(arr(ID,32), uniqueItems=True)
+
 def save(name, value):
     value = {'$schema': 'https://json-schema.org/draft/2020-12/schema', **value}
-    (DEST / name).write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
+    (DEST / name).write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8', newline='\n')
 save('graphics.schema.json', {'$ref': '#/$defs/library', '$defs': D})
 resource = obj({'id': ID, 'kind': {'enum': ['symbolLibrary', 'ruleSet', 'palette', 'notation', 'renderingRegistry']}, 'sha256': HASH})
 address = {'type': 'string', 'minLength': 1, 'maxLength': 256, 'pattern': '^[^@]+$'}
-manifest = obj({'schemaVersion': {'const': 1}, 'id': address, 'version': address, 'language': ID, 'languageFingerprint': HASH, 'requires': arr({'enum': ['graphics.composition.v1', 'graphics.text.v1', 'graphics.anchors.v1', 'rules.graph.v6', 'rules.graph.v7', 'views.rendering.v1']}, 64), 'dependencies': arr(obj({'id': address, 'version': address, 'sha256': HASH}), 64), 'resources': arr(resource, 64)})
+manifest = obj({'schemaVersion': {'const': 1}, 'id': address, 'version': address, 'language': ID, 'languageFingerprint': HASH, 'requires': arr({'enum': ['graphics.composition.v1', 'graphics.text.v1', 'graphics.anchors.v1', 'rules.graph.v6', 'rules.graph.v7', 'views.rendering.v1', 'rules.graph.v8', 'views.routing.v1', 'views.labelPlacement.v1', 'views.symbolProperties.v1']}, 64), 'dependencies': arr(obj({'id': address, 'version': address, 'sha256': HASH}), 64), 'resources': arr(resource, 64)})
+manifest['allOf'] = [{'if':{'properties':{'resources':{'contains':{'type':'object','properties':{'kind':{'const':'ruleSet'}},'required':['kind']}}},'required':['resources']},'then':{'properties':{'requires':{'allOf':[{'contains':{'const':cap}} for cap in ['rules.graph.v8','views.routing.v1','views.labelPlacement.v1']]}},'required':['requires']}}]
 save('presentation-package.schema.json', obj({'root': ID, 'manifests': arr(manifest, 64), 'resources': arr(obj({'id': ID, 'content': STRING}), 64)}))
 select = obj({'select': ID})
 region = obj({'id': ID, 'select': ID, 'label': ref('labelRule'), 'children': select, 'direction': {'enum': ['row', 'column']}})
@@ -86,8 +99,8 @@ required = ['id','per','notation','label','anchor','kind']
 edge = either(obj(dict(edge_common,kind={'const':'element'},select=ID,sourcePath=ID,targetPath=ID), required+['select','sourcePath','targetPath']),
     obj(dict(edge_common,kind={'const':'reference'},targets=ID),required+['targets']))
 projection = either(obj({'kind':{'const':'nested'}}), obj({'kind':{'const':'containmentTree'},'edgeRole':ID,'edgeNotation':ID}))
-save('graph-rule-set.schema.json',dict(obj({'schemaVersion':{'const':7},'projection':projection,'id':ID,'label':ID,'language':ID,'form':{'const':'graph'},'layout':obj({'strategy':{'const':'layered'},'direction':{'enum':['RIGHT','LEFT','UP','DOWN']}}),'symbols':arr(symbol,256),'edges':arr(edge,256)}),
+save('graph-rule-set.schema.json',dict(obj({'schemaVersion':{'const':8},'projection':projection,'id':ID,'label':ID,'language':ID,'form':{'const':'graph'},'layout':obj({'strategy':{'const':'layered'},'direction':{'enum':['RIGHT','LEFT','UP','DOWN']}}),'symbols':arr(symbol,256),'edges':arr(edge,256),'routing':{'$ref':'routing.schema.json#/$defs/policy'}}),
     **{'$defs':{'slot':D['slot'],'labelRule':D['labelRule']}}))
 
 if __name__ == '__main__':
-    print('Wrote M12 graphics and presentation-package structural schemas')
+    print('Wrote current graphics, presentation-package and graph-rule structural schemas')

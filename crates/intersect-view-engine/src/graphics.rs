@@ -74,6 +74,7 @@ impl Evaluation<'_> {
         Ok((
             Some(GraphicInstance {
                 definition: rule.definition.clone(),
+                source_parameters: None,
                 parameters,
                 slots,
             }),

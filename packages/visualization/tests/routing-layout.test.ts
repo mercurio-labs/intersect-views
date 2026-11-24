@@ -10,7 +10,7 @@ import type { GraphScene,Presentation,Layout } from "../src/protocol.ts";
 const load=(path:string)=>JSON.parse(readFileSync(new URL(path,import.meta.url),"utf8"));
 const measure=(s:string,size:number)=>s.length*size*.5;
 const context={revision:7,viewKey:"view:example",scopeIdentity:"scope:measured",packageFingerprint:builtinPresentation().fingerprint,generation:4};
-const presentation=():Presentation=>({schemaVersion:4,views:{}});
+const presentation=():Presentation=>({schemaVersion:5,views:{}});
 const arrange=async(nodes:{id:string;width:number;height:number}[])=>nodes.map((n,i)=>({...n,x:50+i*500,y:80}));
 test("wrapped transition roles preserve every selected source binding and logical part",()=>{
   const s=scene(),edge=s.edges[0],before=JSON.stringify(edge);
@@ -60,7 +60,7 @@ test("fixed authored ink stays the terminal envelope when manual allocation is l
   const s=scene(),p=presentation(),library:SymbolLibrary={schemaVersion:1,id:"fixed",imports:[],definitions:[{id:"fixed/circle",version:"1",role:"node",parameters:{},slots:{},connectionAnchor:null,size:{minimumWidth:24,preferredWidth:24,minimumHeight:24,preferredHeight:24},root:{id:"ink",when:null,anchors:[],content:{kind:"geometry",geometry:{kind:"ellipse",width:24,height:24},fill:"#123456",stroke:"#234567",strokeWidth:1}}}]};
   s.nodes[0].graphic={definition:"fixed/circle",parameters:{},slots:{}};
   const graphics={fingerprint:"3".repeat(64),libraries:[library]};
-  p.views[s.view.key]={form:"graph",packageFingerprint:graphics.fingerprint,projection:s.ruleSet,routeConstraints:{},labelPlacements:{},positions:{[s.nodes[0].id]:{x:100,y:80,width:400,height:200}},viewport:{x:0,y:0,zoom:1}};
+  p.views[s.view.key]={form:"graph",packageFingerprint:graphics.fingerprint,projection:s.ruleSet,routeConstraints:{},labelPlacements:{},symbolOverrides:{},positions:{[s.nodes[0].id]:{x:100,y:80,width:400,height:200}},viewport:{x:0,y:0,zoom:1}};
   const layout=await graphicGraphLayout(s,p,graphics,measure,arrange),request=measuredRoutingRequest(s,layout,p,graphics,{...context,packageFingerprint:graphics.fingerprint},measure);
   assert.deepEqual(request.endpoints.find(e=>e.id===s.nodes[0].id)?.box,{x:100,y:80,width:24,height:24});
   const path=routeGraph(request).paths[s.edges[0].id];assert.ok(path.sourceTerminal.x<=124&&path.sourceTerminal.y<=104);
@@ -124,7 +124,7 @@ test("routing is derived from final saved node geometry rather than placement ed
   const s=scene(),p=presentation(),graphics=builtinPresentation();
   const initial=await graphicGraphLayout(s,p,graphics,measure,arrange);
   const a=routeMeasuredLayout(s,initial,p,graphics,context,measure).routing!;
-  p.views[s.view.key]={form:"graph",packageFingerprint:graphics.fingerprint,projection:s.ruleSet,routeConstraints:{},labelPlacements:{},positions:{[s.nodes[1].id]:{x:800,y:340,width:360,height:120}},viewport:{x:0,y:0,zoom:1}};
+  p.views[s.view.key]={form:"graph",packageFingerprint:graphics.fingerprint,projection:s.ruleSet,routeConstraints:{},labelPlacements:{},symbolOverrides:{},positions:{[s.nodes[1].id]:{x:800,y:340,width:360,height:120}},viewport:{x:0,y:0,zoom:1}};
   const next=await graphicGraphLayout(s,p,graphics,measure,arrange),b=routeMeasuredLayout(s,next,p,graphics,{...context,generation:5},measure).routing!;
   assert.notDeepEqual(a.paths[s.edges[0].id].targetTerminal,b.paths[s.edges[0].id].targetTerminal);
   const end=b.paths[s.edges[0].id].targetTerminal;assert.ok(end.x>=800&&end.x<=1160&&end.y>=340);

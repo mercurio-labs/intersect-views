@@ -167,6 +167,69 @@ fn input(fingerprint: &str, rotated: bool) -> Value {
     ];
     json!({"root":"harness.symbols@1","manifests":[{"schemaVersion":1,"id":"harness.symbols","version":"1","language":"urn:intersect:harness:1","languageFingerprint":fingerprint,"requires":["graphics.composition.v1","graphics.text.v1","graphics.anchors.v1","rules.graph.v8","views.routing.v1","views.labelPlacement.v1"],"dependencies":[],"resources":resources.iter().map(|(id,kind,content)|json!({"id":id,"kind":kind,"sha256":hash(content)})).collect::<Vec<_>>()}],"resources":resources.iter().map(|(id,_,content)|json!({"id":id,"content":content})).collect::<Vec<_>>()})
 }
+
+#[test]
+fn symbol_properties_admission_and_rule_provenance_are_native() -> Result {
+    let mut host = Host::new(intersect_view_harness::definition(), Box::new(NoCommands))?;
+    let init = call(&mut host, "initialize", json!({"protocolVersion":2}))?;
+    assert_eq!(init["capabilities"]["presentationVersion"], 5);
+    let mut input = input(
+        init["language"]["fingerprint"]
+            .as_str()
+            .ok_or("No fingerprint")?,
+        false,
+    );
+    let mut rules: Value = serde_json::from_str(include_str!(
+        "../../../harness/views/symbols/properties.viewrules.json"
+    ))?;
+    rules["id"] = json!("harness.symbols");
+    let library = include_str!("../../../harness/views/symbols/properties.symbols.json");
+    for (index, content) in [(0, library.to_owned()), (1, rules.to_string())] {
+        input["resources"][index]["content"] = json!(content);
+        input["manifests"][0]["resources"][index]["sha256"] = json!(hash(&content));
+    }
+    assert!(call(&mut host, "views/preparePresentation", input.clone()).is_err());
+    input["manifests"][0]["requires"]
+        .as_array_mut()
+        .ok_or("No requirements")?
+        .push(json!("views.symbolProperties.v1"));
+    call(&mut host, "views/preparePresentation", input.clone())?;
+    let accepted = scene(&mut host)?;
+    let graph = accepted.scene.graph()?;
+    assert_eq!(graph.nodes.len(), 2);
+    for node in &graph.nodes {
+        assert_eq!(
+            node.graphic.as_ref().ok_or("No graphic")?.source_parameters,
+            Some(vec![])
+        );
+        for port in &node.ports {
+            assert_eq!(
+                port.graphic
+                    .as_ref()
+                    .ok_or("No port graphic")?
+                    .source_parameters,
+                Some(vec!["facing".into()])
+            );
+        }
+    }
+    rules["symbols"][0]["graphic"]["parameters"]["fill"] =
+        json!({"kind":"constant","value":"#123456"});
+    let content = rules.to_string();
+    input["resources"][1]["content"] = json!(content);
+    input["manifests"][0]["resources"][1]["sha256"] = json!(hash(&content));
+    let mut host = Host::new(intersect_view_harness::definition(), Box::new(NoCommands))?;
+    call(&mut host, "initialize", json!({"protocolVersion":2}))?;
+    call(&mut host, "views/preparePresentation", input)?;
+    let protected_scene = scene(&mut host)?;
+    let protected = protected_scene.scene.graph()?;
+    for node in &protected.nodes {
+        assert_eq!(
+            node.graphic.as_ref().ok_or("No graphic")?.source_parameters,
+            Some(vec!["fill".into()])
+        );
+    }
+    Ok(())
+}
 fn prepared(rotated: bool) -> Result<(Host, String)> {
     let mut host = Host::new(intersect_view_harness::definition(), Box::new(NoCommands))?;
     let init = call(&mut host, "initialize", json!({"protocolVersion":2}))?;

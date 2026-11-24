@@ -89,7 +89,7 @@ let revision = 1,
   analyzed = false,
   initial = true,
   restored = false,
-  presentation: Presentation = { schemaVersion:4, views: {} },
+  presentation: Presentation = { schemaVersion:5, views: {} },
   savedScope: ViewDocument["scope"] = { schemaVersion: 1, ops: [] };
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) ?? "null");
@@ -591,7 +591,7 @@ function loadExample(id:string) {
     const document=JSON.parse(area.value) as ViewDocument;document.scope={schemaVersion:1,ops:[]};area.value=JSON.stringify(document,null,2);
   }
   undoGroups.length=0;redoGroups.length=0;
-  presentation={schemaVersion:4,views:{}};canvas.setPresentation(presentation);
+  presentation={schemaVersion:5,views:{}};canvas.setPresentation(presentation);
   revision=++clock;initial=true;restored=false;session.selectedView=configuration.view;
   void analyze();
 }

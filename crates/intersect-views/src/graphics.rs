@@ -203,6 +203,8 @@ impl ContentSource {
 pub struct GraphicInstance {
     pub definition: String,
     pub parameters: BTreeMap<String, GraphicValue>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_parameters: Option<Vec<String>>,
     pub slots: BTreeMap<String, ContentSource>,
 }
 impl GraphicInstance {
@@ -219,6 +221,16 @@ impl GraphicInstance {
                     return Err("Invalid graphical String value".into());
                 }
                 _ => {}
+            }
+        }
+        if let Some(source) = &self.source_parameters {
+            let mut seen = BTreeSet::new();
+            if source.len() > 32
+                || source
+                    .iter()
+                    .any(|n| !self.parameters.contains_key(n) || !seen.insert(n))
+            {
+                return Err("Invalid source parameter provenance".into());
             }
         }
         for (name, source) in &self.slots {
@@ -392,6 +404,8 @@ pub struct SymbolDefinition {
     pub slots: BTreeMap<String, ContentType>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub size: Option<GraphicSize>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub properties: Vec<crate::SymbolProperty>,
     pub root: GraphicPart,
     #[serde(deserialize_with = "crate::graph::nullable")]
     pub connection_anchor: Option<String>,
@@ -420,6 +434,8 @@ pub struct GraphicPart {
     pub when: Option<BooleanExpression>,
     pub anchors: Vec<GraphicAnchor>,
     pub content: GraphicContent,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub style: Option<crate::GraphicStyle>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -772,6 +788,7 @@ impl<'a> GraphicDefinitions<'a> {
         for id in result.definitions.keys() {
             result.cost(id, &mut Vec::new(), 0)?;
             let definition = result.definition(id)?;
+            crate::validate_properties(definition)?;
             let defaults = definition
                 .parameters
                 .iter()
@@ -896,6 +913,7 @@ impl<'a> GraphicDefinitions<'a> {
             return Err("Graphical part depth limit".into());
         }
         graphic_id(&p.id)?;
+        crate::validate_style(p, d)?;
         if !ids.insert(p.id.clone()) {
             return Err("Duplicate authored graphical part ID".into());
         }
@@ -1110,6 +1128,17 @@ impl<'a> GraphicDefinitions<'a> {
         {
             return Err("Graphic instance role/arguments mismatch".into());
         }
+        instance.validate()?;
+        for p in &d.properties {
+            crate::property_value(
+                d,
+                p,
+                instance
+                    .parameters
+                    .get(&p.parameter)
+                    .ok_or("Missing property parameter")?,
+            )?;
+        }
         for (name, value) in &instance.parameters {
             if !parameter(d, name)?.accepts(value) {
                 return Err(format!("Invalid graphical parameter {name}"));
@@ -1146,6 +1175,7 @@ impl<'a> GraphicDefinitions<'a> {
         part: &GraphicPart,
         values: &BTreeMap<String, GraphicValue>,
     ) -> Result<(), String> {
+        crate::evaluated_style(part, values)?;
         let check = |p: &Paint| -> Result<(), String> {
             let value = match p {
                 Paint::Constant(s) => s,
@@ -1207,6 +1237,15 @@ impl<'a> GraphicDefinitions<'a> {
                         return Err("Invalid forwarded graphical value".into());
                     }
                     forwarded.insert(name.clone(), value);
+                }
+                for p in &d.properties {
+                    crate::property_value(
+                        d,
+                        p,
+                        forwarded
+                            .get(&p.parameter)
+                            .ok_or("Missing forwarded property parameter")?,
+                    )?;
                 }
                 self.evaluated_paints(&d.root, &forwarded)?;
             }

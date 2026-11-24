@@ -5,7 +5,8 @@ use serde_json::Value;
 
 #[test]
 fn shared_m14_wire_contract_vectors() -> Result<(), Box<dyn std::error::Error>> {
-    let cases: Vec<Value> = serde_json::from_str(include_str!("fixtures/m14-contracts.json"))?;
+    let cases: Vec<Value> =
+        serde_json::from_str(include_str!("fixtures/m14-contracts-symbol.json"))?;
     for case in cases {
         macro_rules! accepts {
             ($ty:ty) => {

@@ -7,6 +7,7 @@ const server = await createServer({ server: { port: 0, strictPort: false, hmr: f
 const checks = [], errors = [];
 let browser,page;
 await mkdir("target/m12-wasm", { recursive: true });
+await mkdir("target/m14", { recursive: true });
 try {
   await server.listen(); browser = await chromium.launch({ headless: true });
   page = await browser.newPage({ viewport: { width: 1700, height: 1050 } });

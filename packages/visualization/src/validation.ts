@@ -1,3 +1,4 @@
+import {validateSymbolOverrides} from "./symbol-properties-contract.ts";
 import { validateRoutingPolicy, validateRouteConstraint, validateLabelPlacement } from "./routing-contract.ts";
 import type { Binding } from "./protocol.ts";
 import { validateProjection } from "./rendering.ts";
@@ -177,11 +178,18 @@ export function validateScene(value: unknown): asserts value is Scene {
   if (scene.form !== "graph") throw new Error("Unsupported scene form");
   validateSceneEnvelope(scene);
   const layout = object(scene.layout, ["strategy", "direction"]);
+  const outline = layout.strategy === "outline";
+  const sequence = layout.strategy === "sequence";
   if (
-    layout.strategy !== "layered" ||
+    !(outline || sequence || layout.strategy === "layered") ||
     !["RIGHT", "LEFT", "UP", "DOWN"].includes(layout.direction as string)
   )
     throw new Error("Unsupported layout hints");
+  if (outline && (list(scene.edges).length || list(scene.endpointProxies).length))
+    throw new Error("Outline scenes contain only nested nodes");
+  if (sequence && (list(scene.nodes).length !== 1 || list(scene.endpointProxies).length))
+    throw new Error("Sequence scenes require one scenario without endpoint proxies");
+  const events = new Set<unknown>();
   const ids = new Set<string>(),
     endpoints = new Set<string>();
   const collapsedOwners = new Map<string, Binding>();
@@ -240,6 +248,21 @@ export function validateScene(value: unknown): asserts value is Scene {
       "regions",
       "ports", "graphic", "text",
     ]);
+    if (
+      (outline || sequence) &&
+      (list(n.ports).length ||
+        n.regions !== null ||
+        list(n.compartments).length ||
+        list(n.expand).length ||
+        n.graphic !== null ||
+        Object.keys(n.text as object).length)
+    )
+      throw new Error("Outline and sequence nodes contain only labels and nested nodes");
+    if (sequence) {
+      if (depth > 2 || n.collapsed)
+        throw new Error("Sequence hierarchy requires scenario, lifelines, and events");
+      if (depth === 2) events.add(n.id);
+    }
     add(n.id, true);
     text(n.rule, true);
     text(n.styleClass);
@@ -373,6 +396,17 @@ export function validateScene(value: unknown): asserts value is Scene {
       "target",
       "binding", "startMarker", "endMarker", "text", "branchGroup",
     ]);
+    if (
+      sequence &&
+      (!["message", "precedence"].includes(edge.notation as string) ||
+        !events.has(edge.source) ||
+        !events.has(edge.target) ||
+        edge.branchGroup !== null ||
+        edge.startMarker !== null ||
+        edge.endMarker !== null ||
+        Object.keys(edge.text as object).length)
+    )
+      throw new Error("Sequence edges must bind events as messages or precedence");
     add(edge.id, false);
     text(edge.rule, true);
     if(edge.branchGroup!==null) {
@@ -558,7 +592,7 @@ export function validatePresentation(
   value: unknown,
 ): asserts value is Presentation {
   const presentation = object(value, ["schemaVersion", "views"]);
-  if (presentation.schemaVersion !== 4)
+  if (presentation.schemaVersion !== 5)
     throw Error(
       "Unsupported presentation version; export or reset the saved layout",
     );
@@ -574,7 +608,7 @@ export function validatePresentation(
     const view =
       (value as { form?: string })?.form === "laneGraph"
         ? object(value, ["form", "laneOrder", "viewport", "packageFingerprint", "projection"])
-        : object(value, ["form", "positions", "viewport", "packageFingerprint", "projection", "routeConstraints", "labelPlacements"]);
+        : object(value, ["form", "positions", "viewport", "packageFingerprint", "projection", "routeConstraints", "labelPlacements", "symbolOverrides"]);
     if (typeof view.packageFingerprint !== "string" || !/^[a-f0-9]{64}$/.test(view.packageFingerprint)) throw Error("Invalid saved package fingerprint");
     text(view.projection, true);
     if (view.form !== "graph" && view.form !== "laneGraph")
@@ -590,6 +624,7 @@ export function validatePresentation(
       }
     }
     if(view.form === "graph") {
+      validateSymbolOverrides(view.symbolOverrides);
       const routes=map(view.routeConstraints),labels=map(view.labelPlacements);
       if(Object.keys(routes).length>2048||Object.keys(labels).length>20000)throw Error("Saved routing or label placement budget exceeded");
       for(const [id,value]of Object.entries(routes)){text(id,true);validateRouteConstraint(value);}
@@ -599,13 +634,14 @@ export function validatePresentation(
     if (Object.keys(positions).length > 5000)
       throw new Error("Presentation position budget exceeded");
     for (const value of Object.values(positions)) {
-      const g = object(value, ["x", "y", "width", "height"]);
-      for (const key of ["x", "y", "width", "height"])
+      const g = object(value, ["x", "y"], ["width", "height"]);
+      if((g.width===undefined)!==(g.height===undefined))throw Error("Both allocation dimensions are required together");
+      for (const key of ["x", "y",...(g.width===undefined?[]:["width","height"])])
         if (typeof g[key] !== "number" || !Number.isFinite(g[key]))
           throw new Error("Invalid position number");
       if (
-        (g.width as number) < 1 ||
-        (g.height as number) < 1 ||
+        (g.width!==undefined&&((g.width as number)<1||(g.width as number)>1_000_000)) ||
+        (g.height!==undefined&&((g.height as number)<1||(g.height as number)>1_000_000)) ||
         Math.abs(g.x as number) > 1_000_000 ||
         Math.abs(g.y as number) > 1_000_000
       )
@@ -656,9 +692,11 @@ export function validateRuleSet(value: unknown): asserts value is RuleSet {
   validateProjection(rules.projection, true);
   for (const key of ["id", "label", "language"]) text(rules[key], true);
   const layout = object(rules.layout, ["strategy", "direction"]);
+  const outline = layout.strategy === "outline";
+  const sequence = layout.strategy === "sequence";
   if (
     rules.form !== "graph" ||
-    layout.strategy !== "layered" ||
+    !(outline || sequence || layout.strategy === "layered") ||
     !["RIGHT", "LEFT", "UP", "DOWN"].includes(layout.direction as string)
   )
     throw new Error("Unsupported rule form or layout");
@@ -687,6 +725,20 @@ export function validateRuleSet(value: unknown): asserts value is RuleSet {
       ),
     );
   const projection = rules.projection as import("./rendering.ts").ProjectionPolicy;
+  if (
+    (outline || sequence) &&
+    (projection.kind !== "nested" ||
+      (outline && list(rules.edges).length) ||
+      symbols.some(
+        (symbol) =>
+          symbol.emit !== "node" ||
+          ["ports", "regions", "graphic"].some((key) => symbol[key] != null) ||
+          ["compartments", "expand", "create"].some(
+            (key) => Array.isArray(symbol[key]) && (symbol[key] as unknown[]).length > 0,
+          ),
+      ))
+  )
+    throw new Error("Specialized view rules define only labels and nested nodes");
   if (projection.kind === "containmentTree" && (symbols.some(s=>s.regions!==undefined || s.id===projection.edgeRole) || list(rules.edges).some(e=>(e as {id?:unknown} | null)?.id===projection.edgeRole))) throw Error("Containment tree role collision or unsupported regions");
   function add(id: unknown) {
     text(id, true);

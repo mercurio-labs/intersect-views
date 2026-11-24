@@ -66,15 +66,75 @@ Open `target/doc/intersect_views/index.html` or
 look in its `doc/` directory. The wrapper generates the host reference at
 `target/doc/intersect_view_host/index.html` with a fresh loader build context.
 
+### Install the M14 SDK preview
+
+The npm preview contains ESM JavaScript, TypeScript declarations, CSS, JSON
+schemas and the graph layout worker. Build the tarball from a clean SDK checkout
+with Node 22.15 or newer.
+
+```sh
+npm ci
+npm pack
+```
+
+In a separate Vite application, install the resulting tarball and import the
+shared surface. The Vite build resolves the packaged layout worker and styles.
+
+```sh
+npm install /path/to/intersect-visualization-0.1.0-m14.3.tgz
+```
+
+```ts
+import { ViewCanvas } from "@intersect/visualization/view-canvas";
+import { ViewSession } from "@intersect/visualization/session";
+```
+
+For the Vite development server, keep the SDK's worker import visible to
+Vite and prebundle the CommonJS layout dependency. Add this to `vite.config.ts`.
+
+```ts
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  optimizeDeps: {
+    exclude: ["@intersect/visualization"],
+    include: ["@intersect/visualization > elkjs/lib/elk.bundled.js"],
+  },
+});
+```
+
+Pass your application's source and editing callbacks to `ViewCanvas`, and your
+language host and buffer adapter to `ViewSession`. The client accepts M14 scene
+v7, rules v8, protocol v2 and presentation v5. It adds outline and sequence
+layout strategies to the graph form. The language host and its WASM module are
+built separately. Use the [FMEA example](languages/fmea/README.md) for adapter
+registration and Mercurio's SysML examples for the read-only GridView,
+BrowserView and SequenceView profiles.
+
+For Rust embedding, use the immutable preview Git revision for
+`intersect-views`, `intersect-view-engine` and `intersect-view-host`. Copy the
+Model/Text git patches in [Cargo.toml](Cargo.toml) to the root of your Cargo
+workspace when using the host, so the language and host share one set of
+runtime types. Fetch the locked dependencies before invoking the compiler
+build wrapper.
+
+### Arrange graph views
+
+Choose **Layered** to follow the view's direction, **Top to bottom** for a
+vertical layered layout, or **Compact packing** to group symbols by size.
+Edges are routed against the resulting geometry. The choice is kept per view
+while the workspace is open. Sequence, outline, grid and lane views retain
+their own layouts.
+
 ### Wire versions and saved layouts
 
-M14 reads rule-set v8, emits scene v7, uses protocol v2, and saves presentation v4.
+M14 reads rule-set v8, emits scene v7, uses protocol v2, and saves presentation v5.
 The initialization response advertises the scene and presentation versions
 used by the Rust contracts.
 Use the [scene schema](crates/intersect-views/graph.schema.json), [rule schema](crates/intersect-views/graph-rule-set.schema.json),
 [routing schema](crates/intersect-views/routing.schema.json), and
 [presentation schema](crates/intersect-views/presentation.schema.json) alongside
-the code reference. Presentation v4 tracks layout, manual routes, and movable
+the code reference. Presentation v5 tracks layout, manual routes, and movable
 bound labels by occurrence. Preview compatible v3 data through
 [`previewPresentationV3`](packages/visualization/src/presentation-state.ts).
 Export or reset older or incompatible layouts. The [v6-to-v7 rule preview tool](tools/migrate_rules_v7.mjs)
@@ -139,3 +199,25 @@ machine with `RUST_TEST_THREADS=1`.
 - [M13 rendering selection](docs/view-engine-m13-spec.md)
 - [Cross-language boundary](docs/decisions/0001-cross-language-models.md)
 - [Renderer provenance](packages/visualization/PROVENANCE.json) and [license](LICENSE)
+
+## Symbol properties
+
+The shared canvas now has an opt-in Symbol inspector for exact node, port, edge
+and logical bound-text occurrences. It provides typed appearance/text controls,
+package/owner/local origins, mixed-selection eligibility, checked worker previews,
+Apply/Cancel, scoped reset, independent style undo/redo, and manual/automatic sizing.
+Read-only model dependencies may be styled; a read-only presentation store cannot
+be saved. Styles never rewrite source or grant semantic command authority.
+
+Run `npm run build:symbols` and open `/harness/web/symbols.html` to inspect the
+actual WASM fixture with two inherited read-only occurrences, transformed ports
+and captioned markers. It is also in the shared capability navigator.
+`npm run test:symbols` exercises the actual browser and layout worker.
+
+Presentation v5 retains M14 routes, logical label placements, positions and
+viewport, adding bounded qualified style values. `previewPresentationV4` produces
+a detached compatibility preview; v3 first uses `previewPresentationV3`. Original
+files are never upgraded silently. Use a verified package upgrade mapping to
+carry geometry into a new package fingerprint, or explicitly reset the view.
+Language-specific display toggles and
+project/global defaults remain separate work. See [the contract](docs/symbol-properties-spec.md).

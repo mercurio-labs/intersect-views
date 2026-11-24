@@ -84,7 +84,7 @@ async function replacePackage() {
     const buffers: BufferAdapter = { sources, read: (uri) => sources().find((s) => s.uri === uri)?.text, revision: () => revision, reserveRevision() {}, apply() { throw Error("This M12 fixture is read only through diagram commands"); }, undo() { throw Error("No diagram edits"); }, publish(analysis) { session.setAnalysis(analysis); } };
     session = new ViewSession(host, buffers, { views: (views, key) => canvas.views(views, key), requestView: (key) => canvas.requestView(key), setScene: (response) => { latest = response; $("scene").textContent = JSON.stringify(response, null, 2); canvas.setScene(response);showScene(response); }, setStale: () => canvas.setStale(), status: (v) => canvas.status(v), highlight: (id) => canvas.highlight(id) });
     candidate = { host, session, canvas, fingerprint, kind, root };
-    canvas.setPresentation(layouts[fingerprint] ?? { schemaVersion:4, views: {} });
+    canvas.setPresentation(layouts[fingerprint] ?? { schemaVersion:5, views: {} });
     session.setAnalysis(a); session.selectedView = selected.key; session.setScope(scope);
     canvas.views(catalog.views, selected.key); canvas.setScene(first);
     root.style.visibility = "hidden"; root.style.position = "absolute"; root.style.inset = "0";

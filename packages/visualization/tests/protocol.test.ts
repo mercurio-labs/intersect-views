@@ -29,11 +29,11 @@ for (const rejection of fixture("scene-v6-rejections.json")) {
 }
 test("presentation round trips border ports without semantic fields", () => {
   const value = {
-    schemaVersion:4,
+    schemaVersion:5,
     views: {
       view: {
         form: "graph", packageFingerprint: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", projection: "fixture",
-        routeConstraints: {}, labelPlacements: {},
+        routeConstraints: {}, labelPlacements: {},symbolOverrides:{},
       positions: { port: { x: 0, y: 45, width: 12, height: 12 } },
         viewport: { x: 5, y: 10, zoom: 0.7 },
       },

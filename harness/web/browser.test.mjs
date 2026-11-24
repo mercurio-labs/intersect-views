@@ -52,7 +52,8 @@ try {
   });
   await beta.locator(":scope > .node-title").click({ button: "right" });
   await page.getByRole("menuitem", { name: "Collapse occurrence" }).click();
-  await expect(beta.locator(".diagram-port")).toHaveCount(0);
+  try { await expect(beta.locator(".diagram-port")).toHaveCount(0); }
+  catch(error){console.error(await page.evaluate(()=>({status:document.querySelector("#status").textContent,layoutStatus:document.querySelector(".diagram-status").textContent,scene:window.harness.canvas.graph.response?.scene,scope:document.querySelector("#view").value})));throw error;}
   await beta.locator(":scope > .node-title").click({ button: "right" });
   await page.getByRole("menuitem", { name: "Hide root" }).click();
   await expect(beta).toHaveCount(0);

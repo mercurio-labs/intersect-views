@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {PlacementEditor} from "../src/placement-editor.ts";
 import {PresentationHistory} from "../src/presentation-state.ts";
 import type {GraphPresentation} from "../src/protocol.ts";
-const fixture=():GraphPresentation=>({form:"graph",projection:"rules",packageFingerprint:"0".repeat(64),positions:{},viewport:{x:0,y:0,zoom:1},routeConstraints:{},labelPlacements:{}});
+const fixture=():GraphPresentation=>({form:"graph",projection:"rules",packageFingerprint:"0".repeat(64),positions:{},viewport:{x:0,y:0,zoom:1},routeConstraints:{},labelPlacements:{},symbolOverrides:{}});
 test("manual route preview/cancel is detached, and accept is one presentation undo entry",()=>{
   const view=fixture(),bytes=JSON.stringify(view),history=new PresentationHistory(view),editor=new PlacementEditor(view,{kind:"route",id:"edge",frame:"route:root"});
   editor.setRoute(view,[{x:20,y:30}]);assert.equal(JSON.stringify(view),bytes);assert.deepEqual(editor.preview(view).routeConstraints.edge.waypoints,[{x:20,y:30}]);

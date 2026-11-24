@@ -78,6 +78,7 @@ pub const PRESENTATION_CAPABILITIES: &[&str] = &[
     "rules.graph.v8",
     "views.routing.v1",
     "views.labelPlacement.v1",
+    "views.symbolProperties.v1",
 ];
 pub struct ResolvedPresentation<'a> {
     pub manifests: Vec<&'a PresentationManifest>,
