@@ -176,3 +176,26 @@ test("measured authored port reuse keeps its transformed normal and logical endp
   assert.equal(movedPath[1].y, movedPath[0].y);
   assert.ok(movedPath[1].x < movedPath[0].x);
 });
+test("a port symbol with a border anchor straddles the border and keeps its neighbours apart",async()=>{
+  const glyph=(borderAnchor?:string)=>({id:`harness.symbols/${borderAnchor?"straddling":"hanging"}`,version:"1",role:"port",parameters:{},slots:{},connectionAnchor:"tip",...(borderAnchor?{borderAnchor}:{}),root:{id:"glyph",when:null,anchors:[{id:"tip",x:16,y:8,dx:1,dy:0},{id:"border",x:8,y:8,dx:1,dy:0}],content:{kind:"geometry",geometry:{kind:"rectangle",width:16,height:16,radius:0},fill:"#ffffff",stroke:"#000000",strokeWidth:1}}});
+  const measured=async(definition:string)=>{
+    const s=scene(),lib=load("../../../harness/views/symbols/classic.symbols.json");lib.definitions.push(glyph(),glyph("border"));
+    const p=presentation(),graphics={fingerprint:"1".repeat(64),libraries:[lib]},node=s.nodes[0];
+    node.ports=["a","b","c"].map(id=>({id:`port:${id}`,rule:"pin",label:{parts:[]},side:"EAST",binding:node.binding,text:{},graphic:{definition,parameters:{},slots:{}}}));s.edges[0].source="port:a";
+    const layout=await graphicGraphLayout(s,p,graphics,measure,arrange),request=measuredRoutingRequest(s,layout,p,graphics,{...context,packageFingerprint:graphics.fingerprint},measure);
+    const body=request.obstacles.find(o=>o.id===node.id)!.box,ends=["a","b","c"].map(id=>request.endpoints.find(e=>e.id===`port:${id}`)!),ink=request.obstacles.find(o=>o.id==="port:a")!.box;
+    return {body,ends,ink,layout,node};
+  };
+  const hanging=await measured("harness.symbols/hanging"),straddling=await measured("harness.symbols/straddling");
+  const right=(m:typeof hanging)=>m.body.x+m.body.width;
+  // Without a border anchor the connection anchor sits on the border and the glyph hangs inside.
+  assert.ok(Math.abs(hanging.ends[0].point.x-right(hanging))<1e-6);assert.ok(hanging.ink.x+hanging.ink.width<=right(hanging)+1);
+  // With one the glyph is centred on the border and connections attach at its outer edge.
+  assert.ok(Math.abs(straddling.ends[0].point.x-(right(straddling)+8))<1e-6);
+  assert.ok(straddling.ink.x<right(straddling)&&straddling.ink.x+straddling.ink.width>right(straddling));
+  assert.deepEqual(straddling.ends[0].normal,{x:1,y:0});
+  // The saved and dragged position of a port stays the point on the border.
+  assert.ok(Math.abs(straddling.layout.ports["port:a"].x-right(straddling))<1e-6);
+  // Three 16-unit glyphs on one border are at least a glyph and a gap apart.
+  for(const m of [hanging,straddling]){const ys=m.ends.map(e=>e.point.y);assert.ok(ys[1]-ys[0]>=22&&ys[2]-ys[1]>=22,JSON.stringify(ys));assert.ok(m.layout.nodes[m.node.id].height>=88);}
+});

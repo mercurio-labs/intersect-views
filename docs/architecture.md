@@ -156,6 +156,15 @@ partition composition, without a general obstacle-avoidance guarantee. Full labe
 are measured, empty bound parts have accessible hits, and incompatible regional
 owner shapes fail explicitly while retaining the last usable notation.
 
+A port symbol hangs inside its owner from its connection anchor unless it names
+a `borderAnchor`. With one, that anchor sits on the owner's border and
+connections attach at the connection anchor, so a glyph can straddle the border
+as SysML draws ports. The saved and dragged position of a port is always its
+point on the border. A library that uses the field declares
+`graphics.borderAnchor.v1`. Ports on one border are spaced at equal fractions of
+its length, and the owner is never shorter than its port symbols and their
+labels need to stay clear of each other.
+
 A port rule's `side` slot may return `AUTO` when the language has no inherent
 face for the port. The engine replaces it before the scene is validated: a port
 whose links carry flow into its owner takes the face toward the layout origin,

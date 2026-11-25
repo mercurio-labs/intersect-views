@@ -2,7 +2,7 @@
 import type { GraphScene, Layout, Presentation, Geometry, Point, Node, Binding } from "./protocol.ts";
 import { graphPresentation,labelText,defaultNotation } from "./protocol.ts";
 import { GraphicDefinitions, type PresentationContext } from "./graphics-contract.ts";
-import { drawGraphic, contentBoxes,edgeLabelLayout,edgeMarkerLayout,legacyMarkerLayout } from "./graph-graphics.ts";
+import { drawGraphic, contentBoxes,edgeLabelLayout,edgeMarkerLayout,legacyMarkerLayout,portPlacement } from "./graph-graphics.ts";
 import { compose,transformRect,type MeasureText,type GraphicDrawing } from "./graphics-layout.ts";
 import { ROOT_ROUTE_FRAME } from "./routing-contract.ts";
 import { routeGraph, routeFrame, segmentIntersectsBox, RoutingFailure, type RoutingRequest, type RouteContext, type RoutedLabelFrame,type RouteObstacle,type RouteDegradation } from "./routing.ts";
@@ -59,23 +59,25 @@ export function measuredRoutingRequest(scene:GraphScene,layout:Layout,presentati
         const previous=own(saved?.positions,p.id);
         if(drawing&&!previous){const peers=n.ports.filter(other=>other.side===p.side),fraction=(peers.indexOf(p)+1)/(peers.length+1);point={x:p.side==="WEST"?body.x:p.side==="EAST"?body.x+body.width:body.x+body.width*fraction,y:p.side==="NORTH"?body.y:p.side==="SOUTH"?body.y+body.height:body.y+body.height*fraction};}
         const clamped=border(previous?{x:b.x+previous.x,y:b.y+previous.y}:point,body);
-        let normal=clamped.normal;point={x:clamped.x,y:clamped.y};
+        let normal=clamped.normal,attach:Point|undefined;point={x:clamped.x,y:clamped.y};
         if(p.graphic){
-          const d=drawGraphic(definitions,p.graphic,p,16,measure,{},undefined,placements),def=definitions.definition(p.graphic.definition),a=def.connectionAnchor?d.anchors[def.connectionAnchor]:{x:d.width/2,y:d.height/2,dx:normal.x,dy:normal.y};
+          const d=drawGraphic(definitions,p.graphic,p,16,measure,{},undefined,placements),def=definitions.definition(p.graphic.definition),placed=portPlacement(definitions,p.graphic,d,point),a=def.connectionAnchor?placed.connection:{...placed.connection,dx:normal.x,dy:normal.y};
           // A manually moved port can land on a different side of its owner.
           // Keep its graphic and anchor, and let the route leave the new border
           // directly if the authored direction would skim or enter the owner.
           if (!previous || a.dx * normal.x + a.dy * normal.y > 1e-8) {
             normal = { x: a.dx, y: a.dy };
           }
-          const origin={x:point.x-a.x,y:point.y-a.y};addDrawing(d,origin,p.id);
+          // Connections attach where the symbol says, which is off the
+          // border when the symbol straddles it.
+          const origin=placed.origin;addDrawing(d,origin,p.id);attach={x:a.x,y:a.y};
           if(d.geometry.length){
             const left=Math.min(...d.geometry.map(r=>r.x)),top=Math.min(...d.geometry.map(r=>r.y));
             request.obstacles.push({id:p.id,kind:"solid",box:{x:origin.x+left,y:origin.y+top,width:Math.max(1,...d.geometry.map(r=>r.x+r.width-left)),height:Math.max(1,...d.geometry.map(r=>r.y+r.height-top))}});
           }
         }
         else {const text=labelText(p.label);builtinLabel(p.id,"port.label",text,{x:point.x+(point.x-b.x<b.width/2?12:-12-text.length*8),y:point.y-10});}
-        request.endpoints.push({id:p.id,owner:n.id,point,normal,box:null,ancestors});
+        request.endpoints.push({id:p.id,owner:n.id,point:attach??point,normal,box:null,ancestors});
         layout.ports[p.id]=point;
       }
       visit(n.children,b,containers);

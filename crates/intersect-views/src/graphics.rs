@@ -409,6 +409,10 @@ pub struct SymbolDefinition {
     pub root: GraphicPart,
     #[serde(deserialize_with = "crate::graph::nullable")]
     pub connection_anchor: Option<String>,
+    /// The anchor of a port symbol that sits on its owner's border. Without it
+    /// the connection anchor does, and the whole symbol hangs inside the owner.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub border_anchor: Option<String>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -806,6 +810,14 @@ impl<'a> GraphicDefinitions<'a> {
             {
                 return Err("Missing connection anchor".into());
             }
+            if result
+                .definition(id)?
+                .border_anchor
+                .as_ref()
+                .is_some_and(|name| !names.contains(name))
+            {
+                return Err("Missing border anchor".into());
+            }
         }
         Ok(result)
     }
@@ -896,6 +908,12 @@ impl<'a> GraphicDefinitions<'a> {
             graphic_id(anchor)?;
         } else if d.role != GraphicRole::Node {
             return Err("Port/marker requires a connection anchor".into());
+        }
+        if let Some(anchor) = &d.border_anchor {
+            graphic_id(anchor)?;
+            if d.role != GraphicRole::Port {
+                return Err("Only a port symbol has a border anchor".into());
+            }
         }
         Ok(())
     }

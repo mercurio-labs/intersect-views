@@ -1095,6 +1095,11 @@
             "$ref": "#/$defs/symbolProperty"
           },
           "maxItems": 32
+        },
+        "borderAnchor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
         }
       },
       "required": [
