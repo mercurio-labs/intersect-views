@@ -73,6 +73,7 @@ def property_text(limit):
 D['symbolProperty'] = obj({'id':ID, 'parameter':ID, 'label':property_text(256), 'group':property_text(128), 'description':property_text(2048), 'editor':ref('editor'), 'editable':BOOL})
 D['style'] = obj({key:obj({'parameter':ID}) for key in ['fillEnabled','fill','stroke','strokeWidth','dash','radius','textColor','fontSize','fontWeight','italic','alignment','wrap']}, [])
 D['definition']['properties']['properties'] = arr(ref('symbolProperty'),32)
+D['definition']['properties']['borderAnchor'] = ID
 D['part']['properties']['style'] = ref('style')
 D['instance']['properties']['sourceParameters'] = dict(arr(ID,32), uniqueItems=True)
 
@@ -82,7 +83,7 @@ def save(name, value):
 save('graphics.schema.json', {'$ref': '#/$defs/library', '$defs': D})
 resource = obj({'id': ID, 'kind': {'enum': ['symbolLibrary', 'ruleSet', 'palette', 'notation', 'renderingRegistry']}, 'sha256': HASH})
 address = {'type': 'string', 'minLength': 1, 'maxLength': 256, 'pattern': '^[^@]+$'}
-manifest = obj({'schemaVersion': {'const': 1}, 'id': address, 'version': address, 'language': ID, 'languageFingerprint': HASH, 'requires': arr({'enum': ['graphics.composition.v1', 'graphics.text.v1', 'graphics.anchors.v1', 'rules.graph.v6', 'rules.graph.v7', 'views.rendering.v1', 'rules.graph.v8', 'views.routing.v1', 'views.labelPlacement.v1', 'views.symbolProperties.v1']}, 64), 'dependencies': arr(obj({'id': address, 'version': address, 'sha256': HASH}), 64), 'resources': arr(resource, 64)})
+manifest = obj({'schemaVersion': {'const': 1}, 'id': address, 'version': address, 'language': ID, 'languageFingerprint': HASH, 'requires': arr({'enum': ['graphics.composition.v1', 'graphics.text.v1', 'graphics.anchors.v1', 'rules.graph.v6', 'rules.graph.v7', 'views.rendering.v1', 'rules.graph.v8', 'views.routing.v1', 'views.labelPlacement.v1', 'views.symbolProperties.v1', 'graphics.borderAnchor.v1']}, 64), 'dependencies': arr(obj({'id': address, 'version': address, 'sha256': HASH}), 64), 'resources': arr(resource, 64)})
 manifest['allOf'] = [{'if':{'properties':{'resources':{'contains':{'type':'object','properties':{'kind':{'const':'ruleSet'}},'required':['kind']}}},'required':['resources']},'then':{'properties':{'requires':{'allOf':[{'contains':{'const':cap}} for cap in ['rules.graph.v8','views.routing.v1','views.labelPlacement.v1']]}},'required':['requires']}}]
 save('presentation-package.schema.json', obj({'root': ID, 'manifests': arr(manifest, 64), 'resources': arr(obj({'id': ID, 'content': STRING}), 64)}))
 select = obj({'select': ID})

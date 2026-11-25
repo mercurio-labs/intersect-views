@@ -11,7 +11,7 @@ import { routeFrame, validateRoutingResult } from "./routing.ts";
 import { builtinBody } from "./builtin-graphics.ts";
 import { own, put } from "./records.ts";
 import { GraphicDefinitions } from "./graphics-contract.ts";
-import { drawGraphic, contentBoxes,edgeLabelLayout,edgeMarkerLayout,legacyMarkerLayout } from "./graph-graphics.ts";
+import { drawGraphic, contentBoxes,edgeLabelLayout,edgeMarkerLayout,legacyMarkerLayout,portPlacement } from "./graph-graphics.ts";
 import type { GraphicDrawing } from "./graphics-layout.ts";
 import { graphPresentation } from "./protocol.ts";
 import {
@@ -1330,9 +1330,9 @@ export class DiagramCanvas {
             west = x < g.width / 2;
           if (p.graphic) {
             const drawing = drawGraphic(definitions, p.graphic, p, 16, measureGraphic,{},undefined,labelPlacements);
-            const definition = definitions.definition(p.graphic.definition), anchor = definition.connectionAnchor ? drawing.anchors[definition.connectionAnchor] : { x: drawing.width / 2, y: drawing.height / 2 };
-            if("dx" in anchor && "dy" in anchor) this.connectionDirections.set(p.id,{x:anchor.dx as number,y:anchor.dy as number});
-            return `<g class="diagram-port" data-port="${esc(p.id)}" ${bind(p.binding)} transform="translate(${x - anchor.x},${y - anchor.y})">${register(drawing)}<title>${esc(labelText(p.label))}</title></g>`;
+            const definition = definitions.definition(p.graphic.definition), placed = portPlacement(definitions, p.graphic, drawing, { x, y });
+            if (definition.connectionAnchor) this.connectionDirections.set(p.id,{x:placed.connection.dx,y:placed.connection.dy});
+            return `<g class="diagram-port" data-port="${esc(p.id)}" ${bind(p.binding)} transform="translate(${placed.origin.x},${placed.origin.y})">${register(drawing)}<title>${esc(labelText(p.label))}</title></g>`;
           }
           return `<g class="diagram-port" data-port="${esc(p.id)}" ${bind(p.binding)}><rect x="${x - 6}" y="${y - 6}" width="12" height="12"/>${label(p.label, p.id, p.binding, "port.label", west ? x + 12 : x - 12 - labelText(p.label).length * 8, y - 10)}<title>${esc(p.label)}</title></g>`;
         })

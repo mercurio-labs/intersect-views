@@ -66,6 +66,10 @@ impl Host {
                                 &library,
                                 &manifest.requires,
                             )?;
+                            intersect_views::require_border_anchor_capability(
+                                &library,
+                                &manifest.requires,
+                            )?;
                         }
                     }
                     libraries.push(library);

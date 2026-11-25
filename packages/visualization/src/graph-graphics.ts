@@ -58,6 +58,16 @@ export function drawGraphic(definitions: GraphicDefinitions, instance: GraphicIn
   try { return layoutGraphic(definitions, instance, owner.id, contents, width, measure,allocatedHeight,placements,instancePath,keys); }
   catch(error) { throw Error(`Graphic ${instance.definition}, occurrence ${owner.id}: ${error instanceof Error ? error.message : String(error)}`); }
 }
+/** Where a port symbol sits for a point on its owner's border: the origin of
+ *  its drawing and the point connections attach to. A symbol with a border
+ *  anchor straddles the border; one without hangs from its connection anchor. */
+export function portPlacement(definitions:GraphicDefinitions,instance:GraphicInstance,drawing:GraphicDrawing,at:Point){
+  const definition=definitions.definition(instance.definition);
+  const connection=definition.connectionAnchor?drawing.anchors[definition.connectionAnchor]:{x:drawing.width/2,y:drawing.height/2,dx:1,dy:0};
+  const border=definition.borderAnchor?drawing.anchors[definition.borderAnchor]:connection;
+  const origin={x:at.x-border.x,y:at.y-border.y};
+  return {origin,connection:{x:origin.x+connection.x,y:origin.y+connection.y,dx:connection.dx,dy:connection.dy}};
+}
 export function contentBoxes(node: Node, layout: Layout): Record<string, { width: number; height: number }> {
   const extent = (ids: string[], map: Record<string, Geometry>) => ({ width: Math.max(0, ...ids.map((id) => (own(map, id)?.x ?? 0) + (own(map, id)?.width ?? 0))), height: Math.max(0, ...ids.map((id) => (own(map, id)?.y ?? 0) + (own(map, id)?.height ?? 0))) });
   // Child geometries are local to the node; take the packed size independently
@@ -82,6 +92,8 @@ export function separateUnsaved(nodes:{id:string}[],positions:Record<string,Geom
 
 /** Composition dimensions are measured before arranging siblings. No semantic queries. */
 /** Width bounds for a symbol whose definition declares no size of its own. */
+/** Clear space between neighbouring port symbols on one border. */
+const PORT_GAP = 6;
 const FLEXIBLE_WIDTH = { narrowest: 150, widest: 360, padding: 56 };
 export async function graphicGraphLayout(scene: GraphScene, presentation: Presentation, context: PresentationContext, measure: MeasureText, arrange: (nodes: { id: string; width: number; height: number }[], edges: Edge[]) => Promise<{ id: string; x?: number; y?: number }[]>): Promise<Layout> {
   const definitions = new GraphicDefinitions(context.libraries,graphPresentation(presentation,scene.view.key)?.symbolOverrides), saved = graphPresentation(presentation, scene.view.key)?.positions ?? {};
@@ -143,10 +155,21 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
       const probe = drawGraphic(definitions, n.graphic, n, 4096, measure, boxes);
       fitted = Math.min(FLEXIBLE_WIDTH.widest, Math.max(FLEXIBLE_WIDTH.narrowest, Math.ceil(Math.max(0, ...probe.fragments.map((f) => f.rect.width))) + FLEXIBLE_WIDTH.padding));
     }
-    let width = Math.max(FLEXIBLE_WIDTH.narrowest, old?.width ?? fitted, boxes.children.width + 32, boxes.regions.width + 32), height: number;
+    // Ports share a border at equal fractions of its length. Keep each border
+    // long enough that neighbouring port symbols and their labels stay apart.
+    const portRoom = { width: 0, height: 0 };
+    for (const side of ["NORTH", "SOUTH", "WEST", "EAST"]) {
+      const drawings = n.ports.filter((p) => p.side === side && p.graphic).map((p) => drawGraphic(definitions, p.graphic!, p, 16, measure));
+      if (drawings.length < 2) continue;
+      const upright = side === "WEST" || side === "EAST";
+      const room = (Math.max(...drawings.map((d) => upright ? d.height : d.width)) + PORT_GAP) * (drawings.length + 1);
+      if (upright) portRoom.height = Math.max(portRoom.height, room); else portRoom.width = Math.max(portRoom.width, room);
+    }
+    let width = Math.max(FLEXIBLE_WIDTH.narrowest, old?.width ?? fitted, boxes.children.width + 32, boxes.regions.width + 32, portRoom.width), height: number;
     if (n.graphic) {
       const authored=definitions.definition(n.graphic.definition).size;
-      const drawing = drawGraphic(definitions, n.graphic, n, authored && !old?.width ? undefined : width, measure, boxes);
+      let drawing = drawGraphic(definitions, n.graphic, n, authored && !old?.width ? undefined : width, measure, boxes);
+      if (drawing.width < portRoom.width) drawing = drawGraphic(definitions, n.graphic, n, portRoom.width, measure, boxes);
       width = drawing.width; height = drawing.height;
       for (const [slot, source] of Object.entries(n.graphic.slots)) {
         const at = own(drawing.content, slot);
@@ -168,7 +191,8 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
       const min=drawGraphic(definitions,n.graphic,n,width,measure,boxes,1),preferred=drawGraphic(definitions,n.graphic,n,undefined,measure,boxes);
       result.minimum[n.id].height=min.height;(result.preferred??={})[n.id]={width:preferred.width,height:preferred.height};
     }
-    result.nodes[n.id] = { x: 0, y: 0, width, height: Math.max(1, height, old?.height ?? 0) };
+    result.minimum[n.id].height = Math.max(result.minimum[n.id].height, portRoom.height);
+    result.nodes[n.id] = { x: 0, y: 0, width, height: Math.max(1, height, old?.height ?? 0, portRoom.height) };
     const body=result.nodes[n.id],o={left:0,top:0,right:0,bottom:0};outsets[n.id]=o;
     // An ordinary box endpoint can attach on any free face. Reserve its lead
     // before the parent's authored content slot packs it against a boundary.
@@ -187,7 +211,7 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
     if(n.graphic){const drawing=drawGraphic(definitions,n.graphic,n,body.width,measure,boxes,body.height);for(const f of drawing.fragments)include(f.rect.x,f.rect.y,f.rect.width,f.rect.height);if(drawing.propertyTargets.length)for(const ink of drawing.geometry)include(ink.x,ink.y,ink.width,ink.height);}
     for(const side of ["NORTH","SOUTH","WEST","EAST"]){const ps=n.ports.filter(p=>p.side===side);ps.forEach((p,i)=>{
       const t=(i+1)/(ps.length+1),point={x:side==="WEST"?0:side==="EAST"?body.width:body.width*t,y:side==="NORTH"?0:side==="SOUTH"?body.height:body.height*t};
-      if(p.graphic){const d=drawGraphic(definitions,p.graphic,p,16,measure),definition=definitions.definition(p.graphic.definition),a=definition.connectionAnchor?d.anchors[definition.connectionAnchor]:{x:d.width/2,y:d.height/2,dx:1,dy:0};include(point.x-a.x+d.left,point.y-a.y+d.top,d.width,d.height);const magnitude=Math.hypot(a.dx,a.dy);include(point.x+a.dx/magnitude*scene.routing.stubLength,point.y+a.dy/magnitude*scene.routing.stubLength,1,1);}
+      if(p.graphic){const d=drawGraphic(definitions,p.graphic,p,16,measure),{origin,connection:a}=portPlacement(definitions,p.graphic,d,point);include(origin.x+d.left,origin.y+d.top,d.width,d.height);const magnitude=Math.hypot(a.dx,a.dy);include(a.x+a.dx/magnitude*scene.routing.stubLength,a.y+a.dy/magnitude*scene.routing.stubLength,1,1);}
       else {include(point.x-6,point.y-6,12,12);const text=labelText(p.label),w=measure(text,14,600,false);include(point.x+(side==="WEST"?12:-12-text.length*8),point.y-24,w,20);}
     });}
   };

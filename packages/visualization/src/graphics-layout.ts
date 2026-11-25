@@ -384,5 +384,6 @@ export function layoutGraphic(definitions: GraphicDefinitions, instance: Graphic
   if(result.left||result.top)result=move(result,-result.left,-result.top);
   if(definition.size){result.width=Math.max(result.width,width);result.height=Math.max(result.height,allocatedHeight??0);}
   if (definition.connectionAnchor && !Object.hasOwn(result.anchors, definition.connectionAnchor)) throw Error("Connection anchor was hidden by a condition");
+  if (definition.borderAnchor && !Object.hasOwn(result.anchors, definition.borderAnchor)) throw Error("Border anchor was hidden by a condition");
   return result;
 }

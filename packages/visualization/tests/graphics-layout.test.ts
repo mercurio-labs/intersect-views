@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { GraphicDefinitions } from "../src/graphics-contract.ts";
+import { GraphicDefinitions, requireBorderAnchorCapability } from "../src/graphics-contract.ts";
 import { layoutGraphic, measureBlock } from "../src/graphics-layout.ts";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { drawGraphic, graphicGraphLayout } from "../src/graph-graphics.ts";
@@ -53,6 +53,15 @@ test("hidden connection anchors and zero evaluated scale refuse rendering",()=>{
   }
 });
 
+test("a border anchor is an existing anchor of a port symbol and needs its capability",()=>{
+  const lib=library(),port=lib.definitions.find((d:any)=>d.role==="port"),node=lib.definitions.find((d:any)=>d.role==="node");
+  port.borderAnchor=port.connectionAnchor;assert.doesNotThrow(()=>new GraphicDefinitions([structuredClone(lib)]));
+  assert.throws(()=>requireBorderAnchorCapability(lib,["graphics.composition.v1"]),/graphics.borderAnchor.v1/);
+  assert.doesNotThrow(()=>requireBorderAnchorCapability(lib,["graphics.borderAnchor.v1"]));
+  port.borderAnchor="absent";assert.throws(()=>new GraphicDefinitions([structuredClone(lib)]),/Missing border anchor/);
+  delete port.borderAnchor;assert.doesNotThrow(()=>requireBorderAnchorCapability(lib,[]));
+  node.borderAnchor="any";assert.throws(()=>new GraphicDefinitions([structuredClone(lib)]),/Only a port symbol/);
+});
 test("authored sizing measures slots after width allocation and preserves full bound hits",()=>{
   const lib=library(),d=lib.definitions.find((d:any)=>d.id.endsWith("/structured"));
   d.size={minimumWidth:180,preferredWidth:300,minimumHeight:30,preferredHeight:{op:"max",left:30,right:{op:"slotHeight",slot:"doc"}}};

@@ -287,6 +287,22 @@ pub fn require_property_capability(
     }
 }
 
+pub fn require_border_anchor_capability(
+    library: &crate::SymbolLibrary,
+    requires: &[String],
+) -> Result<(), String> {
+    if library
+        .definitions
+        .iter()
+        .any(|d| d.border_anchor.is_some())
+        && !requires.iter().any(|c| c == "graphics.borderAnchor.v1")
+    {
+        Err("Border anchors require graphics.borderAnchor.v1".into())
+    } else {
+        Ok(())
+    }
+}
+
 /// Persisted display scalars. Contextual descriptor bounds are checked when evaluated.
 pub type SymbolOverrides = BTreeMap<String, BTreeMap<String, GraphicValue>>;
 pub fn validate_symbol_overrides(value: &SymbolOverrides) -> Result<(), String> {

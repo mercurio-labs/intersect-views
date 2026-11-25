@@ -31,6 +31,9 @@ export interface SymbolDefinition {
   properties?:SymbolProperty[];
   root: GraphicPart;
   connectionAnchor: string | null;
+  /** The anchor of a port symbol that sits on its owner's border. Without it
+   *  the connection anchor does, and the whole symbol hangs inside the owner. */
+  borderAnchor?: string;
 }
 export interface GraphicSize { minimumWidth:NumericExpression; preferredWidth:NumericExpression; minimumHeight:NumericExpression; preferredHeight:NumericExpression }
 export type GraphicDash = "solid" | "dashed" | "dotted";
@@ -272,7 +275,7 @@ export class GraphicDefinitions {
       ids.add(lib.id);
       const imports = graphicArray(lib.imports, 64); imports.forEach(graphicId);
       for (const value of graphicArray(lib.definitions, 256)) {
-        const def = optionalObject(value, ["id", "version", "role", "parameters", "slots", "root", "connectionAnchor"],["size","properties"]);
+        const def = optionalObject(value, ["id", "version", "role", "parameters", "slots", "root", "connectionAnchor"],["size","properties","borderAnchor"]);
         graphicId(def.id); graphicId(def.version);
         if (!def.id.startsWith(`${lib.id}/`) || !def.id.slice(lib.id.length + 1) || def.id.slice(lib.id.length + 1).includes("/") || this.definitions.has(def.id)) throw Error("Duplicate/unqualified definition");
         if (!["node", "port", "marker"].includes(def.role as string)) throw Error("Invalid graphical role");
@@ -293,6 +296,7 @@ export class GraphicDefinitions {
         for (const [name, type] of Object.entries(slots)) { graphicId(name); if (!contentTypes.includes(type as string) || (def.role !== "node" && type !== "text")) throw Error("Invalid slot type/role"); }
         if (def.connectionAnchor !== null) graphicId(def.connectionAnchor);
         else if (def.role !== "node") throw Error("Port/marker requires connection anchor");
+        if (def.borderAnchor !== undefined) { graphicId(def.borderAnchor); if (def.role !== "port") throw Error("Only a port symbol has a border anchor"); }
         this.definitions.set(def.id, value as SymbolDefinition);
       }
     }
@@ -324,6 +328,7 @@ export class GraphicDefinitions {
       this.evaluatedPaints(d.root,defaults);this.evaluatedSize(d,defaults);this.evaluatedGeometry(d.root,defaults);
       const anchors = this.anchorNames(d.root);
       if (d.connectionAnchor !== null && !anchors.has(d.connectionAnchor)) throw Error("Missing connection anchor");
+      if (d.borderAnchor !== undefined && !anchors.has(d.borderAnchor)) throw Error("Missing border anchor");
     }
   }
   definition(id: string): SymbolDefinition {
@@ -503,4 +508,15 @@ export class GraphicDefinitions {
     else if (c.kind === "use") extend([...this.anchorNames(this.definition(c.definition).root)].map((name) => `${part.id}/${name}`));
     return result;
   }
+}
+
+export function requireBorderAnchorCapability(
+  library: { definitions: { borderAnchor?: string }[] },
+  requires: string[],
+) {
+  if (
+    library.definitions.some((d) => d.borderAnchor !== undefined) &&
+    !requires.includes("graphics.borderAnchor.v1")
+  )
+    throw Error("Border anchors require graphics.borderAnchor.v1");
 }

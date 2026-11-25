@@ -25,6 +25,58 @@ fn shared_graphic_contract_vectors() -> Result {
 }
 
 #[test]
+fn border_anchor_is_an_anchor_of_a_port_symbol_and_needs_its_capability() -> Result {
+    let library: Value = serde_json::from_str(include_str!(
+        "../../../harness/views/symbols/classic.symbols.json"
+    ))?;
+    let definitions = library["definitions"]
+        .as_array()
+        .ok_or("Missing definitions")?;
+    let port = definitions
+        .iter()
+        .position(|d| d["role"] == "port")
+        .ok_or("No port symbol")?;
+    let node = definitions
+        .iter()
+        .position(|d| d["role"] == "node")
+        .ok_or("No node symbol")?;
+    let check = |index: usize, anchor: Value| -> std::result::Result<SymbolLibrary, String> {
+        let mut library = library.clone();
+        library["definitions"][index]["borderAnchor"] = anchor;
+        let library: SymbolLibrary = serde_json::from_value(library).map_err(|e| e.to_string())?;
+        GraphicDefinitions::new(std::slice::from_ref(&library))?;
+        Ok(library)
+    };
+    let connection = library["definitions"][port]["connectionAnchor"].clone();
+    let accepted = check(port, connection.clone())?;
+    assert!(
+        intersect_views::require_border_anchor_capability(
+            &accepted,
+            &["graphics.composition.v1".into()]
+        )
+        .is_err()
+    );
+    intersect_views::require_border_anchor_capability(
+        &accepted,
+        &["graphics.borderAnchor.v1".into()],
+    )?;
+    assert_eq!(
+        check(port, "absent".into()).err().as_deref(),
+        Some("Missing border anchor")
+    );
+    assert!(
+        check(node, connection)
+            .err()
+            .is_some_and(|e| e.ends_with("Only a port symbol has a border anchor"))
+    );
+    // A library without the field needs no capability and serializes as before.
+    let plain: SymbolLibrary = serde_json::from_value(library.clone())?;
+    intersect_views::require_border_anchor_capability(&plain, &[])?;
+    assert!(!serde_json::to_string(&plain)?.contains("borderAnchor"));
+    Ok(())
+}
+
+#[test]
 fn evaluated_instance_checks_role_slots_and_choice() -> Result {
     let vectors: Value = serde_json::from_str(include_str!("fixtures/graphics-v1.json"))?;
     let libraries: Vec<SymbolLibrary> =
