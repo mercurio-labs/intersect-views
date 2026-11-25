@@ -156,6 +156,32 @@ partition composition, without a general obstacle-avoidance guarantee. Full labe
 are measured, empty bound parts have accessible hits, and incompatible regional
 owner shapes fail explicitly while retaining the last usable notation.
 
+A port rule's `side` slot may return `AUTO` when the language has no inherent
+face for the port. The engine replaces it before the scene is validated: a port
+whose links carry flow into its owner takes the face toward the layout origin,
+otherwise the opposite face, and a link to something nested inside the owner
+counts as crossing its outline the other way. A string graphic parameter of that
+port that also evaluates to `AUTO` receives the chosen face. Scenes on the wire
+only ever carry the four concrete sides.
+
+Each composition level is ordered by the links between its members, including
+links that attach to their ports or to parts nested inside them. Cycles are
+broken in declaration order, starting from members nothing leads into. A symbol
+whose definition declares no size is as wide as its own text needs, between 150
+and 360 units, and a compartment without rows is not drawn.
+
+Routing avoids symbols, captions and markers. When an edge has no such path the
+router relaxes that edge alone: first it may cross painted text, then any
+obstacle. The frame stays complete and interactive, `RoutingResult.degraded`
+lists each relaxation, and the canvas reports edges that had to cross a symbol.
+A saved manual route is a hard constraint and still fails with its edge ID.
+
+A `ModelViews` provider may declare `snapshot_stable`. The host then computes
+its catalog once per accepted snapshot and prepared presentation instead of on
+every catalog, rendering and scene request. Navigation function results are
+kept per accepted snapshot together with the work they cost, so a repeated
+evaluation charges the same budget without running again.
+
 
 ## Current lane and integration profile
 
