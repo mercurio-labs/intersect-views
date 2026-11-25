@@ -233,8 +233,17 @@ export class DiagramCanvas {
         callbacks.view((e.target as HTMLSelectElement).value),
       );
     root.querySelector("[data-reveal-view]")!.addEventListener("click", () => {
-      if (this.response && !this.stale)
-        callbacks.select(this.response.scene.view.binding, true);
+      const response = this.response;
+      if (!response) return;
+      const reveal = () => {
+        if (this.response === response && !this.stale)
+          callbacks.select(response.scene.view.binding, true);
+      };
+      // A frame that is only being laid out again (after a drag or resize) still
+      // shows the accepted scene. Honor the click once that frame settles rather
+      // than dropping it; a scene made stale by a source change never reveals.
+      if (!this.stale) reveal();
+      else if (this.readyState === "pending") void this.whenReady().then(reveal, () => {});
     });
     root
       .querySelector("[data-save-layout]")!
