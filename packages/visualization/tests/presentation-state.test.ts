@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { previewPresentationV3,previewPresentationV4,validatePresentationV4,PresentationHistory } from "../src/presentation-state.ts";
+import { previewPresentationV3,previewPresentationV4,previewPresentationPackageUpgrade,validatePresentationV4,PresentationHistory } from "../src/presentation-state.ts";
 import { validatePresentation } from "../src/validation.ts";
 import type { GraphPresentation } from "../src/protocol.ts";
 const old=()=>JSON.parse(readFileSync(new URL("../../../crates/intersect-views/tests/fixtures/presentation-v3.json",import.meta.url),"utf8"));
@@ -26,4 +26,24 @@ test("placement history is separate, atomic, bounded to 64, and context checked"
   assert.throws(()=>history.apply(view,{routeConstraints:{},labelPlacements:{label:{kind:"route",fraction:2,tangentOffset:0,normalOffset:0}}}));assert.equal(JSON.stringify(view),bytes);
   history.apply(view,{routeConstraints:{},labelPlacements:{},symbolOverrides:{}});assert.equal(history.redo(view),false);assert.equal(JSON.stringify(view.positions),positionBytes);
   view.packageFingerprint="1".repeat(64);const changed=JSON.stringify(view);assert.throws(()=>history.undo(view));assert.equal(JSON.stringify(view),changed);
+});
+test("a current-format layout is carried to an approved package and nothing else",()=>{
+  const moved={...graph(),positions:{"symbol:a":{x:10,y:20,width:120,height:60}},symbolOverrides:{}};
+  const value={schemaVersion:5 as const,views:{kept:moved,dropped:graph(),same:{...graph(),packageFingerprint:"2".repeat(64)}}},bytes=JSON.stringify(value);
+  const base=(viewKey:keyof typeof value.views)=>({viewKey,oldFingerprint:value.views[viewKey].packageFingerprint,oldProjection:"fixture"});
+  const mappings=[
+    {...base("kept"),decision:{kind:"compatible-package-upgrade" as const,fingerprint:"2".repeat(64),projection:"fixture"}},
+    {...base("dropped"),decision:{kind:"reset" as const}},
+    {...base("same"),decision:{kind:"compatible" as const,fingerprint:"2".repeat(64),projection:"fixture"}},
+  ];
+  const preview=previewPresentationPackageUpgrade(value,mappings);
+  assert.equal(JSON.stringify(value),bytes);
+  assert.deepEqual(preview.candidate.views.kept,{...moved,packageFingerprint:"2".repeat(64)});
+  assert.deepEqual(preview.candidate.views.same,value.views.same);
+  assert.deepEqual(preview.resetViews,["dropped"]);assert.equal("dropped" in preview.candidate.views,false);
+  // A different package is never accepted as merely "compatible", and every view needs a decision.
+  assert.throws(()=>previewPresentationPackageUpgrade(value,[{...mappings[0],decision:{kind:"compatible",fingerprint:"2".repeat(64),projection:"fixture"}},...mappings.slice(1)]),/explicit compatibility decision/);
+  assert.throws(()=>previewPresentationPackageUpgrade(value,[{...mappings[0],decision:{kind:"compatible-package-upgrade",fingerprint:"2".repeat(64),projection:"other"}},...mappings.slice(1)]),/explicit compatibility decision/);
+  assert.throws(()=>previewPresentationPackageUpgrade(value,mappings.slice(1)),/Every saved view/);
+  assert.throws(()=>previewPresentationPackageUpgrade({schemaVersion:4,views:{}},[]));
 });
