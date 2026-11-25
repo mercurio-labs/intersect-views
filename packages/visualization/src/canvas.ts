@@ -233,8 +233,17 @@ export class DiagramCanvas {
         callbacks.view((e.target as HTMLSelectElement).value),
       );
     root.querySelector("[data-reveal-view]")!.addEventListener("click", () => {
-      if (this.response && !this.stale)
-        callbacks.select(this.response.scene.view.binding, true);
+      const response = this.response;
+      if (!response) return;
+      const reveal = () => {
+        if (this.response === response && !this.stale)
+          callbacks.select(response.scene.view.binding, true);
+      };
+      // A frame that is only being laid out again (after a drag or resize) still
+      // shows the accepted scene. Honor the click once that frame settles rather
+      // than dropping it; a scene made stale by a source change never reveals.
+      if (!this.stale) reveal();
+      else if (this.readyState === "pending") void this.whenReady().then(reveal, () => {});
     });
     root
       .querySelector("[data-save-layout]")!
@@ -347,6 +356,20 @@ export class DiagramCanvas {
         this.fit(false);
         this.persist();
         this.status(this.response!.scene.problems.join(" · "));
+      }
+      // The frame is complete and interactive; say which parts gave up strict
+      // obstacle avoidance so the reader knows where to make room.
+      const relaxed = candidate.routing?.degraded ?? [];
+      if (relaxed.length) {
+        // A route that only crosses a caption is still a clean route around
+        // every symbol; it is not worth a notice.
+        const routes = relaxed.filter((d) => d.relaxation === "obstacles").length,
+          captions = relaxed.filter((d) => d.relaxation === "labelPlacement").length;
+        const notes = [
+          routes ? `${routes} connection${routes === 1 ? "" : "s"} drawn without full obstacle avoidance` : "",
+          captions ? `${captions} connection label${captions === 1 ? "" : "s"} left overlapping` : "",
+        ].filter(Boolean);
+        if (notes.length) this.status([...this.response!.scene.problems, `${notes.join(" · ")}. Move symbols or ports to give them room.`].join(" · "));
       }
       this.renderTools();
       this.settled();

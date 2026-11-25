@@ -44,6 +44,35 @@ export function previewPresentationV4(value:unknown,mappings:PresentationMapping
   validatePresentation(candidate);
   return { candidate, from: 4, to: 5, resetViews };
 }
+/** Carry a current-format layout to another package identity. Geometry and
+ *  styles are kept as saved; the canvas still checks them against the scene. */
+export function previewPresentationPackageUpgrade(value:unknown,mappings:PresentationMapping[]):{candidate:Presentation;from:5;to:5;resetViews:string[]} {
+  const candidate = structuredClone(value) as Presentation;
+  validatePresentation(candidate);
+  if (mappings.length !== Object.keys(candidate.views).length || mappings.length > 128)
+    throw Error("Every saved view needs an explicit compatibility or reset decision");
+  const seen = new Set<string>();
+  const resetViews: string[] = [];
+  for (const { viewKey, oldFingerprint, oldProjection, decision } of mappings) {
+    if (seen.has(viewKey)) throw Error("Duplicate presentation mapping");
+    seen.add(viewKey);
+    const view = own(candidate.views, viewKey);
+    if (!view || view.packageFingerprint !== oldFingerprint || view.projection !== oldProjection)
+      throw Error("Presentation compatibility identity changed");
+    if (decision.kind === "reset") {
+      delete candidate.views[viewKey];
+      resetViews.push(viewKey);
+      continue;
+    }
+    if (view.projection !== decision.projection ||
+        (decision.kind === "compatible" && view.packageFingerprint !== decision.fingerprint))
+      throw Error("Changed package or projection needs an explicit compatibility decision");
+    // Only the embedding language can approve an upgrade between exact package identities.
+    view.packageFingerprint = decision.fingerprint;
+  }
+  validatePresentation(candidate);
+  return { candidate, from: 5, to: 5, resetViews };
+}
 export function previewPresentationV3(value:unknown,mappings:PresentationMapping[]):{candidate:PresentationV4;from:3;to:4;resetViews:string[]} {
   const p=structuredClone(value) as Record<string,unknown>;
   object(p,["schemaVersion","views"]);

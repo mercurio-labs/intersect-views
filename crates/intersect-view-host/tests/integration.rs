@@ -721,3 +721,54 @@ fn readonly_lane_targets_refuse_before_source_generation_or_candidate_load() -> 
     assert_eq!(f.host.source(LIBRARY_URI), Some(library));
     Ok(())
 }
+
+/// Wraps the fixture catalog, counts how often the host asks for it, and
+/// declares that its answer depends only on the accepted snapshot.
+struct StableCatalog(Catalog, Rc<Cell<usize>>);
+impl ModelViews for StableCatalog {
+    fn views(&self, context: &ModelViewContext<'_>) -> Result<Vec<ModelView>> {
+        self.1.set(self.1.get() + 1);
+        self.0.views(context)
+    }
+    fn snapshot_stable(&self) -> bool {
+        true
+    }
+}
+
+#[test]
+fn a_snapshot_stable_catalog_is_asked_once_per_accepted_model() -> Result {
+    let mut f = Fixture::new()?;
+    let asked = Rc::new(Cell::new(0));
+    f.host = f.host.with_model_views(Box::new(StableCatalog(
+        Catalog(Rc::new(Cell::new(0))),
+        asked.clone(),
+    )));
+    assert_eq!(f.analyze(1, true)?["clean"], true);
+    let first = f.host.view_catalog(1)?;
+    let scene = f.host.view_scene(1, "model-view", None, None)?;
+    let repeated = f.host.view_scene(1, "model-view", None, None)?;
+    call(
+        &mut f.host,
+        "views/rendering",
+        json!({"revision":1,"viewKey":"model-view"}),
+    )?;
+    assert_eq!(
+        serde_json::to_value(f.host.view_catalog(1)?).map_err(|e| e.to_string())?,
+        serde_json::to_value(&first).map_err(|e| e.to_string())?
+    );
+    assert_eq!(
+        serde_json::to_value(&repeated).map_err(|e| e.to_string())?,
+        serde_json::to_value(&scene).map_err(|e| e.to_string())?,
+        "a repeated request returns the identical scene"
+    );
+    assert_eq!(
+        asked.get(),
+        1,
+        "catalog, scenes and rendering share one answer"
+    );
+    // A newly accepted model is a new snapshot and is asked again.
+    assert_eq!(f.analyze(2, true)?["clean"], true);
+    assert_eq!(f.host.view_catalog(2)?.views.len(), first.views.len());
+    assert_eq!(asked.get(), 2);
+    Ok(())
+}

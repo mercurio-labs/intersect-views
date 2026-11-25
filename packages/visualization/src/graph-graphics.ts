@@ -37,7 +37,8 @@ export function drawGraphic(definitions: GraphicDefinitions, instance: GraphicIn
   for (const [name, source] of Object.entries(instance.slots)) {
     if (source.kind === "compartments") {
       if (!("compartments" in owner)) throw Error("Compartment content needs node");
-      contents[name] = { kind: "compartments", owner: owner.id, binding: owner.binding, items: owner.compartments };
+      // A compartment with no rows says nothing; drawing its heading only adds lines.
+      contents[name] = { kind: "compartments", owner: owner.id, binding: owner.binding, items: owner.compartments.filter((c) => c.rows.length > 0) };
     } else if (source.kind === "children" || source.kind === "regions") {
       contents[name] = { kind: "box", ...(own(boxes, source.kind) ?? { width: 0, height: 0 }) };
     } else {
@@ -80,17 +81,44 @@ export function separateUnsaved(nodes:{id:string}[],positions:Record<string,Geom
 }
 
 /** Composition dimensions are measured before arranging siblings. No semantic queries. */
+/** Width bounds for a symbol whose definition declares no size of its own. */
+const FLEXIBLE_WIDTH = { narrowest: 150, widest: 360, padding: 56 };
 export async function graphicGraphLayout(scene: GraphScene, presentation: Presentation, context: PresentationContext, measure: MeasureText, arrange: (nodes: { id: string; width: number; height: number }[], edges: Edge[]) => Promise<{ id: string; x?: number; y?: number }[]>): Promise<Layout> {
   const definitions = new GraphicDefinitions(context.libraries,graphPresentation(presentation,scene.view.key)?.symbolOverrides), saved = graphPresentation(presentation, scene.view.key)?.positions ?? {};
   const result: Layout = { revision: scene.revision, viewKey: scene.view.key, nodes: Object.create(null), ports: Object.create(null), edges: Object.create(null), regions: Object.create(null), minimum: Object.create(null) };
   const outsets:NonNullable<Layout["outsets"]>=Object.create(null);result.outsets=outsets;
   const padding=scene.routing.stubLength+scene.routing.clearance+8;
+  // Each endpoint's node (a port belongs to its owner) and each node's container,
+  // so a link between ports or nested parts still orders the siblings that hold them.
+  const home = new Map<string, string>(), container = new Map<string, string>();
+  const index = (nodes: Node[], above?: string) => {
+    for (const n of nodes) {
+      home.set(n.id, n.id); if (above !== undefined) container.set(n.id, above);
+      for (const p of n.ports) home.set(p.id, n.id);
+      index(n.children, n.id);
+      for (const r of n.regions?.items ?? []) index(r.children, n.id);
+    }
+  };
+  index(scene.nodes);
   const place = async (nodes: Node[]) => {
     for (const node of nodes) await size(node);
     const siblings = new Set(nodes.map((n) => n.id));
-    // Only immediate node endpoints constrain this composition level. Ports and
-    // cross-container edges retain the existing endpoint/routing treatment.
-    const edges = scene.edges.filter((e) => siblings.has(e.source) && siblings.has(e.target));
+    const sibling = (endpoint: string) => {
+      let at = home.get(endpoint);
+      while (at !== undefined && !siblings.has(at)) at = container.get(at);
+      return at;
+    };
+    // A link constrains this composition level when its two ends sit in two
+    // different siblings. Links to the container itself and links inside one
+    // sibling are routed afterwards from the measured geometry.
+    const edges = scene.edges.flatMap((e) => {
+      const source = sibling(e.source), target = sibling(e.target);
+      return source !== undefined && target !== undefined && source !== target ? [{ ...e, source, target }] : [];
+    });
+    // Declaration order breaks cycles, so a node nothing leads into (an initial
+    // state, a source part) is offered first and opens the flow.
+    const entered = new Set(edges.map((e) => e.target));
+    nodes = [...nodes.filter((n) => !entered.has(n.id)), ...nodes.filter((n) => entered.has(n.id))];
     const positions = await arrange(nodes.map((n) => ({ id: n.id, width:result.nodes[n.id].width+outsets[n.id].left+outsets[n.id].right,height:result.nodes[n.id].height+outsets[n.id].top+outsets[n.id].bottom })), edges);
     for (const p of positions) {
       const g = result.nodes[p.id], old = own(saved, p.id); g.x = old?.x ?? (p.x??0)+outsets[p.id].left; g.y = old?.y ?? (p.y??0)+outsets[p.id].top;
@@ -108,7 +136,14 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
     let rx = 0, ry = 0;
     for (const r of n.regions?.items ?? []) { const g = result.regions[r.id]; g.x = rx; g.y = ry; if (n.regions?.direction === "row") rx += g.width + 12; else ry += g.height + 12; }
     const boxes = contentBoxes(n, result), old = own(saved, n.id);
-    let width = Math.max(240, old?.width ?? 360, boxes.children.width + 32, boxes.regions.width + 32), height: number;
+    // A symbol without an authored size takes the width its own text needs, not
+    // a fixed slab: short names stay compact and the diagram stays readable.
+    let fitted = FLEXIBLE_WIDTH.widest;
+    if (n.graphic && !definitions.definition(n.graphic.definition).size && !old?.width) {
+      const probe = drawGraphic(definitions, n.graphic, n, 4096, measure, boxes);
+      fitted = Math.min(FLEXIBLE_WIDTH.widest, Math.max(FLEXIBLE_WIDTH.narrowest, Math.ceil(Math.max(0, ...probe.fragments.map((f) => f.rect.width))) + FLEXIBLE_WIDTH.padding));
+    }
+    let width = Math.max(FLEXIBLE_WIDTH.narrowest, old?.width ?? fitted, boxes.children.width + 32, boxes.regions.width + 32), height: number;
     if (n.graphic) {
       const authored=definitions.definition(n.graphic.definition).size;
       const drawing = drawGraphic(definitions, n.graphic, n, authored && !old?.width ? undefined : width, measure, boxes);
@@ -128,7 +163,7 @@ export async function graphicGraphLayout(scene: GraphScene, presentation: Presen
       for (const c of n.children) { result.nodes[c.id].x += 20; result.nodes[c.id].y += 64 + rows; }
       for (const r of n.regions?.items ?? []) { result.regions[r.id].x += 20; result.regions[r.id].y += 64 + rows; }
     }
-    result.minimum[n.id] = { width:n.graphic && definitions.definition(n.graphic.definition).size ? drawGraphic(definitions,n.graphic,n,1,measure,boxes).width : Math.min(width,Math.max(240, boxes.children.width + 32, boxes.regions.width + 32)), height };
+    result.minimum[n.id] = { width:n.graphic && definitions.definition(n.graphic.definition).size ? drawGraphic(definitions,n.graphic,n,1,measure,boxes).width : Math.min(width,Math.max(FLEXIBLE_WIDTH.narrowest, boxes.children.width + 32, boxes.regions.width + 32)), height };
     if(n.graphic&&definitions.definition(n.graphic.definition).properties?.length){
       const min=drawGraphic(definitions,n.graphic,n,width,measure,boxes,1),preferred=drawGraphic(definitions,n.graphic,n,undefined,measure,boxes);
       result.minimum[n.id].height=min.height;(result.preferred??={})[n.id]={width:preferred.width,height:preferred.height};

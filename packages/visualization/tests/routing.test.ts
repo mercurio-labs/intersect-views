@@ -109,3 +109,37 @@ test("column partition gates avoid the target region heading",()=>{
   const path=routeGraph(r).paths.edge,gate=path.gates.find(g=>g.owner==="second")!;assert.ok(gate.point.y>278);
   for(const segment of path.segments)assert.equal(segmentIntersectsBox(segment.from,segment.to,{x:-48,y:232,width:196,height:46}),false);
 });
+
+test("a sibling port label blocking a lead fails strictly and relaxes only that edge on request",()=>{
+  // Stacked east ports: the lower port's caption sits on the upper port's stub.
+  const r=fixture();r.obstacles=r.obstacles.filter(o=>o.id!=="obstacle");
+  r.obstacles.push({id:"text:a.lower:0",kind:"solid",box:{x:84,y:30,width:60,height:20}});
+  r.endpoints.push({id:"a.lower",owner:"a",point:{x:80,y:60},normal:{x:1,y:0},box:null,ancestors:[]},{id:"b.lower",owner:"b",point:{x:400,y:70},normal:{x:-1,y:0},box:null,ancestors:[]});
+  r.edges.push({id:"clean",source:"a.lower",target:"b.lower",branchGroup:null,styleKey:"wire"});
+  assert.throws(()=>routeGraph(r),(e:unknown)=>e instanceof RoutingFailure&&e.code==="routing.terminal.obstructed"&&e.edgeIds[0]==="edge"&&e.partIds[0]==="text:a.lower:0");
+  const result=routeGraph(r,undefined,{degrade:true});
+  assert.deepEqual(result.degraded,[{edgeId:"edge",code:"routing.terminal.obstructed",relaxation:"labels"}]);
+  for(const id of ["edge","clean"]){const points=result.paths[id].points;assert.ok(points.length>=2);for(let i=1;i<points.length;i++)assert.ok(points[i].x===points[i-1].x||points[i].y===points[i-1].y);}
+  // The relaxed edge still avoids real symbols; the untouched edge is identical to its strict route.
+  const alone=fixture();alone.obstacles=r.obstacles.filter(o=>o.id!=="text:a.lower:0");alone.endpoints=r.endpoints;alone.edges=r.edges;
+  assert.deepEqual(result.paths.clean.points,routeGraph(alone).paths.clean.points);
+  validateRoutingResult(result);assert.deepEqual(routeGraph(r,undefined,{degrade:true}),result);
+});
+test("an enclosed terminal paints a direct orthogonal route and reports the relaxation",()=>{
+  const r=fixture();r.obstacles.push({id:"wall",kind:"solid",box:{x:340,y:-200,width:30,height:480}},{id:"cap",kind:"solid",box:{x:340,y:-230,width:400,height:30}},
+    {id:"floor",kind:"solid",box:{x:340,y:280,width:400,height:30}},{id:"back",kind:"solid",box:{x:710,y:-230,width:30,height:540}});
+  assert.throws(()=>routeGraph(r),RoutingFailure);
+  const result=routeGraph(r,undefined,{degrade:true}),points=result.paths.edge.points;
+  assert.equal(result.degraded?.length,1);assert.equal(result.degraded![0].edgeId,"edge");assert.equal(result.degraded![0].relaxation,"obstacles");
+  assert.deepEqual(points[0],r.endpoints[0].point);assert.deepEqual(points.at(-1),r.endpoints[1].point);
+  for(let i=1;i<points.length;i++)assert.ok(points[i].x===points[i-1].x||points[i].y===points[i-1].y);
+  validateRoutingResult(result);
+});
+test("a saved manual route stays a hard constraint and a clean request reports no relaxation",()=>{
+  const r=fixture();assert.equal(routeGraph(r,undefined,{degrade:true}).degraded,undefined);
+  r.constraints.edge={frame:ROOT_ROUTE_FRAME,waypoints:[{x:220,y:40}]};
+  assert.throws(()=>routeGraph(r,undefined,{degrade:true}),(e:unknown)=>e instanceof RoutingFailure&&e.code==="routing.constraint.obstructed");
+  const bad=routeGraph(fixture(),undefined,{degrade:true}) as unknown as Record<string,unknown>;bad.degraded=[];
+  assert.throws(()=>validateRoutingResult(bad),/Empty routing degradation list/);
+  bad.degraded=[{edgeId:"edge",code:"routing.impossible",relaxation:"none"}];assert.throws(()=>validateRoutingResult(bad),/Invalid routing degradation/);
+});

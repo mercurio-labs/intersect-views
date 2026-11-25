@@ -688,6 +688,7 @@ pub fn evaluate(
         ));
     }
     graph::apply_collapse(&mut nodes, &hidden);
+    graph::resolve_automatic_port_sides(&mut nodes, &edges, &rules.layout.direction);
     let endpoint_proxies = graph::incident_proxies(&edges, &hidden);
     let scene = GraphScene {
         schema_version: VERSION,

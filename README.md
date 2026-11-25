@@ -219,5 +219,7 @@ viewport, adding bounded qualified style values. `previewPresentationV4` produce
 a detached compatibility preview; v3 first uses `previewPresentationV3`. Original
 files are never upgraded silently. Use a verified package upgrade mapping to
 carry geometry into a new package fingerprint, or explicitly reset the view.
+`previewPresentationPackageUpgrade` does the same for a v5 file saved with an
+earlier package the language approves, keeping its styles as well.
 Language-specific display toggles and
 project/global defaults remain separate work. See [the contract](docs/symbol-properties-spec.md).

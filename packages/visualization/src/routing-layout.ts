@@ -5,7 +5,7 @@ import { GraphicDefinitions, type PresentationContext } from "./graphics-contrac
 import { drawGraphic, contentBoxes,edgeLabelLayout,edgeMarkerLayout,legacyMarkerLayout } from "./graph-graphics.ts";
 import { compose,transformRect,type MeasureText,type GraphicDrawing } from "./graphics-layout.ts";
 import { ROOT_ROUTE_FRAME } from "./routing-contract.ts";
-import { routeGraph, routeFrame, segmentIntersectsBox, RoutingFailure, type RoutingRequest, type RouteContext, type RoutedLabelFrame,type RouteObstacle } from "./routing.ts";
+import { routeGraph, routeFrame, segmentIntersectsBox, RoutingFailure, type RoutingRequest, type RouteContext, type RoutedLabelFrame,type RouteObstacle,type RouteDegradation } from "./routing.ts";
 import type {NotationProfile} from "./notation.ts";
 import { own } from "./records.ts";
 import { logicalId } from "./logical-id.ts";
@@ -151,8 +151,9 @@ export function routeMeasuredLayout(scene:GraphScene,layout:Layout,presentation:
     }
     return {obstacles,labels};
   };
+  const labelDegradations=new Map<string,RouteDegradation>();
   const edgeLabels=(routing:ReturnType<typeof routeGraph>,markers:ReturnType<typeof decorations>)=>{
-    const labels:Record<string,RoutedLabelFrame>=Object.create(null);
+    const labels:Record<string,RoutedLabelFrame>=Object.create(null);labelDegradations.clear();
     for(const edge of [...scene.edges].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)){
       if(!edge.label.parts.length)continue;
       const drawing=edgeLabelLayout(edge,measure);
@@ -180,13 +181,16 @@ export function routeMeasuredLayout(scene:GraphScene,layout:Layout,presentation:
           }
           if(found)break;
         }
-        if(!found)throw new RoutingFailure("routing.label.noFreePlacement",[edge.id],[id]);
+        // A crowded caption keeps its anchor position; the diagram still paints.
+        if(!found)labelDegradations.set(edge.id,{edgeId:edge.id,code:"routing.label.noFreePlacement",relaxation:"labelPlacement"});
       }
       labels[id]={owner:edge.id,kind:"route",box,frame:[at.tx,at.ty,-at.ty,at.tx,at.x,at.y]};
     }
     return labels;
   };
-  let routing=routeGraph(request),markers=decorations(routing),labels=edgeLabels(routing,markers);
+  // Strict avoidance first; an edge with no clean path relaxes alone rather than
+  // blanking the whole diagram. Saved manual routes stay hard constraints.
+  let routing=routeGraph(request,undefined,{degrade:true}),markers=decorations(routing),labels=edgeLabels(routing,markers);
   const collisions=()=>{
     const unsettled:{id:string;owner:string}[]=[];
     const obstacles:RouteObstacle[]=[...markers.obstacles,...Object.entries(labels).filter(([id])=>paintedLabels.has(id)).map(([id,label])=>({id,kind:"solid" as const,box:label.box,excludeEdge:label.owner}))];
@@ -206,10 +210,12 @@ export function routeMeasuredLayout(scene:GraphScene,layout:Layout,presentation:
     // Empty bound parts keep their source hit/frame but paint no text. Their
     // invisible hit rectangles must not force other logical edges to detour.
     const obstacles=Object.entries(labels).filter(([id])=>paintedLabels.has(id)).map(([id,label])=>({id,kind:"solid" as const,box:label.box,excludeEdge:label.owner}));
-    const next=routeGraph({...request,obstacles:[...request.obstacles,...markers.obstacles,...obstacles]},routing.work);
+    const next=routeGraph({...request,obstacles:[...request.obstacles,...markers.obstacles,...obstacles]},routing.work,{degrade:true});
     routing=next;markers=decorations(routing);labels=edgeLabels(routing,markers);unsettled=collisions();settled=unsettled.length===0;
   }
-  if(!settled)throw new RoutingFailure("routing.label.collisionDidNotSettle",unsettled.map(label=>label.owner),unsettled.map(label=>label.id));
+  if(!settled)for(const label of unsettled)if(!labelDegradations.has(label.owner))labelDegradations.set(label.owner,{edgeId:label.owner,code:"routing.label.collisionDidNotSettle",relaxation:"labelPlacement"});
+  const relaxed=[...(routing.degraded??[]),...[...labelDegradations.values()].filter(label=>!routing.degraded?.some(d=>d.edgeId===label.edgeId))];
+  if(relaxed.length)routing.degraded=relaxed;else delete routing.degraded;
   routing.labelFrames={...ownerFrames,...markers.labels,...labels};
   for(const id of Object.keys(placements))if(!Object.hasOwn(routing.labelFrames,id))throw new RoutingFailure("routing.label.identityUnavailable",[],[id]);
   for(const box of [...Object.values(routing.labelFrames).map(label=>label.box),...markers.obstacles.map(marker=>marker.box)]){

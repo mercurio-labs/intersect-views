@@ -159,7 +159,24 @@ impl FunctionAdapter<'_> {
             .budget
             .try_borrow_mut()
             .map_err(|e| EngineError(e.to_string()))?;
-        function
+        let key = (name.to_owned(), id.index());
+        let cached = self
+            .snapshot
+            .function_results
+            .try_borrow()
+            .map_err(|e| EngineError(e.to_string()))?
+            .get(&key)
+            .cloned();
+        if let Some((value, work)) = cached {
+            // The same accepted model gives the same answer; charge what the
+            // evaluation cost so request limits do not depend on cache state.
+            budget
+                .charge_many(work)
+                .map_err(|_| EngineError::limit("function-call work units"))?;
+            return Ok(value);
+        }
+        let before = budget.remaining();
+        let value = function
             .function
             .invoke_model(
                 self.snapshot.accepted.reader(),
@@ -173,7 +190,13 @@ impl FunctionAdapter<'_> {
                 } else {
                     EngineError(format!("Function {name}: {e}"))
                 }
-            })
+            })?;
+        self.snapshot
+            .function_results
+            .try_borrow_mut()
+            .map_err(|e| EngineError(e.to_string()))?
+            .insert(key, (value.clone(), before - budget.remaining()));
+        Ok(value)
     }
 }
 impl ViewFunctions for FunctionAdapter<'_> {
@@ -365,7 +388,34 @@ impl Host {
         response.validate()?;
         serde_json::to_value(response).map_err(|e| e.to_string())
     }
-    fn project_views(&self) -> Result<Vec<crate::ModelView>, String> {
+    /// The catalog depends only on the accepted snapshot (its sources are
+    /// published together with it) and the prepared presentation, so one
+    /// checked result serves every request against that pair.
+    fn project_views(&self) -> Result<std::rc::Rc<Vec<crate::ModelView>>, String> {
+        let snapshot = self.snapshot()?;
+        if !self
+            .model_views
+            .as_ref()
+            .is_none_or(|provider| provider.snapshot_stable())
+        {
+            return self.compute_views().map(std::rc::Rc::new);
+        }
+        let fingerprint = self.presentation_context().fingerprint;
+        if let Some((cached, views)) = snapshot
+            .views
+            .try_borrow()
+            .map_err(|e| e.to_string())?
+            .as_ref()
+            && *cached == fingerprint
+        {
+            return Ok(views.clone());
+        }
+        let views = std::rc::Rc::new(self.compute_views()?);
+        *snapshot.views.try_borrow_mut().map_err(|e| e.to_string())? =
+            Some((fingerprint, views.clone()));
+        Ok(views)
+    }
+    fn compute_views(&self) -> Result<Vec<crate::ModelView>, String> {
         let snapshot = self.snapshot()?;
         let mut views = vec![];
         let mut keys = std::collections::BTreeSet::new();

@@ -33,15 +33,31 @@ export interface RoutedPath {
 }
 export interface SharedSegment { id:string; from:Point; to:Point; members:string[] }
 export interface RoutedLabelFrame {owner:string;kind:"owner"|"route";box:Geometry;frame:[number,number,number,number,number,number]}
+/** One relaxation applied so a diagram still paints when strict routing is impossible.
+ * "labels" ignored text obstacles for the edge; "obstacles" ignored every obstacle;
+ * "labelPlacement" kept an overlapping caption position. */
+export interface RouteDegradation { edgeId:string; code:string; relaxation:"labels"|"obstacles"|"labelPlacement" }
+export interface RoutingOptions {
+  /** Relax obstacle avoidance per edge instead of failing the whole request.
+   * Manual constraints and global work limits always fail. */
+  degrade?:boolean;
+}
 export interface RoutingResult {
   schemaVersion:1; context:RouteContext; paths:Record<string,RoutedPath>;
   sharedSegments:SharedSegment[]; extents:Geometry;
   labelFrames:Record<string,RoutedLabelFrame>;
   work:{expansions:number;collisionChecks:number;segments:number};
+  /** Present only when at least one relaxation was applied. */
+  degraded?:RouteDegradation[];
 }
 export function validateRoutingResult(value:unknown):asserts value is RoutingResult {
-  const r=graphicObject(value,["schemaVersion","context","paths","sharedSegments","extents","labelFrames","work"],"routing result");
+  const r=graphicObject(value,["schemaVersion","context","paths","sharedSegments","extents","labelFrames","work",...(Object.hasOwn(graphicObject(value),"degraded")?["degraded"]:[])],"routing result");
   if(r.schemaVersion!==1)throw Error("Unsupported routing result");
+  if(r.degraded!==undefined){
+    const list=graphicArray(r.degraded,LIMIT.edges*2);if(!list.length)throw Error("Empty routing degradation list");
+    for(const item of list){const d=graphicObject(item,["edgeId","code","relaxation"],"routing degradation");graphicId(d.edgeId);
+      if(typeof d.code!=="string"||!/^routing\.[A-Za-z.]{1,64}$/.test(d.code)||!["labels","obstacles","labelPlacement"].includes(d.relaxation as string))throw Error("Invalid routing degradation");}
+  }
   const c=graphicObject(r.context,["revision","viewKey","scopeIdentity","packageFingerprint","generation"],"routing context");
   for(const n of [c.revision,c.generation])if(!Number.isSafeInteger(n)||Number(n)<0)throw Error("Invalid routing generation");
   graphicId(c.viewKey);graphicId(c.scopeIdentity);if(typeof c.packageFingerprint!=="string"||!/^[a-f0-9]{64}$/.test(c.packageFingerprint))throw Error("Invalid routing fingerprint");
@@ -181,14 +197,22 @@ export function projectRoute(points:Point[],at:Point):{fraction:number;tangentOf
   return {fraction:best.fraction,tangentOffset:dx*frame.tx+dy*frame.ty,normalOffset:-dx*frame.ty+dy*frame.tx};
 }
 
-export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={expansions:0,collisionChecks:0,segments:0}):RoutingResult {
+/** Failures that only mean "this edge has no clean path"; relaxing avoidance can still paint it. */
+const RELAXABLE=new Set(["routing.terminal.noFreeAttachment","routing.terminal.obstructed","routing.terminal.clearanceLimit",
+  "routing.gate.noFreeCheckpoint","routing.parallel.noFreeLane","routing.impossible","routing.limit.search","routing.limit.states","routing.limit.vertices"]);
+/** Painted text is decoration: a route may cross it when there is no other way out. */
+const softObstacle=(id:string)=>id.startsWith("text:")||id.startsWith("marker-text:")||id.startsWith("label:");
+export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={expansions:0,collisionChecks:0,segments:0},options:RoutingOptions={}):RoutingResult {
   validateRoutingRequest(request);
-  const sortedObstacles=[...request.obstacles].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
-  const {context,policy}=request, endpoints=new Map(request.endpoints.map(e=>[e.id,e])), obstacles=new Map(sortedObstacles.map(o=>[o.id,o]));
+  const obstacleOrder=[...request.obstacles].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+  const {context,policy}=request, endpoints=new Map(request.endpoints.map(e=>[e.id,e])), obstacles=new Map(obstacleOrder.map(o=>[o.id,o]));
   work.segments=0;
   const result:RoutingResult={schemaVersion:1,context:{...context},paths:Object.create(null),sharedSegments:[],labelFrames:Object.create(null),extents:{x:0,y:0,width:0,height:0},work};
   const sorted=[...request.edges].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0),parallel=new Map<string,number>();
-  for(const edge of sorted) {
+  const hardObstacles=obstacleOrder.filter(o=>!softObstacle(o.id)),degraded:RouteDegradation[]=[];
+  // level 0 is strict; 1 ignores painted text; 2 ignores every obstacle.
+  const routeEdge=(edge:RouteEdge,level:0|1|2)=>{
+    const sortedObstacles=level?hardObstacles:obstacleOrder,free=level===2;
     let obstruction:string|undefined;
     const fail=(code:string):never=>{throw new RoutingFailure(code,[edge.id],obstruction?[obstruction]:[]);};
     const rawSource=endpoints.get(edge.source)!,rawTarget=endpoints.get(edge.target)!;
@@ -200,7 +224,7 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
       for(const n of directions)for(const offset of [0,policy.stubLength+policy.clearance+2,-policy.stubLength-policy.clearance-2,b.width/4,-b.width/4]){
         const at={x:n.x?c.x+n.x*b.width/2:Math.max(b.x+1,Math.min(b.x+b.width-1,c.x+offset)),y:n.y?c.y+n.y*b.height/2:Math.max(b.y+1,Math.min(b.y+b.height-1,c.y+offset))};
         const end={x:at.x+n.x*policy.stubLength,y:at.y+n.y*policy.stubLength};
-        const blocked=sortedObstacles.some(o=>{
+        const blocked=!free&&sortedObstacles.some(o=>{
           if(++result.work.collisionChecks>64_000_000)fail("routing.limit.collisionChecks");
           if(o.excludeEdge===edge.id||o.excludeEndpoint===edge.source||o.excludeEndpoint===edge.target||o.id===e.owner||e.ancestors.includes(o.id))return false;
           const sibling=endpoints.get(o.id),reserve=e.decorationRadius&&sibling&&sibling.id!==e.id&&sibling.owner===e.owner?policy.stubLength+e.decorationRadius:0;
@@ -229,7 +253,7 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
         for(const offset of [vertical?toward.y:toward.x,lo+extent/2,lo+extent/4,lo+extent*3/4]){
           const along=Math.max(lo+margin,Math.min(lo+extent-margin,offset));
           const point=vertical?{x:face==="east"?b.x+b.width:b.x,y:along}:{x:along,y:face==="south"?b.y+b.height:b.y};
-          const blocked=sortedObstacles.some(o=>{
+          const blocked=!free&&sortedObstacles.some(o=>{
             if(++result.work.collisionChecks>64_000_000)fail("routing.limit.collisionChecks");
             if(o.excludeEdge===edge.id||o.excludeEndpoint===edge.source||o.excludeEndpoint===edge.target||o.kind==="boundary")return false;
             return inside(point,inflated(o.box,policy.clearance));
@@ -250,6 +274,7 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
     for(const id of ownOutlines)if(!source.ancestors.includes(id)&&!target.ancestors.includes(id))solids.push({id,box:inflated(obstacles.get(id)!.box,policy.clearance)});
     const boundaries=sortedObstacles.filter(o=>o.kind==="boundary"&&allowedBoundaries.has(o.id)&&!ownOutlines.has(o.id));
     const clear=(a:Point,b:Point,leadOwners?:Set<string>)=>{
+      if(free)return true;
       const charge=()=>{if(++result.work.collisionChecks>64_000_000)fail("routing.limit.collisionChecks");};
       for(const o of solids){charge();if(leadOwners?.has(o.id))continue;if(segmentIntersectsBox(a,b,o.box)){obstruction=o.id;return false;}}
       for(const o of boundaries){charge();for(const crossing of boundaryCrossings(a,b,o.box))if(!gates.some(g=>g.owner===o.id&&equal(g.point,crossing))){obstruction=o.id;return false;}}
@@ -266,7 +291,7 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
         }
         if(leave>=enter&&leave>0&&enter<=length)length=Math.max(length,leave+.01);
       }
-      if(length>128)fail("routing.terminal.clearanceLimit");
+      if(length>128){if(free)length=policy.stubLength;else fail("routing.terminal.clearanceLimit");}
       return {x:coord(e.point.x+nx*length),y:coord(e.point.y+ny*length)};
     };
     const start=lead(source),end=lead(target);
@@ -284,11 +309,12 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
         {x:Math.max(a.x+a.width,b.x+b.width)+d,y:(start.y+end.y)/2},{x:Math.min(a.x,b.x)-d,y:(start.y+end.y)/2}];
       const enclosing=common&&obstacles.get(common)?.kind==="boundary"?obstacles.get(common)!.box:undefined;
       const checkpoint=candidates.find(p=>{
+        if(free)return true;
         if(enclosing&&!inside(p,enclosing))return false;
         return !solids.some(o=>{if(++result.work.collisionChecks>64_000_000)fail("routing.limit.collisionChecks");return inside(p,o.box);});
       });
-      if(!checkpoint)fail("routing.parallel.noFreeLane");
-      extra.push(checkpoint!);
+      if(!checkpoint&&!free)fail("routing.parallel.noFreeLane");
+      extra.push(checkpoint??candidates[0]);
     }
     const checkpoints=[start,...startGates,...manual,...extra,...endGates,end];
     const xs=new Set<number>(),ys=new Set<number>();
@@ -332,7 +358,22 @@ export function routeGraph(request:RoutingRequest,work:RoutingResult["work"]={ex
     if(points.length>LIMIT.vertices||points.length<2||points.every(p=>equal(p,points[0])))fail("routing.limit.vertices");
     result.work.segments+=points.length-1;if(result.work.segments>LIMIT.segments)fail("routing.limit.segments");
     result.paths[edge.id]={edgeId:edge.id,frame,sourceTerminal:{...source.point},targetTerminal:{...target.point},points,gates,segments:points.slice(1).map((p,i)=>({id:JSON.stringify([context.generation,edge.id,i]),from:points[i],to:p}))};
+  };
+  for(const edge of sorted) {
+    const pair=JSON.stringify([edge.source,edge.target]),lane=parallel.get(pair),segments=result.work.segments;
+    for(let level:0|1|2=0;;) {
+      try{routeEdge(edge,level);break;}
+      catch(error){
+        // A saved manual route is a hard constraint: report it, never repaint it elsewhere.
+        if(!options.degrade||!(error instanceof RoutingFailure)||!RELAXABLE.has(error.code)||level===2||Object.hasOwn(request.constraints,edge.id))throw error;
+        if(lane===undefined)parallel.delete(pair);else parallel.set(pair,lane);
+        result.work.segments=segments;level=(level+1) as 1|2;
+        const previous=degraded.findIndex(d=>d.edgeId===edge.id),entry:RouteDegradation={edgeId:edge.id,code:error.code,relaxation:level===1?"labels":"obstacles"};
+        if(previous<0)degraded.push(entry);else degraded[previous]=entry;
+      }
+    }
   }
+  if(degraded.length)result.degraded=degraded;
   const groups=new Map<string,{from:Point;to:Point;members:string[]}>();
   if(policy.trunks==="siblings")for(const edge of sorted)if(edge.branchGroup&&!Object.hasOwn(request.constraints,edge.id)) {
     for(const s of result.paths[edge.id].segments){
