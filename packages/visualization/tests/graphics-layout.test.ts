@@ -97,15 +97,26 @@ test("authored flat containment edges constrain real layered geometry",async()=>
  const node=(id:string)=>({...structuredClone(base),id,children:[],regions:null,ports:[],compartments:[],text:{documentation:{runs:[]}},graphic:{definition:d.id,parameters:Object.fromEntries(Object.entries(d.parameters).map(([k,p]:[string,any])=>[k,p.default])),slots:{title:{kind:"title"},subtitle:{kind:"subtitle"},doc:{kind:"text",name:"documentation"},compartments:{kind:"compartments"}}}});
  const edge=(id:string,source:string,target:string)=>({...structuredClone(scene.edges[0]),id,source,target});
  scene.nodes=[node("a"),node("b"),node("c")];scene.edges=[edge("ab","a","b"),edge("bc","b","c")];scene.layout.direction="DOWN";
- const elk=new ELK(),groups:{nodes:string[];edges:string[]}[]=[];
- const arrange=async(nodes:any[],edges:any[])=>{groups.push({nodes:nodes.map(n=>n.id),edges:edges.map(e=>e.id)});const g=await elk.layout({id:"root",children:nodes,edges:edges.map(e=>({id:e.id,sources:[e.source],targets:[e.target]})),layoutOptions:{"elk.algorithm":"layered","elk.direction":"DOWN"}});return g.children??[];};
+ const elk=new ELK(),groups:{nodes:string[];edges:string[];ends:string[]}[]=[];
+ const arrange=async(nodes:any[],edges:any[])=>{groups.push({nodes:nodes.map(n=>n.id),edges:edges.map(e=>e.id),ends:edges.map(e=>`${e.source}>${e.target}`)});const g=await elk.layout({id:"root",children:nodes,edges:edges.map(e=>({id:e.id,sources:[e.source],targets:[e.target]})),layoutOptions:{"elk.algorithm":"layered","elk.direction":"DOWN"}});return g.children??[];};
  const result=await graphicGraphLayout(scene,{schemaVersion:5,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
  for(const e of scene.edges)assert.ok(result.nodes[e.target].y>=result.nodes[e.source].y+result.nodes[e.source].height);
  assert.deepEqual(groups.find(g=>g.nodes.length===3)?.edges,["ab","bc"]);
  // A root container and its child are separate composition levels. A crossing
- // edge must not be handed to ELK with an endpoint absent from that level.
+ // edge is never handed to ELK with an endpoint absent from that level: it
+ // orders the siblings that hold its ends, here the container and its peer.
  const a=node("a");a.graphic=null;a.children=[node("b")];scene.nodes=[a,node("c")];scene.edges=[edge("ac","a","c"),edge("bc","b","c")];groups.length=0;
  await graphicGraphLayout(scene,{schemaVersion:5,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
- assert.deepEqual(groups.find(g=>g.nodes.includes("a"))?.edges,["ac"]);
+ assert.deepEqual(groups.find(g=>g.nodes.includes("a"))?.edges,["ac","bc"]);
+ assert.deepEqual(groups.find(g=>g.nodes.includes("a"))?.ends,["a>c","a>c"]);
  assert.deepEqual(groups.find(g=>g.nodes.includes("b"))?.edges,[]);
+ // Port-to-port links order the parts that own the ports; a link from a
+ // container's own port to its child stays out of the child's level.
+ const port=(id:string)=>({...structuredClone(scene.nodes[0]),id}) as any;
+ const left=node("left"),right=node("right"),inner=node("inner");
+ for(const [owner,id]of [[left,"left.out"],[right,"right.in"],[inner,"inner.in"]] as const)(owner as any).ports=[{id,rule:"port",label:{parts:[]},side:"EAST",binding:port(id).binding,graphic:null,text:{}}];
+ right.graphic=null;right.children=[inner];scene.nodes=[right,left];scene.edges=[edge("wire","left.out","right.in"),edge("delegate","right.in","inner.in")];groups.length=0;
+ await graphicGraphLayout(scene,{schemaVersion:5,views:{}},{fingerprint:"0".repeat(64),libraries:[lib]},measure,arrange);
+ assert.deepEqual(groups.find(g=>g.nodes.includes("left"))?.ends,["left>right"]);
+ assert.deepEqual(groups.find(g=>g.nodes.includes("inner"))?.edges,[]);
 });

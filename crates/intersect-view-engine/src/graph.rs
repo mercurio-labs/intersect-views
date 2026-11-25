@@ -299,3 +299,238 @@ impl Evaluation<'_> {
         Ok(result)
     }
 }
+
+/// The value a port's `side` slot returns when the language has no inherent
+/// face for it. No scene carries it: evaluation replaces it below.
+const AUTOMATIC_SIDE: &str = "AUTO";
+
+/// Give every automatic port the face its connections cross. Flow that enters
+/// the port's owner arrives on the face toward the layout origin; flow that
+/// leaves it departs from the opposite face. A link to something nested inside
+/// the owner crosses its outline the other way than a link to something outside.
+/// A string graphic parameter of the port that also evaluated to the automatic
+/// value receives the chosen face, so a glyph can point the way the port faces.
+/// Authored sides are never changed, and the result depends only on the scene.
+pub(super) fn resolve_automatic_port_sides(nodes: &mut [Node], edges: &[Edge], direction: &str) {
+    fn index(
+        nodes: &[Node],
+        above: Option<&str>,
+        owner: &mut BTreeMap<String, String>,
+        parent: &mut BTreeMap<String, String>,
+        automatic: &mut bool,
+    ) {
+        for node in nodes {
+            owner.insert(node.id.clone(), node.id.clone());
+            if let Some(above) = above {
+                parent.insert(node.id.clone(), above.to_owned());
+            }
+            for port in &node.ports {
+                owner.insert(port.id.clone(), node.id.clone());
+                *automatic |= port.side == AUTOMATIC_SIDE;
+            }
+            index(&node.children, Some(&node.id), owner, parent, automatic);
+            for region in node.regions.iter().flat_map(|r| &r.items) {
+                index(&region.children, Some(&node.id), owner, parent, automatic);
+            }
+        }
+    }
+    fn assign(nodes: &mut [Node], inward: &BTreeMap<&str, i64>, enter: &str, leave: &str) {
+        for node in nodes {
+            for port in &mut node.ports {
+                if port.side != AUTOMATIC_SIDE {
+                    continue;
+                }
+                let face = if inward.get(port.id.as_str()).copied().unwrap_or(0) > 0 {
+                    enter
+                } else {
+                    leave
+                };
+                port.side = face.to_owned();
+                for value in port
+                    .graphic
+                    .iter_mut()
+                    .flat_map(|g| g.parameters.values_mut())
+                {
+                    if matches!(value, intersect_views::GraphicValue::String(v) if v == AUTOMATIC_SIDE)
+                    {
+                        *value = intersect_views::GraphicValue::String(face.to_owned());
+                    }
+                }
+            }
+            assign(&mut node.children, inward, enter, leave);
+            for region in node.regions.iter_mut().flat_map(|r| &mut r.items) {
+                assign(&mut region.children, inward, enter, leave);
+            }
+        }
+    }
+    let (mut owner, mut parent, mut automatic) = (BTreeMap::new(), BTreeMap::new(), false);
+    index(nodes, None, &mut owner, &mut parent, &mut automatic);
+    if !automatic {
+        return;
+    }
+    let within = |node: Option<&String>, ancestor: &String| {
+        let mut at = node.and_then(|id| parent.get(id));
+        while let Some(id) = at {
+            if id == ancestor {
+                return true;
+            }
+            at = parent.get(id);
+        }
+        false
+    };
+    // Positive: more links carry flow into the owner through this endpoint.
+    let mut inward: BTreeMap<&str, i64> = BTreeMap::new();
+    for edge in edges {
+        let (source, target) = (owner.get(&edge.source), owner.get(&edge.target));
+        if let Some(source) = source {
+            *inward.entry(edge.source.as_str()).or_default() +=
+                if within(target, source) { 1 } else { -1 };
+        }
+        if let Some(target) = target {
+            *inward.entry(edge.target.as_str()).or_default() +=
+                if within(source, target) { -1 } else { 1 };
+        }
+    }
+    let (enter, leave) = match direction {
+        "LEFT" => ("EAST", "WEST"),
+        "DOWN" => ("NORTH", "SOUTH"),
+        "UP" => ("SOUTH", "NORTH"),
+        _ => ("WEST", "EAST"),
+    };
+    assign(nodes, &inward, enter, leave);
+}
+
+#[cfg(test)]
+mod automatic_port_sides {
+    use super::*;
+    use intersect_views::{GraphicInstance, GraphicValue};
+
+    /// Real nodes, ports and an edge from the checked scene fixture, reshaped
+    /// into: battery.supply -> board.source, board.out -> motor.power (motor is
+    /// nested in propulsion), propulsion.power -> motor.power.
+    fn fixture() -> (Vec<Node>, Vec<Edge>) {
+        let scene: serde_json::Value = serde_json::from_str(include_str!(
+            "../../intersect-views/tests/fixtures/scene-v6-m14.json"
+        ))
+        .unwrap();
+        let scene = scene.get("scene").unwrap_or(&scene);
+        let node: Node = serde_json::from_value(scene["nodes"][0].clone()).unwrap();
+        let port = scene["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .flat_map(|n| n["ports"].as_array().unwrap())
+            .next()
+            .map(|p| serde_json::from_value::<Port>(p.clone()).unwrap())
+            .unwrap();
+        let edge: Edge = serde_json::from_value(scene["edges"][0].clone()).unwrap();
+        let make_port = |id: &str, side: &str| Port {
+            id: id.into(),
+            side: side.into(),
+            graphic: Some(GraphicInstance {
+                definition: "test/port".into(),
+                source_parameters: None,
+                parameters: BTreeMap::from([
+                    ("facing".to_owned(), GraphicValue::String(side.into())),
+                    ("angle".to_owned(), GraphicValue::Number(0.0)),
+                ]),
+                slots: BTreeMap::new(),
+            }),
+            ..port.clone()
+        };
+        let make_node = |id: &str, ports: Vec<Port>, children: Vec<Node>| Node {
+            id: id.into(),
+            ports,
+            children,
+            regions: None,
+            ..node.clone()
+        };
+        let make_edge = |id: &str, source: &str, target: &str| Edge {
+            id: id.into(),
+            source: source.into(),
+            target: target.into(),
+            ..edge.clone()
+        };
+        let motor = make_node("motor", vec![make_port("motor.power", "AUTO")], vec![]);
+        (
+            vec![
+                make_node("battery", vec![make_port("battery.supply", "AUTO")], vec![]),
+                make_node(
+                    "board",
+                    vec![
+                        make_port("board.source", "AUTO"),
+                        make_port("board.out", "AUTO"),
+                        make_port("board.spare", "AUTO"),
+                        make_port("board.pinned", "NORTH"),
+                    ],
+                    vec![],
+                ),
+                make_node(
+                    "propulsion",
+                    vec![make_port("propulsion.power", "AUTO")],
+                    vec![motor],
+                ),
+            ],
+            vec![
+                make_edge("feed", "battery.supply", "board.source"),
+                make_edge("drive", "board.out", "propulsion.power"),
+                make_edge("delegate", "propulsion.power", "motor.power"),
+            ],
+        )
+    }
+    fn faces(nodes: &[Node], out: &mut BTreeMap<String, (String, String)>) {
+        for node in nodes {
+            for port in &node.ports {
+                let facing = match &port.graphic.as_ref().unwrap().parameters["facing"] {
+                    GraphicValue::String(value) => value.clone(),
+                    _ => unreachable!(),
+                };
+                out.insert(port.id.clone(), (port.side.clone(), facing));
+            }
+            faces(&node.children, out);
+        }
+    }
+
+    #[test]
+    fn ports_face_the_way_their_connections_cross_the_owner() {
+        let (mut nodes, edges) = fixture();
+        resolve_automatic_port_sides(&mut nodes, &edges, "RIGHT");
+        let mut actual = BTreeMap::new();
+        faces(&nodes, &mut actual);
+        let expect = |side: &str| (side.to_owned(), side.to_owned());
+        assert_eq!(actual["battery.supply"], expect("EAST"));
+        assert_eq!(actual["board.source"], expect("WEST"));
+        assert_eq!(actual["board.out"], expect("EAST"));
+        assert_eq!(
+            actual["board.spare"],
+            expect("EAST"),
+            "an unconnected port leaves"
+        );
+        assert_eq!(
+            actual["board.pinned"],
+            expect("NORTH"),
+            "an authored side is kept"
+        );
+        // The container's port receives from outside and delegates inward: both
+        // links carry flow into propulsion, and into the nested motor.
+        assert_eq!(actual["propulsion.power"], expect("WEST"));
+        assert_eq!(actual["motor.power"], expect("WEST"));
+    }
+
+    #[test]
+    fn faces_follow_the_layout_direction_and_never_leave_the_token() {
+        for (direction, enter, leave) in [("DOWN", "NORTH", "SOUTH"), ("LEFT", "EAST", "WEST")] {
+            let (mut nodes, edges) = fixture();
+            resolve_automatic_port_sides(&mut nodes, &edges, direction);
+            let mut actual = BTreeMap::new();
+            faces(&nodes, &mut actual);
+            assert_eq!(actual["board.source"].0, enter);
+            assert_eq!(actual["battery.supply"].0, leave);
+            assert!(
+                actual
+                    .values()
+                    .all(|(side, facing)| side != "AUTO" && facing != "AUTO")
+            );
+        }
+    }
+}

@@ -21,6 +21,15 @@ import type {
 } from "./protocol";
 const elk = new ELK();
 const scope = self as unknown as DedicatedWorkerGlobalScope;
+// A cycle has no natural first layer. Break it where the language declared the
+// nodes, so the flow starts at the first declared member (an initial state, a
+// source part) instead of wherever a greedy heuristic cuts it, and keep
+// declaration order among peers in a layer.
+const FLOW_ORDER = {
+  "elk.layered.cycleBreaking.strategy": "MODEL_ORDER",
+  "elk.layered.considerModelOrder.strategy": "NODES_AND_EDGES",
+  "elk.layered.spacing.nodeNodeBetweenLayers": "70",
+};
 scope.onmessage = async ({
   data,
 }: MessageEvent<{ id: number; scene: Scene; presentation: Presentation; context: PresentationContext;notation?:NotationProfile; autoLayout?: AutoLayout }>) => {
@@ -50,7 +59,7 @@ scope.onmessage = async ({
     };
     if (hasGraphics(scene.nodes)) {
       const result = await graphicGraphLayout(scene, presentation, presentationContext, measureGraphic, async (nodes, edges) => {
-        const graph = await elk.layout({ id: "graphic-root", children: nodes, edges: packed ? [] : edges.map((e) => ({ id: e.id, sources: [e.source], targets: [e.target] })), layoutOptions: { ...placement, "elk.spacing.nodeNode": "65", "elk.padding": "[top=35,left=35,bottom=35,right=35]" } });
+        const graph = await elk.layout({ id: "graphic-root", children: nodes, edges: packed ? [] : edges.map((e) => ({ id: e.id, sources: [e.source], targets: [e.target] })), layoutOptions: { ...placement, ...FLOW_ORDER, "elk.spacing.nodeNode": "65", "elk.padding": "[top=35,left=35,bottom=35,right=35]" } });
         return graph.children ?? [];
       });
       publish(result); return;
