@@ -132,7 +132,20 @@ pub(crate) struct Snapshot {
     keys: BTreeMap<String, String>,
     objects: BTreeMap<usize, intersect_model::core::frozen::ObjId>,
     scene_keys: OnceCell<Result<SceneKeys, String>>,
+    /// The checked view catalog for this accepted model, keyed by the prepared
+    /// presentation fingerprint it was validated against.
+    views: std::cell::RefCell<Option<(String, Rc<Vec<ModelView>>)>>,
+    /// Navigation functions are pure reads of this immutable accepted model.
+    /// Each result keeps the work it cost so a repeated call charges the same.
+    function_results: std::cell::RefCell<FunctionResults>,
 }
+type FunctionResults = BTreeMap<
+    (String, usize),
+    (
+        intersect_model::definitions::rcore_behavior::ir_v2::ValueWire,
+        usize,
+    ),
+>;
 impl Snapshot {
     fn model(&self) -> ProjectModel<'_> {
         self.accepted.project()
@@ -693,6 +706,8 @@ impl Host {
                 keys,
                 objects,
                 scene_keys: OnceCell::new(),
+                views: std::cell::RefCell::new(None),
+                function_results: std::cell::RefCell::new(BTreeMap::new()),
             });
         }
         let analysis = json!({"revision":request.revision,"nodes":nodes,"diagnostics":diagnostics,"hasModel":has_model,"clean":clean,"resolved":loaded.resolved,"references":loaded.references,"project":metadata.project,"dependencyUris":metadata.dependency_uris,"dependencies":metadata.dependencies,"notes":metadata.notes});

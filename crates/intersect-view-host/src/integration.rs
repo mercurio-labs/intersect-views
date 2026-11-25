@@ -111,6 +111,12 @@ impl ModelView {
 }
 pub trait ModelViews {
     fn views(&self, context: &ModelViewContext<'_>) -> Result<Vec<ModelView>, String>;
+    /// Whether `views` depends only on the accepted model and the prepared
+    /// presentation. A provider that answers `true` is asked once per accepted
+    /// snapshot instead of on every catalog, rendering and scene request.
+    fn snapshot_stable(&self) -> bool {
+        false
+    }
     /// Language admission for the effective scope, including caller exploration.
     fn validate_scope(
         &self,
